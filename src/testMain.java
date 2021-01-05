@@ -5,9 +5,10 @@ public class testMain {
                 "Glaesmann", "Frankfurt","Ben-Gurion-Ring","48c","60489",
                 "01758465423","Dr.");
 
-        achim.printAttr();
+        //achim.printAttr();
 
-        login.loginFrame();
+        //login.loginFrame();
+        test.connectToMysql("jdbc:mysql://sql7.freesqldatabase.com/sql7384865?user=sql7384865&password=K25BrrkqtA");
 
 
     }
