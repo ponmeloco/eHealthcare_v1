@@ -7,6 +7,7 @@ public class testMain {
 
         achim.printAttr();
 
+        login.loginFrame();
 
 
     }
