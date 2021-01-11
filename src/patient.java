@@ -10,7 +10,7 @@ public class patient extends user {
         setCity(_city);
         setStreet(_street);
         setHouseNumber(_houseNumber);
-        setPostalNumber(_postalNumber);
+        setPostalCode(_postalNumber);
         setPhoneNUmber(_phoneNumber);
         setTitle(_title);
     }
