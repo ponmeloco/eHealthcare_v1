@@ -11,7 +11,6 @@ public class testMain {
         Databaseconnection dbcnct = new Databaseconnection();
         ResultSet dbresult;
 
-
         try{
             dbresult = dbcnct.displayUsers();
 
