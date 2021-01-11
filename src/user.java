@@ -9,7 +9,7 @@ public abstract class user {
     private String city;
     private String street;
     private String houseNumber;
-    private String postalNumber;
+    private String postalCode;
     private String phoneNUmber;
     private String title;// = {"Prof.","Dr.","Dipl-Ing","B.Sc.","B.A.","B.Eng.","B.F.A.","B.Mus.","M.Sc.","M.A.","M.Eng.","Magister"};
 
@@ -77,20 +77,20 @@ public abstract class user {
         this.houseNumber = houseNumber;
     }
 
-    public String getPostalNumber() {
-        return postalNumber;
+    public String getPostalCode() {
+        return postalCode;
     }
 
-    public void setPostalNumber(String postalNumber) {
-        this.postalNumber = postalNumber;
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
     }
 
     public String getPhoneNUmber() {
         return phoneNUmber;
     }
 
-    public void setPhoneNUmber(String phoneNUmber) {
-        this.phoneNUmber = phoneNUmber;
+    public void setPhoneNUmber(String phoneNumber) {
+        this.phoneNUmber = phoneNumber;
     }
 
     public String getTitle() {
@@ -117,7 +117,7 @@ public abstract class user {
         System.out.println();
         System.out.println("---------------------------------------------------------------------------------------");
         System.out.format("%10s %20s %15s %15s %16s",this.getCity(), this.getStreet(),
-                            this.getHouseNumber(), this.getPostalNumber(), this.getPhoneNUmber());
+                            this.getHouseNumber(), this.getPostalCode(), this.getPhoneNUmber());
         System.out.println();
         System.out.println("---------------------------------------------------------------------------------------");
     }
