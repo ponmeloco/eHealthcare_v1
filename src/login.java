@@ -85,7 +85,7 @@ public class login implements ActionListener {
                 }
             }
         } else if (e.getSource() == login.registerButton) {
-            register.registration();
+            register.userRegistration();
         }
 
     }
