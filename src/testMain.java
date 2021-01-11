@@ -7,8 +7,10 @@ public class testMain {
                 "Glaesmann", "Frankfurt","Ben-Gurion-Ring","48c","60489",
                 "01758465423","Dr.");
 
+        /*
         Databaseconnection dbcnct = new Databaseconnection();
         ResultSet dbresult;
+
 
         try{
             dbresult = dbcnct.displayUsers();
@@ -18,7 +20,7 @@ public class testMain {
             System.out.println(e.getStackTrace());
             System.out.println("fuck");
         }
-
+        */
 
     }
 }
