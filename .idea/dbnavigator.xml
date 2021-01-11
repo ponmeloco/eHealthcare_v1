@@ -23,23 +23,22 @@
     <autoscroll-to-editor value="false" />
     <autoscroll-from-editor value="true" />
     <show-object-properties value="true" />
-    <loaded-nodes />
+    <loaded-nodes>
+      <connection connection-id="ae5c2150-62f8-4212-81f6-b2688fd66d4a">
+        <schema name="main" object-types="table, view" />
+      </connection>
+    </loaded-nodes>
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
-    <connection id="9b7ceb0b-3802-457a-866a-b5dd47e952c4">
-      <console name="Connection" type="STANDARD" schema="sql7384865" session="Main">use sql7384865;
-
-drop table patient;</console>
+    <connection id="ae5c2150-62f8-4212-81f6-b2688fd66d4a">
+      <console name="Connection" type="STANDARD" schema="" session="Main" />
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
     <open-files />
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
-    <connection id="9b7ceb0b-3802-457a-866a-b5dd47e952c4" />
-  </component>
-  <component name="DBNavigator.Project.DatasetFilterManager">
-    <filter-actions connection-id="9b7ceb0b-3802-457a-866a-b5dd47e952c4" dataset="sql7384865.patient" active-filter-id="" />
+    <connection id="ae5c2150-62f8-4212-81f6-b2688fd66d4a" />
   </component>
   <component name="DBNavigator.Project.EditorStateManager">
     <last-used-providers />
@@ -67,23 +66,26 @@ drop table patient;</console>
   </component>
   <component name="DBNavigator.Project.Settings">
     <connections>
-      <connection id="9b7ceb0b-3802-457a-866a-b5dd47e952c4" active="true">
+      <connection id="ae5c2150-62f8-4212-81f6-b2688fd66d4a" active="true">
         <database>
           <name value="Connection" />
           <description value="" />
-          <database-type value="MYSQL" />
+          <database-type value="SQLITE" />
           <config-type value="BASIC" />
-          <database-version value="5.5" />
+          <database-version value="3.21" />
           <driver-source value="BUILTIN" />
           <driver-library value="" />
           <driver value="" />
-          <url-type value="DATABASE" />
-          <host value="sql7.freesqldatabase.com" />
-          <port value="3306" />
-          <database value="sql7384865" />
-          <type value="USER_PASSWORD" />
-          <user value="sql7384865" />
-          <deprecated-pwd value="SzI1QnJya3F0QQ==" />
+          <url-type value="FILE" />
+          <host value="localhost" />
+          <port value="1234" />
+          <database value="database" />
+          <files>
+            <file path="C:\Users\Sascha Bichler\IdeaProjects\eHealthcare_v1\eHealthcareUsers.db" schema="main" />
+          </files>
+          <type value="NONE" />
+          <user value="" />
+          <deprecated-pwd value="" />
         </database>
         <properties>
           <auto-commit value="false" />

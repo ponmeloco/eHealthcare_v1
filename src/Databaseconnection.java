@@ -12,13 +12,12 @@ public class Databaseconnection {
         connect();
         }
         Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT firstName, lastName FROM user;");
-        return resultSet;
+        return statement.executeQuery("SELECT firstName, lastName FROM user;");
     }
 
 
     public void connect() throws SQLException, ClassNotFoundException {
-            Class.forName("org.sqllite.JDBC");
+            Class.forName("org.sqlite.JDBC");
             connection = DriverManager.getConnection("jdbc:sqlite:eHealthcareUsers.db");
             initialise();
     }
@@ -28,17 +27,20 @@ public class Databaseconnection {
             hasData = true;
             Statement state = connection.createStatement();
             ResultSet res = state.executeQuery("SELECT name FROM sqlite_master WHERE type ='table' AND name='user'");
+
             if (!res.next()) {
                 System.out.println("Building User table...");
                 Statement state2 = connection.createStatement();
+                System.out.println("Finished1");
                 state2.execute("CREATE TABLE user (emailAddress VARCHAR(255) NOT NULL, password VARCHAR(255) NOT NULL," +
-                        " , firstName VARCHAR(255) NOT NULL, lastName VARCHAR (255) NOT NULL, primary_key integer NOT NULL AUTO_INCREMENT,;");
+                        "firstName VARCHAR(255) NOT NULL, lastName VARCHAR (255) NOT NULL);");
                 PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO user VALUES (?,?,?,?);");
                 preparedStatement.setString(1, "achim.glaesmann@outlook.de");
                 preparedStatement.setString(2, "penis");
                 preparedStatement.setString(3, "Achim");
                 preparedStatement.setString(4, "Glaesmann");
                 preparedStatement.execute();
+                System.out.println("Finished2");
             }
 
         }
