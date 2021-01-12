@@ -1,5 +1,3 @@
-import java.sql.ResultSet;
-
 public class testMain {
 
     public static void main(String[] args) {
@@ -8,6 +6,8 @@ public class testMain {
                 "01758465423","Dr.");
 
         login.loginFrame();
+
+
 
 
     }

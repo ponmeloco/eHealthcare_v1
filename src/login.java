@@ -1,6 +1,8 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.*;
 
 public class login implements ActionListener {
@@ -17,7 +19,7 @@ public class login implements ActionListener {
 
     public static void loginFrame() {
 
-        loginFrame.setSize(325, 230);
+        loginFrame.setSize(375, 230);
         loginFrame.setTitle("eHealthcare login");
         titleIcon = new ImageIcon("eHealthcareFrameIcon1.png");
         loginFrame.setIconImage(titleIcon.getImage());
@@ -37,11 +39,11 @@ public class login implements ActionListener {
 
 
         userText = new JTextField();
-        userText.setBounds(120, 20, 165, 25);
+        userText.setBounds(120, 20, 210, 25);
         panel.add(userText);
 
         passwordText = new JPasswordField();
-        passwordText.setBounds(120, 50, 165, 25);
+        passwordText.setBounds(120, 50, 210, 25);
         panel.add(passwordText);
 
 
@@ -63,30 +65,37 @@ public class login implements ActionListener {
     }
 
     @Override
-    public void actionPerformed (ActionEvent e){
-        String user = userText.getText();
-        String password = String.valueOf(passwordText.getPassword());
-        int check = -1;
-        if (e.getSource() == login.loginButton) {
-            while (check == -1) {
+    public void actionPerformed (ActionEvent e) {
+        try {
+            Databaseconnection databaseconnection = new Databaseconnection();
+            ResultSet res = databaseconnection.getUser(userText.getText());
+            if(!res.next()) {
+               JOptionPane.showMessageDialog(loginFrame,"eMail-address not found", "Error", JOptionPane.ERROR_MESSAGE);
+            }else{
+                String password = String.valueOf(passwordText.getPassword());
                 if (e.getSource() == login.loginButton) {
-                    if (user.equals("") || password.equals("")) {
-                        JOptionPane.showMessageDialog(loginFrame, "Fields cannot be empty! Please enter your data.");
-                        break;
-                    } else if (user.equals("Achim") && password.equals("Marko")) {
-                        JOptionPane.showMessageDialog(loginFrame, "Login successful!");
-                        check = 0;
-                        loginFrame.dispose();
-
-                    } else {
-                        JOptionPane.showMessageDialog(loginFrame, "Login unsuccessful!", "Error", JOptionPane.ERROR_MESSAGE);
-                        break;
+                    int check = -1;
+                    while (check == -1) {
+                        if (e.getSource() == login.loginButton) {
+                            if (userText.getText().equals("") || password.equals("")) {
+                                JOptionPane.showMessageDialog(loginFrame, "Fields cannot be empty! Please enter your data.");
+                                break;
+                            } else if (password.equals(res.getString(3))) {
+                                JOptionPane.showMessageDialog(loginFrame, "Login successful!");
+                                check = 0;
+                                loginFrame.dispose();
+                            } else {
+                                JOptionPane.showMessageDialog(loginFrame, "Login unsuccessful!", "Error", JOptionPane.ERROR_MESSAGE);
+                                break;
+                            }
+                        }
                     }
+                } else if (e.getSource() == login.registerButton) {
+                    register.userRegistration();
                 }
             }
-        } else if (e.getSource() == login.registerButton) {
-            register.userRegistration();
+        } catch(Exception penis){
+            System.out.println(penis.getMessage());
         }
-
     }
 }
