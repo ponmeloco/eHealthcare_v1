@@ -1,17 +1,17 @@
 import javax.swing.*;
+import javax.xml.crypto.Data;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.*;
-
+import java.sql.SQLException;
 
 
 public class register implements ActionListener {
 
     private static JFrame registerFrame;
     private static JTextField userRegistrationUserName;
-    private static JTextField getUserRegistrationEmailAddress;
+    private static JTextField userRegistrationEmailAddress;
     private static JTextField userRegistrationPhoneNumber;
     private static JTextField userRegistrationTitle;
     private static JTextField userRegistrationSurname;
@@ -52,9 +52,9 @@ public class register implements ActionListener {
         JLabel userEmailAddress = new JLabel("Email Address:");
         userEmailAddress.setBounds(40, 50, 120, 25);
         registerPanel.add(userEmailAddress);
-        getUserRegistrationEmailAddress = new JTextField();
-        getUserRegistrationEmailAddress.setBounds(250, 50, 165, 25);
-        registerPanel.add(getUserRegistrationEmailAddress);
+        userRegistrationEmailAddress = new JTextField();
+        userRegistrationEmailAddress.setBounds(250, 50, 165, 25);
+        registerPanel.add(userRegistrationEmailAddress);
 
 
 
@@ -144,33 +144,32 @@ public class register implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        try {
-            if( userRegistrationSurname.getText().equals("") || userRegistrationLastName.getText().equals("") ||
-                    userRegistrationUserName.getText().equals("") || userRegistrationStreet.getText().equals("") ||
-                    userRegistrationPLZ.getText().equals("") || userRegistrationCity.getText().equals("")) {
-                JOptionPane.showMessageDialog(login.loginFrame, "Every field has to be filled out!");
-            } else {
-                patient patientRegister = new patient(userRegistrationUserName.getText(),
-                        getUserRegistrationEmailAddress.getText(), userRegistrationSurname.getText(),
-                        userRegistrationLastName.getText(), userRegistrationCity.getText(),
-                        userRegistrationStreet.getText(), userRegistrationHouseNumber.getText(),
-                        userRegistrationPLZ.getText(), userRegistrationPhoneNumber.getText(),
-                        userRegistrationTitle.getText());
-                BufferedWriter bw = new BufferedWriter(new FileWriter("userLoginData"));
-                final String userUserNameWrite = userRegistrationUserName.getText();
-                bw.write(userUserNameWrite + "\n");
-                final String userSurnameWrite = userRegistrationSurname.getText();
-                bw.write(userSurnameWrite + "\n");
-                final String lastNameWrite = userRegistrationLastName.getText();
-                bw.write(lastNameWrite + "\n");
-                bw.close();
-                patientRegister.printAttr();
-                JOptionPane.showMessageDialog(registerFrame, "Registration successful!\nYou are now registered");
-                registerFrame.dispatchEvent(new WindowEvent(registerFrame, WindowEvent.WINDOW_CLOSING));
+        if( userRegistrationSurname.getText().equals("") || userRegistrationLastName.getText().equals("") ||
+                userRegistrationUserName.getText().equals("") || userRegistrationStreet.getText().equals("") ||
+                userRegistrationPLZ.getText().equals("") || userRegistrationCity.getText().equals("")) {
+            JOptionPane.showMessageDialog(login.loginFrame, "Every field has to be filled out!");
+        } else {
+            patient patientRegister = new patient(1,userRegistrationUserName.getText(),
+                    userRegistrationEmailAddress.getText(), userRegistrationSurname.getText(),
+                    userRegistrationLastName.getText(), userRegistrationCity.getText(),
+                    userRegistrationStreet.getText(), userRegistrationHouseNumber.getText(),
+                    userRegistrationPLZ.getText(), userRegistrationPhoneNumber.getText(),
+                    userRegistrationTitle.getText());
 
+            try {
+                Databaseconnection databaseconnection = new Databaseconnection();
+                databaseconnection.addUser(userRegistrationEmailAddress.getText(),userRegistrationUserName.getText(),
+                                                userRegistrationSurname.getText(),userRegistrationLastName.getText());
+                databaseconnection.displayUsers();
+
+            } catch(SQLException | ClassNotFoundException penis){
+                System.out.println(penis.getMessage());
             }
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
+
+
+            JOptionPane.showMessageDialog(registerFrame, "Registration successful!\nYou are now registered");
+            registerFrame.dispatchEvent(new WindowEvent(registerFrame, WindowEvent.WINDOW_CLOSING));
+
         }
 
     }

@@ -7,12 +7,15 @@ public class Databaseconnection {
     private static Connection connection;
     private static boolean hasData = false;
 
-    public ResultSet displayUsers() throws SQLException, ClassNotFoundException {
-        if (connection == null){
-        connect();
+    public void displayUsers() throws SQLException, ClassNotFoundException {
+        if (connection == null) {
+            connect();
         }
         Statement statement = connection.createStatement();
-        return statement.executeQuery("SELECT firstName, lastName FROM user;");
+        ResultSet resultSet = statement.executeQuery("SELECT firstName, lastName FROM user;");
+        while (resultSet.next()) {
+            System.out.println(resultSet.getString(1) + " " + resultSet.getString(2));
+        }
     }
 
     public ResultSet getUser(String email) throws SQLException, ClassNotFoundException {

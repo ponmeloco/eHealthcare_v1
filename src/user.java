@@ -113,7 +113,7 @@ public abstract class user {
         System.out.println("---------------------------------------------------------------------------------------");
         System.out.println();
         System.out.println("---------------------------------------------------------------------------------------");
-        System.out.printf("%10s %20s %15s %15s %16s","CITY", "STREET", "HOUSENUMBER", "POSTALNUMBER", "PHONENUMBER");
+        System.out.printf("%10s %20s %15s %15s %16s","CITY", "STREET", "HOUSENUMBER", "POSTAL", "PHONENUMBER");
         System.out.println();
         System.out.println("---------------------------------------------------------------------------------------");
         System.out.format("%10s %20s %15s %15s %16s",this.getCity(), this.getStreet(),
