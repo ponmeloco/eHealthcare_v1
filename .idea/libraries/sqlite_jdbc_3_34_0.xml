@@ -1,13 +1,7 @@
 <component name="libraryTable">
   <library name="sqlite-jdbc-3.34.0">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/sqlite-jdbc-3.34.0.jar!/" />
-    </CLASSES>
+    <CLASSES />
     <JAVADOC />
-    <SOURCES>
-      <root url="file://$PROJECT_DIR$/argon2-jvm-master/argon2-jvm-master/argon2-jvm-nolibs/src/main/java" />
-      <root url="file://$PROJECT_DIR$/argon2-jvm-master/argon2-jvm-master/argon2-jvm-nolibs/src/test/java" />
-      <root url="file://$PROJECT_DIR$/argon2-jvm-master/argon2-jvm-master/compatibility-tests/src/main/java" />
-    </SOURCES>
+    <SOURCES />
   </library>
 </component>

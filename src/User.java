@@ -1,8 +1,15 @@
+import de.mkammerer.argon2.Argon2;
+import de.mkammerer.argon2.Argon2Factory;
+
+
 public abstract class User {
 
     private int id;
     private String userName;
-    private String password;
+
+
+
+    private String passwordhash;
     private String emailAddress;
     private String firstName;
     private String lastName;
@@ -101,6 +108,25 @@ public abstract class User {
         this.title = title;
     }
 
+    protected void setPasswordhash(char[] password) {
+        Argon2 argon2 = Argon2Factory.create();
+        try {
+            String hash = argon2.hash(10, 65536, 1, password);
+            if (argon2.verify(hash, password)){
+                System.out.println("Hash created");
+                this.passwordhash = hash;
+            }else{
+                System.out.println("Password could not be hashed");
+            }
+        }finally{
+            argon2.wipeArray(password);
+        }
+
+    }
+
+    protected String getPasswordhash() {
+        return passwordhash;
+    }
     /* public void printAttr(){
 
         System.out.println("---------------------------------------------------------------------------------------");

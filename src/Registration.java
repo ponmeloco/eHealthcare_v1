@@ -1,3 +1,6 @@
+import de.mkammerer.argon2.Argon2;
+import de.mkammerer.argon2.Argon2Factory;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -159,7 +162,18 @@ public class Registration implements ActionListener {
                 Databaseconnection databaseconnection = new Databaseconnection();
                 databaseconnection.addUser(patientRegister);
                 databaseconnection.displayUsers();
-
+                /* Argon2 argon2 = Argon2Factory.create();
+                char[] password = char[].valueOf(passwordText.getPasswordhash());
+                try{
+                    String hash = argon2.hash(10, 65536, 1, password);
+                    if (argon2.verify(hash, password)){
+                        System.out.println("Hash Matches");
+                    }else{
+                        System.out.println("Hash does not Match");
+                    }
+                }finally{
+                    argon2.wipeArray(password);
+                } */
             } catch(SQLException | ClassNotFoundException penis){
                 System.out.println(penis.getMessage());
             }
