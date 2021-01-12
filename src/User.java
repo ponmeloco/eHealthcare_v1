@@ -108,7 +108,7 @@ public abstract class User {
         this.title = title;
     }
 
-    protected void setPasswordhash(char[] password) {
+    public void setPasswordhash(char[] password) {
         Argon2 argon2 = Argon2Factory.create();
         try {
             String hash = argon2.hash(10, 65536, 1, password);
@@ -124,7 +124,7 @@ public abstract class User {
 
     }
 
-    protected String getPasswordhash() {
+    public String getPasswordhash() {
         return passwordhash;
     }
     /* public void printAttr(){

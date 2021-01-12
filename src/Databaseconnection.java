@@ -42,7 +42,9 @@ public class Databaseconnection {
                 System.out.println("Building User table...");
                 Statement state2 = connection.createStatement();
                 state2.execute("CREATE TABLE User (emailAddress VARCHAR(255) NOT NULL, password VARCHAR(255) NOT NULL," +
-                        "firstName VARCHAR(255) NOT NULL, lastName VARCHAR (255) NOT NULL);");
+                        "firstName VARCHAR(255) NOT NULL, lastName VARCHAR (255) NOT NULL," +
+                        "city VARCHAR(255) NOT NULL, street VARCHAR(255) NOT NULL, houseNumber VARCHAR(255) NOT NULL, postalCode VARCHAR(5)," +
+                        "phoneNumber VARCHAR(20) NOT NULL, title VARCHAR (255));");
                 PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO User VALUES (?,?,?,?);");
                 preparedStatement.setString(1, "achim.glaesmann@outlook.de");
                 preparedStatement.setString(2, "penis");
@@ -60,7 +62,7 @@ public class Databaseconnection {
         }
         PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO User VALUES (?,?,?,?);");
         preparedStatement.setString(1, patient.getEmailAddress());
-        preparedStatement.setString(2, patient.getFirstName());
+        preparedStatement.setString(2, patient.getPasswordhash());
         preparedStatement.setString(3, patient.getFirstName());
         preparedStatement.setString(4, patient.getLastName());
         preparedStatement.execute();
