@@ -47,7 +47,7 @@ public class Databaseconnection {
                         "phoneNumber VARCHAR(20) NOT NULL, title VARCHAR (255));");
                 PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO User VALUES (?,?,?,?,?,?,?,?,?,?);");
                 preparedStatement.setString(1, "achim.glaesmann@outlook.de");
-                preparedStatement.setString(2, "penis");
+                preparedStatement.setString(2, "");
                 preparedStatement.setString(3, "Achim");
                 preparedStatement.setString(4, "Glaesmann");
                 preparedStatement.setString(5, "Frankfurt");
@@ -72,6 +72,12 @@ public class Databaseconnection {
         preparedStatement.setString(2, patient.getPasswordhash());
         preparedStatement.setString(3, patient.getFirstName());
         preparedStatement.setString(4, patient.getLastName());
+        preparedStatement.setString(5, patient.getCity());
+        preparedStatement.setString(6, patient.getStreet());
+        preparedStatement.setString(7, patient.getHouseNumber());
+        preparedStatement.setString(8, patient.getPostalCode());
+        preparedStatement.setString(9, patient.getPhoneNUmber());
+        preparedStatement.setString(10,patient.getTitle());
         preparedStatement.execute();
     }
 
