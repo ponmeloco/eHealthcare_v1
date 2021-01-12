@@ -15,6 +15,13 @@ public class Databaseconnection {
         return statement.executeQuery("SELECT firstName, lastName FROM user;");
     }
 
+    public ResultSet getUser(String email) throws SQLException, ClassNotFoundException {
+        if(connection == null){
+            connect();
+        }
+        Statement statement = connection.createStatement();
+        return statement.executeQuery("SELECT firstName, lastName, password FROM user WHERE emailAddress ='" + email + "';");
+    }
 
     public void connect() throws SQLException, ClassNotFoundException {
             Class.forName("org.sqlite.JDBC");
@@ -31,7 +38,6 @@ public class Databaseconnection {
             if (!res.next()) {
                 System.out.println("Building User table...");
                 Statement state2 = connection.createStatement();
-                System.out.println("Finished1");
                 state2.execute("CREATE TABLE user (emailAddress VARCHAR(255) NOT NULL, password VARCHAR(255) NOT NULL," +
                         "firstName VARCHAR(255) NOT NULL, lastName VARCHAR (255) NOT NULL);");
                 PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO user VALUES (?,?,?,?);");
@@ -40,7 +46,6 @@ public class Databaseconnection {
                 preparedStatement.setString(3, "Achim");
                 preparedStatement.setString(4, "Glaesmann");
                 preparedStatement.execute();
-                System.out.println("Finished2");
             }
 
         }
