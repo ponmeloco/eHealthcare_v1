@@ -4,11 +4,6 @@ import de.mkammerer.argon2.Argon2Factory;
 
 public abstract class User {
 
-    private int id;
-    private String userName;
-
-
-
     private String passwordhash;
     private String emailAddress;
     private String firstName;
@@ -19,22 +14,6 @@ public abstract class User {
     private String postalCode;
     private String phoneNUmber;
     private String title;// = {"Prof.","Dr.","Dipl-Ing","B.Sc.","B.A.","B.Eng.","B.F.A.","B.Mus.","M.Sc.","M.A.","M.Eng.","Magister"};
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
 
     public String getEmailAddress() {
         return emailAddress;

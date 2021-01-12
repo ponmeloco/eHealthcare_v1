@@ -151,8 +151,7 @@ public class Registration implements ActionListener {
                 userRegistrationPLZ.getText().equals("") || userRegistrationCity.getText().equals("")) {
             JOptionPane.showMessageDialog(Login.loginFrame, "Every field has to be filled out!");
         } else {
-            Patient patientRegister = new Patient(1,userRegistrationUserName.getText(),
-                    userRegistrationEmailAddress.getText(), userRegistrationSurname.getText(),
+            Patient patientRegister = new Patient(userRegistrationEmailAddress.getText(), userRegistrationSurname.getText(),
                     userRegistrationLastName.getText(), userRegistrationCity.getText(),
                     userRegistrationStreet.getText(), userRegistrationHouseNumber.getText(),
                     userRegistrationPLZ.getText(), userRegistrationPhoneNumber.getText(),

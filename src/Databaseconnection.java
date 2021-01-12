@@ -45,12 +45,19 @@ public class Databaseconnection {
                         "firstName VARCHAR(255) NOT NULL, lastName VARCHAR (255) NOT NULL," +
                         "city VARCHAR(255) NOT NULL, street VARCHAR(255) NOT NULL, houseNumber VARCHAR(255) NOT NULL, postalCode VARCHAR(5)," +
                         "phoneNumber VARCHAR(20) NOT NULL, title VARCHAR (255));");
-                PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO User VALUES (?,?,?,?);");
+                PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO User VALUES (?,?,?,?,?,?,?,?,?,?);");
                 preparedStatement.setString(1, "achim.glaesmann@outlook.de");
                 preparedStatement.setString(2, "penis");
                 preparedStatement.setString(3, "Achim");
                 preparedStatement.setString(4, "Glaesmann");
+                preparedStatement.setString(5, "Frankfurt");
+                preparedStatement.setString(6, "Ben-Gurion-Ring");
+                preparedStatement.setString(7, "48C");
+                preparedStatement.setString(8, "60437");
+                preparedStatement.setString(9, "015738340183");
+                preparedStatement.setString(10,"hobo");
                 preparedStatement.execute();
+
             }
 
         }
