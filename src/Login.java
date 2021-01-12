@@ -2,10 +2,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import javax.swing.*;
 
-public class login implements ActionListener {
+public class Login implements ActionListener {
 
     private static JTextField userText;
     private static JPasswordField passwordText;
@@ -20,7 +19,7 @@ public class login implements ActionListener {
     public static void loginFrame() {
 
         loginFrame.setSize(375, 230);
-        loginFrame.setTitle("eHealthcare login");
+        loginFrame.setTitle("eHealthcare Login");
         titleIcon = new ImageIcon("eHealthcareFrameIcon1.png");
         loginFrame.setIconImage(titleIcon.getImage());
         loginFrame.setResizable(false);
@@ -50,14 +49,14 @@ public class login implements ActionListener {
         loginButton = new JButton("Login");
         loginButton.setBounds(20, 100, 80, 25);
         loginButton.setLocation(loginFrame.getWidth() / 2 - loginButton.getWidth() / 2 - 5, passwordText.getY() + 50);
-        loginButton.addActionListener(new login());
+        loginButton.addActionListener(new Login());
         panel.add(loginButton);
 
 
         registerButton = new JButton("Register");
         registerButton.setBounds(20, 135, 100, 25);
         registerButton.setLocation(loginFrame.getWidth() / 2 - registerButton.getWidth() / 2 - 5, loginButton.getY() + 40);
-        registerButton.addActionListener(new login());
+        registerButton.addActionListener(new Login());
         panel.add(registerButton);
 
         loginFrame.add(panel);
@@ -73,10 +72,10 @@ public class login implements ActionListener {
                JOptionPane.showMessageDialog(loginFrame,"eMail-address not found", "Error", JOptionPane.ERROR_MESSAGE);
             }else{
                 String password = String.valueOf(passwordText.getPassword());
-                if (e.getSource() == login.loginButton) {
+                if (e.getSource() == Login.loginButton) {
                     int check = -1;
                     while (check == -1) {
-                        if (e.getSource() == login.loginButton) {
+                        if (e.getSource() == Login.loginButton) {
                             if (userText.getText().equals("") || password.equals("")) {
                                 JOptionPane.showMessageDialog(loginFrame, "Fields cannot be empty! Please enter your data.");
                                 break;
@@ -90,8 +89,8 @@ public class login implements ActionListener {
                             }
                         }
                     }
-                } else if (e.getSource() == login.registerButton) {
-                    register.userRegistration();
+                } else if (e.getSource() == Login.registerButton) {
+                    Registration.userRegistration();
                 }
             }
         } catch(Exception penis){

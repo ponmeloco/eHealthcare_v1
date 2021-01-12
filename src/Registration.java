@@ -1,5 +1,4 @@
 import javax.swing.*;
-import javax.xml.crypto.Data;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -7,7 +6,7 @@ import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 
 
-public class register implements ActionListener {
+public class Registration implements ActionListener {
 
     private static JFrame registerFrame;
     private static JTextField userRegistrationUserName;
@@ -23,7 +22,7 @@ public class register implements ActionListener {
 
     public static void userRegistration() {
 
-        login.loginFrame.setEnabled(false);
+        Login.loginFrame.setEnabled(false);
 
         JPanel registerPanel = new JPanel();
         registerPanel.setLayout(null);
@@ -31,14 +30,14 @@ public class register implements ActionListener {
         registerFrame = new JFrame();
 
         registerFrame.setSize(470, 550);
-        registerFrame.setLocation(login.dim.width / 2 - registerFrame.getSize().width / 2, login.dim.height / 2 - registerFrame.getSize().height / 2);
+        registerFrame.setLocation(Login.dim.width / 2 - registerFrame.getSize().width / 2, Login.dim.height / 2 - registerFrame.getSize().height / 2);
         registerFrame.setResizable(false);
         registerFrame.setTitle("Register");
-        registerFrame.setIconImage(login.titleIcon.getImage());
+        registerFrame.setIconImage(Login.titleIcon.getImage());
         registerFrame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                login.loginFrame.setEnabled(true);
+                Login.loginFrame.setEnabled(true);
             }
         });
 
@@ -131,7 +130,7 @@ public class register implements ActionListener {
         JButton acceptRegisterButton = new JButton("Register");
         acceptRegisterButton.setBounds(20, 500, 100, 25);
         acceptRegisterButton.setLocation(registerFrame.getWidth() / 2 - acceptRegisterButton.getWidth() / 2 - 5, registerFrame.getY() + registerFrame.getY() / 2 + 50);
-        acceptRegisterButton.addActionListener(new register());
+        acceptRegisterButton.addActionListener(new Registration());
 
 
         registerFrame.add(acceptRegisterButton);
@@ -147,9 +146,9 @@ public class register implements ActionListener {
         if( userRegistrationSurname.getText().equals("") || userRegistrationLastName.getText().equals("") ||
                 userRegistrationUserName.getText().equals("") || userRegistrationStreet.getText().equals("") ||
                 userRegistrationPLZ.getText().equals("") || userRegistrationCity.getText().equals("")) {
-            JOptionPane.showMessageDialog(login.loginFrame, "Every field has to be filled out!");
+            JOptionPane.showMessageDialog(Login.loginFrame, "Every field has to be filled out!");
         } else {
-            patient patientRegister = new patient(1,userRegistrationUserName.getText(),
+            Patient patientRegister = new Patient(1,userRegistrationUserName.getText(),
                     userRegistrationEmailAddress.getText(), userRegistrationSurname.getText(),
                     userRegistrationLastName.getText(), userRegistrationCity.getText(),
                     userRegistrationStreet.getText(), userRegistrationHouseNumber.getText(),
@@ -158,8 +157,7 @@ public class register implements ActionListener {
 
             try {
                 Databaseconnection databaseconnection = new Databaseconnection();
-                databaseconnection.addUser(userRegistrationEmailAddress.getText(),userRegistrationUserName.getText(),
-                                                userRegistrationSurname.getText(),userRegistrationLastName.getText());
+                databaseconnection.addUser(patientRegister);
                 databaseconnection.displayUsers();
 
             } catch(SQLException | ClassNotFoundException penis){

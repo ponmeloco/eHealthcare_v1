@@ -1,4 +1,4 @@
-public abstract class user {
+public abstract class User {
 
     private int id;
     private String userName;
@@ -101,7 +101,7 @@ public abstract class user {
         this.title = title;
     }
 
-    public void printAttr(){
+    /* public void printAttr(){
 
         System.out.println("---------------------------------------------------------------------------------------");
         System.out.printf("%5s %10s %30s %10s %10s %10s", "ID","USERNAME", "EMAIL", "TITLE", "NAME", "LASTNAME");
@@ -120,7 +120,7 @@ public abstract class user {
                             this.getHouseNumber(), this.getPostalCode(), this.getPhoneNUmber());
         System.out.println();
         System.out.println("---------------------------------------------------------------------------------------");
-    }
+    } */
 
 
 }
