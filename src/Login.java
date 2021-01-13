@@ -73,18 +73,19 @@ public class Login implements ActionListener {
                     JOptionPane.showMessageDialog(loginFrame,"eMail-address not found", "Error", JOptionPane.ERROR_MESSAGE);
                 }else{
                     String password = String.valueOf(passwordText.getPassword());
-
                     int check = -1;
                     while (check == -1) {
                         if (e.getSource() == Login.loginButton) {
+                            System.out.println(res.getString(1));
                             if (userText.getText().equals("") || password.equals("")) {
                                 JOptionPane.showMessageDialog(loginFrame, "Fields cannot be empty! Please enter your data.");
                                 break;
-                            } else if (password.equals(res.getString(3))) {
+                            } else if ((org.mindrot.jbcrypt.BCrypt.checkpw(password,res.getString(2)))) {
                                 JOptionPane.showMessageDialog(loginFrame, "Login successful!");
                                 check = 0;
                                 loginFrame.dispose();
                             } else {
+                                System.out.println(User.hashPassword(password));
                                 JOptionPane.showMessageDialog(loginFrame, "Login unsuccessful!", "Error", JOptionPane.ERROR_MESSAGE);
                                 break;
                             }

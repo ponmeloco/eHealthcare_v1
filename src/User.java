@@ -85,11 +85,16 @@ public abstract class User {
 
     public void setPasswordhash(String password) {
         try {
-            this.passwordhash = org.mindrot.jbcrypt.BCrypt.hashpw(password, org.mindrot.jbcrypt.BCrypt.gensalt());
+            this.passwordhash = hashPassword(password);
 
         } catch (Exception e){
             System.out.println(e.getMessage());
         }
+    }
+
+    public static String hashPassword(String pw) {
+        pw = org.mindrot.jbcrypt.BCrypt.hashpw(pw, org.mindrot.jbcrypt.BCrypt.gensalt());
+        return pw;
     }
 
     public String getPasswordhash() {

@@ -147,7 +147,7 @@ public class Registration implements ActionListener {
                     userRegistrationLastName.getText(), userRegistrationCity.getText(),
                     userRegistrationStreet.getText(), userRegistrationHouseNumber.getText(),
                     userRegistrationPLZ.getText(), userRegistrationPhoneNumber.getText(),
-                    userRegistrationTitle.getText(), userRegistrationPassword1.getPassword().toString());
+                    userRegistrationTitle.getText(), String.valueOf(userRegistrationPassword1.getPassword()));
             try {
                 Databaseconnection databaseconnection = new Databaseconnection();
                 databaseconnection.addUser(patientRegister);
