@@ -124,7 +124,8 @@ public class Registration implements ActionListener {
 
         JButton acceptRegisterButton = new JButton("Register");
         acceptRegisterButton.setBounds(20, 500, 100, 25);
-        acceptRegisterButton.setLocation(registerFrame.getWidth() / 2 - acceptRegisterButton.getWidth() / 2 - 5, registerFrame.getY() + registerFrame.getY() / 2 + 200);
+        acceptRegisterButton.setLocation(registerFrame.getWidth() / 2 - acceptRegisterButton.getWidth() / 2 - 5,
+                registerFrame.getY() + registerFrame.getY() / 2 + 50);
         acceptRegisterButton.addActionListener(new Registration());
 
 
@@ -139,7 +140,9 @@ public class Registration implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if( userRegistrationSurname.getText().equals("") || userRegistrationLastName.getText().equals("") ||
-                userRegistrationStreet.getText().equals("") ||
+                userRegistrationEmailAddress.getText().equals("") || userRegistrationTitle.getText().equals("") ||
+                userRegistrationPhoneNumber.getText().equals("") || userRegistrationHouseNumber.getText().equals("") ||
+                userRegistrationStreet.getText().equals("") || userRegistrationSurname.getText().equals("") ||
                 userRegistrationPLZ.getText().equals("") || userRegistrationCity.getText().equals("")) {
             JOptionPane.showMessageDialog(Login.loginFrame, "Every field has to be filled out!");
         } else {

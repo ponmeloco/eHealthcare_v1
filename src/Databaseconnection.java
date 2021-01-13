@@ -23,7 +23,8 @@ public class Databaseconnection {
             connect();
         }
         Statement statement = connection.createStatement();
-        return statement.executeQuery("SELECT firstName, lastName, password FROM User WHERE emailAddress ='" + email + "';");
+        return statement.executeQuery("SELECT firstName, lastName, password, emailAddress, city, street," +
+                " houseNumber, postalCode, phoneNumber, title FROM User WHERE emailAddress ='" + email + "';");
     }
 
     public void connect() throws SQLException, ClassNotFoundException {
