@@ -3,8 +3,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import javax.swing.*;
-import de.mkammerer.argon2.Argon2;
-import de.mkammerer.argon2.Argon2Factory;
 
 public class Login implements ActionListener {
 
@@ -68,13 +66,14 @@ public class Login implements ActionListener {
     @Override
     public void actionPerformed (ActionEvent e) {
         try {
-            Databaseconnection databaseconnection = new Databaseconnection();
-            ResultSet res = databaseconnection.getUser(userText.getText());
-            if(!res.next()) {
-               JOptionPane.showMessageDialog(loginFrame,"eMail-address not found", "Error", JOptionPane.ERROR_MESSAGE);
-            }else{
-                String password = String.valueOf(passwordText.getPassword());
-                if (e.getSource() == Login.loginButton) {
+            if (e.getSource() == Login.loginButton) {
+                Databaseconnection databaseconnection = new Databaseconnection();
+                ResultSet res = databaseconnection.getUser(userText.getText());
+                if(!res.next()) {
+                    JOptionPane.showMessageDialog(loginFrame,"eMail-address not found", "Error", JOptionPane.ERROR_MESSAGE);
+                }else{
+                    String password = String.valueOf(passwordText.getPassword());
+
                     int check = -1;
                     while (check == -1) {
                         if (e.getSource() == Login.loginButton) {
@@ -91,9 +90,10 @@ public class Login implements ActionListener {
                             }
                         }
                     }
-                } else if (e.getSource() == Login.registerButton) {
-                    Registration.userRegistration();
+
                 }
+            } else if (e.getSource() == Login.registerButton) {
+                Registration.userRegistration();
             }
         } catch(Exception penis){
             System.out.println(penis.getMessage());

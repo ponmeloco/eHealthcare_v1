@@ -25,13 +25,13 @@
     <show-object-properties value="true" />
     <loaded-nodes>
       <connection connection-id="ae5c2150-62f8-4212-81f6-b2688fd66d4a">
-        <schema name="main" object-types="dataset trigger, column, table, index, view, constraint" />
+        <schema name="main" object-types="table, constraint, view, column, index, dataset trigger" />
       </connection>
     </loaded-nodes>
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="ae5c2150-62f8-4212-81f6-b2688fd66d4a">
-      <console name="Connection" type="STANDARD" schema="main" session="Main"><![CDATA[drop table user;]]></console>
+      <console name="Connection" type="STANDARD" schema="main" session="Main"><![CDATA[drop table User;]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">

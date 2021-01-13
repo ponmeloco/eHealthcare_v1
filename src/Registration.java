@@ -1,6 +1,3 @@
-import de.mkammerer.argon2.Argon2;
-import de.mkammerer.argon2.Argon2Factory;
-
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,7 +9,7 @@ import java.sql.SQLException;
 public class Registration implements ActionListener {
 
     private static JFrame registerFrame;
-    private static JTextField userRegistrationUserName;
+
     private static JTextField userRegistrationEmailAddress;
     private static JTextField userRegistrationPhoneNumber;
     private static JTextField userRegistrationTitle;
@@ -22,6 +19,7 @@ public class Registration implements ActionListener {
     private static JTextField userRegistrationHouseNumber;
     private static JTextField userRegistrationPLZ;
     private static JTextField userRegistrationCity;
+    private static JPasswordField userRegistrationPassword1;
 
     public static void userRegistration() {
 
@@ -44,12 +42,6 @@ public class Registration implements ActionListener {
             }
         });
 
-        JLabel userUserName = new JLabel("Username:");
-        userUserName.setBounds(40, 20, 120, 25);
-        registerPanel.add(userUserName);
-        userRegistrationUserName = new JTextField();
-        userRegistrationUserName.setBounds(250, 20, 165, 25);
-        registerPanel.add(userRegistrationUserName);
 
         JLabel userEmailAddress = new JLabel("Email Address:");
         userEmailAddress.setBounds(40, 50, 120, 25);
@@ -119,7 +111,7 @@ public class Registration implements ActionListener {
         JLabel userPassword = new JLabel("Password");
         userPassword.setBounds(40, 350, 120, 25);
         registerPanel.add(userPassword);
-        JPasswordField userRegistrationPassword1 = new JPasswordField();
+        userRegistrationPassword1 = new JPasswordField();
         userRegistrationPassword1.setBounds(250, 350, 165, 25);
         registerPanel.add(userRegistrationPassword1);
 
@@ -132,7 +124,7 @@ public class Registration implements ActionListener {
 
         JButton acceptRegisterButton = new JButton("Register");
         acceptRegisterButton.setBounds(20, 500, 100, 25);
-        acceptRegisterButton.setLocation(registerFrame.getWidth() / 2 - acceptRegisterButton.getWidth() / 2 - 5, registerFrame.getY() + registerFrame.getY() / 2 + 50);
+        acceptRegisterButton.setLocation(registerFrame.getWidth() / 2 - acceptRegisterButton.getWidth() / 2 - 5, registerFrame.getY() + registerFrame.getY() / 2 + 200);
         acceptRegisterButton.addActionListener(new Registration());
 
 
@@ -147,7 +139,7 @@ public class Registration implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if( userRegistrationSurname.getText().equals("") || userRegistrationLastName.getText().equals("") ||
-                userRegistrationUserName.getText().equals("") || userRegistrationStreet.getText().equals("") ||
+                userRegistrationStreet.getText().equals("") ||
                 userRegistrationPLZ.getText().equals("") || userRegistrationCity.getText().equals("")) {
             JOptionPane.showMessageDialog(Login.loginFrame, "Every field has to be filled out!");
         } else {
@@ -155,24 +147,11 @@ public class Registration implements ActionListener {
                     userRegistrationLastName.getText(), userRegistrationCity.getText(),
                     userRegistrationStreet.getText(), userRegistrationHouseNumber.getText(),
                     userRegistrationPLZ.getText(), userRegistrationPhoneNumber.getText(),
-                    userRegistrationTitle.getText());
-
+                    userRegistrationTitle.getText(), userRegistrationPassword1.getPassword().toString());
             try {
                 Databaseconnection databaseconnection = new Databaseconnection();
                 databaseconnection.addUser(patientRegister);
                 databaseconnection.displayUsers();
-                /* Argon2 argon2 = Argon2Factory.create();
-                char[] password = char[].valueOf(passwordText.getPasswordhash());
-                try{
-                    String hash = argon2.hash(10, 65536, 1, password);
-                    if (argon2.verify(hash, password)){
-                        System.out.println("Hash Matches");
-                    }else{
-                        System.out.println("Hash does not Match");
-                    }
-                }finally{
-                    argon2.wipeArray(password);
-                } */
             } catch(SQLException | ClassNotFoundException penis){
                 System.out.println(penis.getMessage());
             }

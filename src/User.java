@@ -1,7 +1,3 @@
-import de.mkammerer.argon2.Argon2;
-import de.mkammerer.argon2.Argon2Factory;
-
-
 public abstract class User {
 
     private String passwordhash;
@@ -87,45 +83,17 @@ public abstract class User {
         this.title = title;
     }
 
-    public void setPasswordhash(char[] password) {
-        Argon2 argon2 = Argon2Factory.create();
+    public void setPasswordhash(String password) {
         try {
-            String hash = argon2.hash(10, 65536, 1, password);
-            if (argon2.verify(hash, password)){
-                System.out.println("Hash created");
-                this.passwordhash = hash;
-            }else{
-                System.out.println("Password could not be hashed");
-            }
-        }finally{
-            argon2.wipeArray(password);
-        }
+            this.passwordhash = org.mindrot.jbcrypt.BCrypt.hashpw(password, org.mindrot.jbcrypt.BCrypt.gensalt());
 
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
     }
 
     public String getPasswordhash() {
         return passwordhash;
     }
-    /* public void printAttr(){
-
-        System.out.println("---------------------------------------------------------------------------------------");
-        System.out.printf("%5s %10s %30s %10s %10s %10s", "ID","USERNAME", "EMAIL", "TITLE", "NAME", "LASTNAME");
-        System.out.println();
-        System.out.println("---------------------------------------------------------------------------------------");
-        System.out.format("%5s %10s %30s %10s %10s %10s",this.getId(), this.getUserName(), this.getEmailAddress(),
-                            this.getTitle(), this.getFirstName(), this.getLastName());
-        System.out.println();
-        System.out.println("---------------------------------------------------------------------------------------");
-        System.out.println();
-        System.out.println("---------------------------------------------------------------------------------------");
-        System.out.printf("%10s %20s %15s %15s %16s","CITY", "STREET", "HOUSENUMBER", "POSTAL", "PHONENUMBER");
-        System.out.println();
-        System.out.println("---------------------------------------------------------------------------------------");
-        System.out.format("%10s %20s %15s %15s %16s",this.getCity(), this.getStreet(),
-                            this.getHouseNumber(), this.getPostalCode(), this.getPhoneNUmber());
-        System.out.println();
-        System.out.println("---------------------------------------------------------------------------------------");
-    } */
-
 
 }

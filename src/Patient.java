@@ -2,7 +2,7 @@ public class Patient extends User {
 
     Patient() {}
     Patient(String _emailAddress, String _firstName, String _lastName, String _city,
-            String _street, String _houseNumber, String _postalCode, String _phoneNumber, String _title) {
+            String _street, String _houseNumber, String _postalCode, String _phoneNumber, String _title, String _password) {
         setEmailAddress(_emailAddress);
         setFirstName(_firstName);
         setLastName(_lastName);
@@ -12,6 +12,7 @@ public class Patient extends User {
         setPostalCode(_postalCode);
         setPhoneNUmber(_phoneNumber);
         setTitle(_title);
+        setPasswordhash(_password);
     }
 
 

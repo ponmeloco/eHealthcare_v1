@@ -32,7 +32,7 @@ public class Databaseconnection {
             initialise();
     }
 
-    private void initialise() throws SQLException {
+    public void initialise() throws SQLException {
         if(!hasData){
             hasData = true;
             Statement state = connection.createStatement();
@@ -67,7 +67,7 @@ public class Databaseconnection {
         if(connection == null){
             connect();
         }
-        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO User VALUES (?,?,?,?);");
+        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO User VALUES (?,?,?,?,?,?,?,?,?,?);");
         preparedStatement.setString(1, patient.getEmailAddress());
         preparedStatement.setString(2, patient.getPasswordhash());
         preparedStatement.setString(3, patient.getFirstName());
