@@ -76,11 +76,10 @@ public class Login implements ActionListener {
                     int check = -1;
                     while (check == -1) {
                         if (e.getSource() == Login.loginButton) {
-                            System.out.println(res.getString(1));
                             if (userText.getText().equals("") || password.equals("")) {
                                 JOptionPane.showMessageDialog(loginFrame, "Fields cannot be empty! Please enter your data.");
                                 break;
-                            } else if ((org.mindrot.jbcrypt.BCrypt.checkpw(password,res.getString(2)))) {
+                            } else if ((org.mindrot.jbcrypt.BCrypt.checkpw(password,res.getString(3)))) {
                                 JOptionPane.showMessageDialog(loginFrame, "Login successful!");
                                 check = 0;
                                 loginFrame.dispose();
