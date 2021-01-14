@@ -44,10 +44,14 @@ public class Databaseconnection {
                 state2.execute("CREATE TABLE User (emailAddress VARCHAR(255) NOT NULL, password VARCHAR(255) NOT NULL," +
                         "firstName VARCHAR(255) NOT NULL, lastName VARCHAR (255) NOT NULL," +
                         "city VARCHAR(255) NOT NULL, street VARCHAR(255) NOT NULL, houseNumber VARCHAR(255) NOT NULL, postalCode VARCHAR(5)," +
-                        "phoneNumber VARCHAR(20) NOT NULL, title VARCHAR (255));");
-                PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO User VALUES (?,?,?,?,?,?,?,?,?,?);");
-                preparedStatement.setString(1, "achim.glaesmann@outlook.de");
-                preparedStatement.setString(2, "");
+                        "phoneNumber VARCHAR(20) NOT NULL, title VARCHAR (255),isPhysician BOOLEAN DEFAULT FALSE, isAdmin BOOLEAN DEFAULT FALSE,CustomerID int IDENTITY(1,1) PRIMARY KEY)");
+                PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO User (emailAddress , password," +
+                                                    "firstName , lastName," +
+                                                    "city , street, houseNumber, postalCode," +
+                                                    "phoneNumber, title, isAdmin) VALUES (?,?,?,?,?,?,?,?,?,?,?);");
+
+                preparedStatement.setString(1, "asd");
+                preparedStatement.setString(2, User.hashPassword("asd"));
                 preparedStatement.setString(3, "Achim");
                 preparedStatement.setString(4, "Glaesmann");
                 preparedStatement.setString(5, "Frankfurt");
@@ -56,6 +60,7 @@ public class Databaseconnection {
                 preparedStatement.setString(8, "60437");
                 preparedStatement.setString(9, "015738340183");
                 preparedStatement.setString(10,"hobo");
+                preparedStatement.setBoolean(11, true);
                 preparedStatement.execute();
 
             }
