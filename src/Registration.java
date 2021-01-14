@@ -125,7 +125,7 @@ public class Registration implements ActionListener {
         JButton acceptRegisterButton = new JButton("Register");
         acceptRegisterButton.setBounds(20, 500, 100, 25);
         acceptRegisterButton.setLocation(registerFrame.getWidth() / 2 - acceptRegisterButton.getWidth() / 2 - 5,
-                registerFrame.getY() + registerFrame.getY() / 2 + 50);
+                registerFrame.getY() + registerFrame.getY() * 2/3);
         acceptRegisterButton.addActionListener(new Registration());
 
 
@@ -158,11 +158,8 @@ public class Registration implements ActionListener {
             } catch(SQLException | ClassNotFoundException penis){
                 System.out.println(penis.getMessage());
             }
-
-
             JOptionPane.showMessageDialog(registerFrame, "Registration successful!\nYou are now registered");
             registerFrame.dispatchEvent(new WindowEvent(registerFrame, WindowEvent.WINDOW_CLOSING));
-
         }
 
     }

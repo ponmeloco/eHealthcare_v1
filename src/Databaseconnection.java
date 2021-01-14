@@ -43,8 +43,9 @@ public class Databaseconnection {
                 Statement state2 = connection.createStatement();
                 state2.execute("CREATE TABLE User (emailAddress VARCHAR(255) NOT NULL, password VARCHAR(255) NOT NULL," +
                         "firstName VARCHAR(255) NOT NULL, lastName VARCHAR (255) NOT NULL," +
-                        "city VARCHAR(255) NOT NULL, street VARCHAR(255) NOT NULL, houseNumber VARCHAR(255) NOT NULL, postalCode VARCHAR(5)," +
-                        "phoneNumber VARCHAR(20) NOT NULL, title VARCHAR (255),isPhysician BOOLEAN DEFAULT FALSE, isAdmin BOOLEAN DEFAULT FALSE,CustomerID int IDENTITY(1,1) PRIMARY KEY)");
+                        "city VARCHAR(255) NOT NULL, street VARCHAR(255) NOT NULL, houseNumber VARCHAR(255) NOT NULL," +
+                        " postalCode VARCHAR(5), phoneNumber VARCHAR(20) NOT NULL, title VARCHAR (255)," +
+                        "isPhysician BOOLEAN DEFAULT FALSE, isAdmin BOOLEAN DEFAULT FALSE,CustomerID int IDENTITY(1,1) PRIMARY KEY)");
                 PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO User (emailAddress , password," +
                                                     "firstName , lastName," +
                                                     "city , street, houseNumber, postalCode," +
