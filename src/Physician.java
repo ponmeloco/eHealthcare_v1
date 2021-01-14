@@ -3,7 +3,7 @@ import java.util.Date;
 public class Physician extends User {
 
     private boolean isPhysician;
-    private Specification specification;
+    private Specialization specialization;
     private Rating rating;
 
 

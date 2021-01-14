@@ -1,4 +1,4 @@
 public class Transferorder {
     private String issuingPhysician;
-    private Specification specificationOfPhysician;
+    private Specialization specializationOfPhysician;
 }

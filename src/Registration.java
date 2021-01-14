@@ -125,7 +125,7 @@ public class Registration implements ActionListener {
         JButton acceptRegisterButton = new JButton("Register");
         acceptRegisterButton.setBounds(20, 500, 100, 25);
         acceptRegisterButton.setLocation(registerFrame.getWidth() / 2 - acceptRegisterButton.getWidth() / 2 - 5,
-                registerFrame.getY() + registerFrame.getY() * 2/3);
+                registerFrame.getHeight()-100);
         acceptRegisterButton.addActionListener(new Registration());
 
 
