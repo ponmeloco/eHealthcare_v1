@@ -1,10 +1,9 @@
 import javax.swing.*;
-import java.awt.*;
 
 public class Initializing{
 
 
-        public static void initializeProgramm(){
+        public static void initializeProgram(){
 
                 try{
                 UIManager.setLookAndFeel(
