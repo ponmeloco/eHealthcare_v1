@@ -1,4 +1,4 @@
-public abstract class Symptom {
+public class Symptom {
 
     private enumSevereness severeness;
     private String description;

@@ -46,7 +46,8 @@ public class Databaseconnection {
         preparedStatement.execute();
     }
 
-    public void addUser(Physician physician) throws SQLException, ClassNotFoundException {
+    public void addUser(Physician physician) throws SQLException, ClassNotFoundException
+    {
         if(connection == null){
             connect();
         }
@@ -104,6 +105,8 @@ public class Databaseconnection {
                 buildSpecializationEnumTable();
                 buildSpecializationTable();
                 buildAppointmentTable();
+                buildSeverenessTable();
+                buildSymptomTable();
                 System.out.println("Database build.");
 
             }
@@ -146,8 +149,8 @@ public class Databaseconnection {
         System.out.println("Building SpecializationEnum table...");
 
         Statement state = connection.createStatement();
-        state.execute( "CREATE TABLE Specialization_Enum (" +
-                "Specialization_EnumID int IDENTITY(1,1) PRIMARY KEY," +
+        state.execute( "CREATE TABLE SpecializationEnum (" +
+                "SpecializationEnumID int IDENTITY(1,1) PRIMARY KEY," +
                 "Specialization VARCHAR(255) NOT NULL UNIQUE)");
 
         System.out.println("complete.");
@@ -206,11 +209,56 @@ public class Databaseconnection {
         System.out.println("complete.");
     }
 
+    private void buildSymptomTable() throws SQLException{
+        System.out.println("Building Symptom table...");
+        Statement state = connection.createStatement();
+        state.execute( "CREATE TABLE Symptom (" +
+                "name TEXT PRIMARY KEY," +
+                "description TEXT NOT NULL);" +
+        System.out.println("complete.");
+
+        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO Symptom (" +
+                "severeness, " +
+                "name," +
+                "description," +
+                "VALUES (?,?,?);");
 
 
+    }
 
+    private void buildSeverenessTable() throws  SQLException{
+        System.out.println("Building Severeness table...");
 
+        Statement state = connection.createStatement();
+        state.execute( "CREATE TABLE Severeness (" +
+                "severenessID int IDENTITY(1,1) PRIMARY KEY," +
+                "severeness VARCHAR(255) NOT NULL)");
 
+        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO Severeness (" +
+                "severeness) " +
+                "VALUES (?);");
+
+        preparedStatement.setString(1, "deadly");
+        preparedStatement.execute();
+
+        preparedStatement.setString(1, "very heavy");
+        preparedStatement.execute();
+
+        preparedStatement.setString(1, "heavy");
+        preparedStatement.execute();
+
+        preparedStatement.setString(1, "medium");
+        preparedStatement.execute();
+
+        preparedStatement.setString(1, "light");
+        preparedStatement.execute();
+
+        preparedStatement.setString(1, "very light");
+        preparedStatement.execute();
+
+        System.out.println("complete.");
+    }
 }
+
 
 
