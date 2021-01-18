@@ -8,6 +8,7 @@ import java.sql.SQLException;
 
 public class Registration implements ActionListener {
 
+
     private static JFrame registerFrame;
 
     private static JTextField userRegistrationEmailAddress;

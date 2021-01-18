@@ -214,7 +214,7 @@ public class Databaseconnection {
         Statement state = connection.createStatement();
         state.execute( "CREATE TABLE Symptom (" +
                 "name TEXT PRIMARY KEY," +
-                "description TEXT NOT NULL);" +
+                "description TEXT NOT NULL);");
         System.out.println("complete.");
 
         PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO Symptom (" +

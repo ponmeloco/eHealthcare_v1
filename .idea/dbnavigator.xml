@@ -24,21 +24,21 @@
     <autoscroll-from-editor value="true" />
     <show-object-properties value="true" />
     <loaded-nodes>
-      <connection connection-id="a10a545d-46ef-451f-8a6a-233743be4734">
-        <schema name="main" object-types="table, view" />
+      <connection connection-id="4c960841-16c4-47ab-a587-d591d74436b4">
+        <schema name="main" object-types="constraint, dataset trigger, view, index, column, table" />
       </connection>
     </loaded-nodes>
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
-    <connection id="a10a545d-46ef-451f-8a6a-233743be4734">
-      <console name="Connection 1" type="STANDARD" schema="main" session="Main"><![CDATA[SELECT * FROM "Symptom";]]></console>
+    <connection id="4c960841-16c4-47ab-a587-d591d74436b4">
+      <console name="Connection" type="STANDARD" schema="main" session="Main" />
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
     <open-files />
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
-    <connection id="a10a545d-46ef-451f-8a6a-233743be4734" />
+    <connection id="4c960841-16c4-47ab-a587-d591d74436b4" />
   </component>
   <component name="DBNavigator.Project.EditorStateManager">
     <last-used-providers />
@@ -66,9 +66,9 @@
   </component>
   <component name="DBNavigator.Project.Settings">
     <connections>
-      <connection id="a10a545d-46ef-451f-8a6a-233743be4734" active="true">
+      <connection id="4c960841-16c4-47ab-a587-d591d74436b4" active="true">
         <database>
-          <name value="Connection 1" />
+          <name value="Connection" />
           <description value="" />
           <database-type value="SQLITE" />
           <config-type value="BASIC" />
@@ -81,7 +81,7 @@
           <port value="1234" />
           <database value="database" />
           <files>
-            <file path="D:\Data\_UNI\_Semester 3\Java\eHealthcare_v1\eHealthcareUsers.db" schema="main" />
+            <file path="C:\Users\Sascha Bichler\IdeaProjects\eHealthcare_v1\eHealthcareUsers.db" schema="main" />
           </files>
           <type value="NONE" />
           <user value="" />

@@ -1,10 +1,14 @@
-import javax.xml.crypto.Data;
+import java.awt.*;
 
 public class testMain {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws AWTException {
+        //Initializing.initializeProgramm(); //Tries to take the System settings for frames.
 
-        Login.loginFrame();
+        WindowsNotification.doWindowsNotification("Appointment-Notification","Click here for importing" +
+                " the Appoinment to Windows Calendar");
+
+        //Login.loginFrame();
 
 
 
