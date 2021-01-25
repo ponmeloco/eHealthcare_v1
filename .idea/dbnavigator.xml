@@ -11,8 +11,8 @@
       <quote-values-containing-separator value="true" />
       <quote-all-values value="false" />
       <value-separator value="" />
-      <file-name value="" />
-      <file-location value="" />
+      <file-name value="User.xls" />
+      <file-location value="D:\Data\_UNI" />
       <scope value="GLOBAL" />
       <destination value="FILE" />
       <format value="EXCEL" />
@@ -24,21 +24,29 @@
     <autoscroll-from-editor value="true" />
     <show-object-properties value="true" />
     <loaded-nodes>
-      <connection connection-id="a10a545d-46ef-451f-8a6a-233743be4734">
-        <schema name="main" object-types="table, view" />
+      <connection connection-id="f0b7a91d-104c-4220-b588-97ef7a2c95d1">
+        <schema name="main" object-types="table, column, constraint, view, dataset trigger, index" />
       </connection>
     </loaded-nodes>
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
-    <connection id="a10a545d-46ef-451f-8a6a-233743be4734">
-      <console name="Connection 1" type="STANDARD" schema="main" session="Main"><![CDATA[SELECT * FROM "Symptom";]]></console>
+    <connection id="f0b7a91d-104c-4220-b588-97ef7a2c95d1">
+      <console name="eHealthcare" type="STANDARD" schema="main" session="Main" />
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
     <open-files />
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
-    <connection id="a10a545d-46ef-451f-8a6a-233743be4734" />
+    <connection id="f0b7a91d-104c-4220-b588-97ef7a2c95d1" />
+  </component>
+  <component name="DBNavigator.Project.DatasetFilterManager">
+    <filter-actions connection-id="f0b7a91d-104c-4220-b588-97ef7a2c95d1" dataset="main.Patient" active-filter-id="1bf2dd2a-9996-4a2d-bbac-4ef8046547d2">
+      <filter id="1bf2dd2a-9996-4a2d-bbac-4ef8046547d2" name="Filter" temporary="false" custom-name="false" type="basic" join-type="AND" />
+    </filter-actions>
+    <filter-actions connection-id="f0b7a91d-104c-4220-b588-97ef7a2c95d1" dataset="main.User" active-filter-id="d6c08fb1-cacf-4b42-80a2-2b664dc0f537">
+      <filter id="d6c08fb1-cacf-4b42-80a2-2b664dc0f537" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND" />
+    </filter-actions>
   </component>
   <component name="DBNavigator.Project.EditorStateManager">
     <last-used-providers />
@@ -66,9 +74,9 @@
   </component>
   <component name="DBNavigator.Project.Settings">
     <connections>
-      <connection id="a10a545d-46ef-451f-8a6a-233743be4734" active="true">
+      <connection id="f0b7a91d-104c-4220-b588-97ef7a2c95d1" active="true">
         <database>
-          <name value="Connection 1" />
+          <name value="eHealthcare" />
           <description value="" />
           <database-type value="SQLITE" />
           <config-type value="BASIC" />
