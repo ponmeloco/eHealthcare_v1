@@ -42,6 +42,12 @@ public class Databaseconnection {
         preparedStatement.setString(9, patient.getPhoneNUmber());
         preparedStatement.setString(10,patient.getTitle());
         preparedStatement.execute();
+
+        Statement statement = connection.createStatement();
+        ResultSet res = statement.executeQuery("SELECT ID FROM User WHERE emailAddress='"+patient.getEmailAddress()+"';");
+        int ID = res.getInt(1);
+        statement.execute("INSERT INTO Patient VALUES ("+ID+")");
+
     }
     public void addUser(Physician physician) throws SQLException, ClassNotFoundException
     {
@@ -230,6 +236,11 @@ public class Databaseconnection {
                 "PRIMARY KEY(ID), " +
                 "FOREIGN KEY(ID) REFERENCES User(ID) ON DELETE CASCADE ON UPDATE CASCADE" +
                 ")");
+        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO Patient (" +
+                "ID) VALUES (?)");
+
+        preparedStatement.setString(1, "2");
+        preparedStatement.execute();
 
         System.out.println("complete.");
     }

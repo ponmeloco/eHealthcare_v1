@@ -23,19 +23,18 @@
     <autoscroll-to-editor value="false" />
     <autoscroll-from-editor value="true" />
     <show-object-properties value="true" />
-    <loaded-nodes>
-      <connection connection-id="1fd46d26-73a4-412c-93e4-76e942d63993">
-        <schema name="main" object-types="view, table, constraint, dataset trigger, index, column" />
-      </connection>
-    </loaded-nodes>
+    <loaded-nodes />
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="1fd46d26-73a4-412c-93e4-76e942d63993">
-      <console name="Connection" type="STANDARD" schema="main" session="Main"><![CDATA[select * from User;]]></console>
+      <console name="Connection" type="STANDARD" schema="" session="Main" />
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
-    <open-files />
+    <open-files>
+      <object connection-id="f0b7a91d-104c-4220-b588-97ef7a2c95d1" object-ref="schemas/main/tables/Patient" />
+      <object connection-id="f0b7a91d-104c-4220-b588-97ef7a2c95d1" object-ref="schemas/main/tables/User" />
+    </open-files>
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
     <connection id="1fd46d26-73a4-412c-93e4-76e942d63993" />
