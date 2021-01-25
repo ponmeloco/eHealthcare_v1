@@ -1,7 +1,5 @@
 public class Admin extends User {
 
-    //wow es funktioniert?
-
     private String AdminName;
 
     public void createPatientAccount(){}
