@@ -24,29 +24,21 @@
     <autoscroll-from-editor value="true" />
     <show-object-properties value="true" />
     <loaded-nodes>
-      <connection connection-id="f0b7a91d-104c-4220-b588-97ef7a2c95d1">
-        <schema name="main" object-types="table, column, constraint, view, dataset trigger, index" />
+      <connection connection-id="1fd46d26-73a4-412c-93e4-76e942d63993">
+        <schema name="main" object-types="view, table, constraint, dataset trigger, index, column" />
       </connection>
     </loaded-nodes>
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
-    <connection id="f0b7a91d-104c-4220-b588-97ef7a2c95d1">
-      <console name="eHealthcare" type="STANDARD" schema="main" session="Main" />
+    <connection id="1fd46d26-73a4-412c-93e4-76e942d63993">
+      <console name="Connection" type="STANDARD" schema="main" session="Main"><![CDATA[select * from User;]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
     <open-files />
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
-    <connection id="f0b7a91d-104c-4220-b588-97ef7a2c95d1" />
-  </component>
-  <component name="DBNavigator.Project.DatasetFilterManager">
-    <filter-actions connection-id="f0b7a91d-104c-4220-b588-97ef7a2c95d1" dataset="main.Patient" active-filter-id="1bf2dd2a-9996-4a2d-bbac-4ef8046547d2">
-      <filter id="1bf2dd2a-9996-4a2d-bbac-4ef8046547d2" name="Filter" temporary="false" custom-name="false" type="basic" join-type="AND" />
-    </filter-actions>
-    <filter-actions connection-id="f0b7a91d-104c-4220-b588-97ef7a2c95d1" dataset="main.User" active-filter-id="d6c08fb1-cacf-4b42-80a2-2b664dc0f537">
-      <filter id="d6c08fb1-cacf-4b42-80a2-2b664dc0f537" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND" />
-    </filter-actions>
+    <connection id="1fd46d26-73a4-412c-93e4-76e942d63993" />
   </component>
   <component name="DBNavigator.Project.EditorStateManager">
     <last-used-providers />
@@ -74,9 +66,9 @@
   </component>
   <component name="DBNavigator.Project.Settings">
     <connections>
-      <connection id="f0b7a91d-104c-4220-b588-97ef7a2c95d1" active="true">
+      <connection id="1fd46d26-73a4-412c-93e4-76e942d63993" active="true">
         <database>
-          <name value="eHealthcare" />
+          <name value="Connection" />
           <description value="" />
           <database-type value="SQLITE" />
           <config-type value="BASIC" />
@@ -89,7 +81,7 @@
           <port value="1234" />
           <database value="database" />
           <files>
-            <file path="D:\Data\_UNI\_Semester 3\Java\eHealthcare_v1\eHealthcareUsers.db" schema="main" />
+            <file path="C:\Users\Sascha Bichler\IdeaProjects\eHealthcare_v1\eHealthcareUsers.db" schema="main" />
           </files>
           <type value="NONE" />
           <user value="" />

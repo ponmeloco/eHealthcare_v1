@@ -30,7 +30,7 @@ public class Databaseconnection {
         if(connection == null){
             connect();
         }
-        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO User VALUES (?,?,?,?,?,?,?,?,?,?);");
+        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO User(emailAddress, password, firstName, lastName, city, street, houseNumber, postalCode, phoneNumber, title) VALUES (?,?,?,?,?,?,?,?,?,?);");
         preparedStatement.setString(1, patient.getEmailAddress());
         preparedStatement.setString(2, patient.getPasswordhash());
         preparedStatement.setString(3, patient.getFirstName());
@@ -169,7 +169,7 @@ public class Databaseconnection {
         System.out.println("Building User table...");
         Statement state = connection.createStatement();
         state.execute( "CREATE TABLE User (" +
-                "ID int IDENTITY(1,1) PRIMARY KEY," +
+                "ID INTEGER PRIMARY KEY," +
                 "emailAddress VARCHAR(255) NOT NULL UNIQUE," +
                 "password VARCHAR(255) NOT NULL," +
                 "firstName VARCHAR(255) NOT NULL," +
@@ -268,9 +268,8 @@ public class Databaseconnection {
 
         Statement state = connection.createStatement();
         state.execute( "CREATE TABLE Specialization (" +
-                "ID int IDENTITY(1,1)," +
-                "Specialization VARCHAR(255) NOT NULL UNIQUE,"+
-                "PRIMARY KEY (ID)" +
+                "ID INTEGER PRIMARY KEY," +
+                "Specialization VARCHAR(255) NOT NULL UNIQUE"+
                 ")");
 
         System.out.println("complete.");
@@ -280,10 +279,9 @@ public class Databaseconnection {
 
         Statement state = connection.createStatement();
         state.execute( "CREATE TABLE SpecializationPhysician (" +
-                "ID int IDENTITY(1,1)," +
+                "ID INTEGER PRIMARY KEY," +
                 "SpecializationID INT," +
                 "PhysicianID INT," +
-                "PRIMARY KEY (ID)," +
                 "FOREIGN KEY (SpecializationID) REFERENCES Specialization(ID) ON DELETE CASCADE ON UPDATE CASCADE," +
                 "FOREIGN KEY (PhysicianID) REFERENCES Physician(ID) ON DELETE CASCADE ON UPDATE CASCADE" +
                 ")");
@@ -294,10 +292,9 @@ public class Databaseconnection {
         System.out.println("Building Symptom table...");
         Statement state = connection.createStatement();
         state.execute( "CREATE TABLE Symptom (" +
-                "ID INT IDENTITY(1,1) ," +
+                "ID INTEGER PRIMARY KEY," +
                 "name VARCHAR(255) NOT NULL," +
-                "description VARCHAR(255) NOT NULL," +
-                "PRIMARY KEY(ID)" +
+                "description VARCHAR(255) NOT NULL" +
                 ");");
         System.out.println("complete.");
     }
@@ -306,9 +303,8 @@ public class Databaseconnection {
 
         Statement state = connection.createStatement();
         state.execute( "CREATE TABLE Severeness (" +
-                "ID int IDENTITY(1,1)," +
-                "severeness VARCHAR(255) NOT NULL," +
-                "PRIMARY KEY (ID)" +
+                "ID INTEGER PRIMARY KEY," +
+                "severeness VARCHAR(255) NOT NULL" +
                 ")");
 
         PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO Severeness (" +
@@ -333,11 +329,10 @@ public class Databaseconnection {
         System.out.println("Building SymptomPatient table...");
         Statement state = connection.createStatement();
         state.execute( "CREATE TABLE SymptomPatient (" +
-                "ID INT IDENTITY(1,1)," +
+                "ID INTEGER PRIMARY KEY," +
                 "PatientID INT," +
                 "SymptomID INT," +
                 "SeverenessID INT," +
-                "PRIMARY KEY (ID)," +
                 "FOREIGN KEY (PatientID) REFERENCES Patient(ID) ON DELETE CASCADE ON UPDATE CASCADE," +
                 "FOREIGN KEY (SymptomID) REFERENCES Symptom(ID) ON DELETE CASCADE ON UPDATE CASCADE," +
                 "FOREIGN KEY (SeverenessID) REFERENCES Severeness(ID) ON DELETE CASCADE ON UPDATE CASCADE" +
@@ -349,10 +344,9 @@ public class Databaseconnection {
 
         Statement state = connection.createStatement();
         state.execute( "CREATE TABLE Drug (" +
-                "ID INT IDENTITY(1,1)," +
+                "ID INTEGER PRIMARY KEY," +
                 "name VARCHAR(255) NOT NULL," +
-                "activeSubstance VARCHAR(255) NOT NULL," +
-                "PRIMARY KEY (ID)" +
+                "activeSubstance VARCHAR(255) NOT NULL" +
                 ")");
         System.out.println("complete.");
     }
@@ -360,12 +354,11 @@ public class Databaseconnection {
         System.out.println("Building Medication table...");
         Statement state = connection.createStatement();
         state.execute( "CREATE TABLE Medication (" +
-                "ID int IDENTITY(1,1)," +
+                "ID INTEGER PRIMARY KEY," +
                 "PatientID INT," +
                 "DrugID INT," +
                 "Dosis DOUBLE," +
                 "TimesPerDay INT," +
-                "PRIMARY KEY (ID)," +
                 "FOREIGN KEY (PatientID) REFERENCES Patient(ID) ON DELETE CASCADE ON UPDATE CASCADE," +
                 "FOREIGN KEY (DrugID) REFERENCES Drug(ID) ON DELETE CASCADE ON UPDATE CASCADE" +
                 ")");
@@ -376,11 +369,10 @@ public class Databaseconnection {
 
         Statement state = connection.createStatement();
         state.execute( "CREATE TABLE Appointment (" +
-                "ID INT IDENTITY(1,1)," +
+                "ID INTEGER PRIMARY KEY," +
                 "PatientID int," +
                 "PhysicianID int," +
                 "TimeAndDate text," +
-                "PRIMARY KEY(ID)," +
                 "FOREIGN KEY (PatientID) REFERENCES User (UserID) ON DELETE CASCADE ON UPDATE CASCADE," +
                 "FOREIGN KEY (PhysicianID) REFERENCES User (UserID) ON DELETE CASCADE ON UPDATE CASCADE" +
                 " )");
@@ -392,7 +384,7 @@ public class Databaseconnection {
 
         Statement state = connection.createStatement();
         state.execute( "CREATE TABLE Rating (" +
-                "ID INT IDENTITY(1,1)," +
+                "ID INTEGER PRIMARY KEY," +
                 "PhysicianID INT," +
                 "PatientID INT," +
                 "treatmentRating INT NOT NULL," +
@@ -407,7 +399,6 @@ public class Databaseconnection {
                 "availabilityPhone INT NOT NULL," +
                 "openingHours INT NOT NULL," +
                 "individualRating VARCHAR(255) NOT NULL DEFAULT('No individual rating')," +
-                "PRIMARY KEY(ID)," +
                 "FOREIGN KEY (PatientID) REFERENCES User(ID) ON DELETE CASCADE ON UPDATE CASCADE," +
                 "FOREIGN KEY (treatmentRating) REFERENCES Thumb(ID) ON DELETE RESTRICT ON UPDATE CASCADE," +
                 "FOREIGN KEY (equipment) REFERENCES Thumb(ID) ON DELETE RESTRICT ON UPDATE CASCADE," +
@@ -428,9 +419,8 @@ public class Databaseconnection {
 
         Statement state = connection.createStatement();
         state.execute( "CREATE TABLE Thumb (" +
-                "ID INT IDENTITY(1,1)," +
-                "rating VARCHAR(255) UNIQUE NOT NULL," +
-                "PRIMARY KEY(ID)" +
+                "ID INTEGER PRIMARY KEY," +
+                "rating VARCHAR(255) UNIQUE NOT NULL" +
                 " )");
 
         PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO Thumb (" +
@@ -451,10 +441,9 @@ public class Databaseconnection {
 
         Statement state = connection.createStatement();
         state.execute( "CREATE TABLE Tag (" +
-                "ID INT IDENTITY(1,1)," +
+                "ID INTEGER PRIMARY KEY," +
                 "name VARCHAR(255) UNIQUE NOT NULL ," +
-                "counter NOT NULL DEFAULT(1)," +
-                "PRIMARY KEY(ID)" +
+                "counter NOT NULL DEFAULT(1)" +
                 ")");
 
         System.out.println("complete.");
@@ -464,10 +453,9 @@ public class Databaseconnection {
 
         Statement state = connection.createStatement();
         state.execute( "CREATE TABLE RatingTag (" +
-                "ID INT IDENTITY(1,1)," +
+                "ID INTEGER PRIMARY KEY," +
                 "RatingID INT NOT NULL," +
                 "TagID INT NOT NULL," +
-                "PRIMARY KEY(ID)," +
                 "FOREIGN KEY (RatingID) REFERENCES Rating(ID) ON DELETE CASCADE ON UPDATE CASCADE," +
                 "FOREIGN KEY (TagID) REFERENCES Tag(ID) ON DELETE CASCADE ON UPDATE CASCADE" +
                 " )");
@@ -479,11 +467,10 @@ public class Databaseconnection {
 
         Statement state = connection.createStatement();
         state.execute( "CREATE TABLE Transferorder (" +
-                "ID INT IDENTITY(1,1)," +
+                "ID INTEGER PRIMARY KEY," +
                 "PatientID INT NOT NULL," +
                 "PhysicianID INT NOT NULL," +
                 "SpecializationID INT NOT NULL," +
-                "PRIMARY KEY(ID)," +
                 "FOREIGN KEY (PatientID) REFERENCES Patient(ID) ON DELETE CASCADE ON UPDATE CASCADE," +
                 "FOREIGN KEY (PhysicianID) REFERENCES Physician(ID) ON DELETE CASCADE ON UPDATE CASCADE," +
                 "FOREIGN KEY (SpecializationID) REFERENCES Specialization(ID) ON DELETE CASCADE ON UPDATE CASCADE" +
