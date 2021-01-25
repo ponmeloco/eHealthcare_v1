@@ -54,7 +54,7 @@ public class Databaseconnection {
         if(connection == null){
             connect();
         }
-        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO User VALUES (?,?,?,?,?,?,?,?,?,?,?,?);");
+        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO User(emailAddress, password, firstName, lastName, city, street, houseNumber, postalCode, phoneNumber, title) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);");
         preparedStatement.setString(1, physician.getEmailAddress());
         preparedStatement.setString(2, physician.getPasswordhash());
         preparedStatement.setString(3, physician.getFirstName());
@@ -71,7 +71,7 @@ public class Databaseconnection {
         if(connection == null){
             connect();
         }
-        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO User VALUES (?,?,?,?,?,?,?,?,?,?);");
+        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO User(emailAddress, password, firstName, lastName, city, street, houseNumber, postalCode, phoneNumber, title) VALUES (?,?,?,?,?,?,?,?,?,?);");
         preparedStatement.setString(1, admin.getEmailAddress());
         preparedStatement.setString(2, admin.getPasswordhash());
         preparedStatement.setString(3, admin.getFirstName());
