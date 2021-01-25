@@ -4,6 +4,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.SQLException;
+import java.util.Arrays;
 
 
 public class Registration implements ActionListener {
@@ -21,6 +22,7 @@ public class Registration implements ActionListener {
     private static JTextField userRegistrationPLZ;
     private static JTextField userRegistrationCity;
     private static JPasswordField userRegistrationPassword1;
+    private static JPasswordField userRegistrationPassword2;
 
     public static void userRegistration() {
 
@@ -119,7 +121,7 @@ public class Registration implements ActionListener {
         JLabel userPasswordValidation = new JLabel("Password again:");
         userPasswordValidation.setBounds(40, 380, 120, 25);
         registerPanel.add(userPasswordValidation);
-        JPasswordField userRegistrationPassword2 = new JPasswordField();
+        userRegistrationPassword2 = new JPasswordField();
         userRegistrationPassword2.setBounds(250, 380, 165, 25);
         registerPanel.add(userRegistrationPassword2);
 
@@ -140,18 +142,32 @@ public class Registration implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if( userRegistrationSurname.getText().equals("") || userRegistrationLastName.getText().equals("") ||
-                userRegistrationEmailAddress.getText().equals("") || userRegistrationTitle.getText().equals("") ||
-                userRegistrationPhoneNumber.getText().equals("") || userRegistrationHouseNumber.getText().equals("") ||
-                userRegistrationStreet.getText().equals("") || userRegistrationSurname.getText().equals("") ||
-                userRegistrationPLZ.getText().equals("") || userRegistrationCity.getText().equals("")) {
-            JOptionPane.showMessageDialog(Login.loginFrame, "Every field has to be filled out!");
+        if( userRegistrationSurname.getText().equals("") ||
+                userRegistrationLastName.getText().equals("") ||
+                userRegistrationEmailAddress.getText().equals("") ||
+                userRegistrationTitle.getText().equals("") ||
+                userRegistrationPhoneNumber.getText().equals("") ||
+                userRegistrationHouseNumber.getText().equals("") ||
+                userRegistrationStreet.getText().equals("") ||
+                userRegistrationPLZ.getText().equals("") ||
+                userRegistrationCity.getText().equals("") ||
+                userRegistrationPassword1.getPassword().length == 0 ||
+                userRegistrationPassword2.getPassword().length == 0) {
+            JOptionPane.showMessageDialog(Registration.registerFrame, "Every field has to be filled out!");
+        } else if(!Arrays.equals(userRegistrationPassword1.getPassword(),userRegistrationPassword2.getPassword())) {
+            JOptionPane.showMessageDialog(Registration.registerFrame, "Passwords do not match!");
         } else {
-            Patient patientRegister = new Patient(userRegistrationEmailAddress.getText(), userRegistrationSurname.getText(),
-                    userRegistrationLastName.getText(), userRegistrationCity.getText(),
-                    userRegistrationStreet.getText(), userRegistrationHouseNumber.getText(),
-                    userRegistrationPLZ.getText(), userRegistrationPhoneNumber.getText(),
-                    userRegistrationTitle.getText(), String.valueOf(userRegistrationPassword1.getPassword()));
+            Patient patientRegister = new Patient(
+                    userRegistrationEmailAddress.getText(),
+                    userRegistrationSurname.getText(),
+                    userRegistrationLastName.getText(),
+                    userRegistrationCity.getText(),
+                    userRegistrationStreet.getText(),
+                    userRegistrationHouseNumber.getText(),
+                    userRegistrationPLZ.getText(),
+                    userRegistrationPhoneNumber.getText(),
+                    userRegistrationTitle.getText(),
+                    String.valueOf(userRegistrationPassword1.getPassword()));
             try {
                 Databaseconnection databaseconnection = new Databaseconnection();
                 databaseconnection.addUser(patientRegister);
