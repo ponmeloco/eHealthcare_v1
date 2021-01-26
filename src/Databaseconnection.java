@@ -27,65 +27,97 @@ public class Databaseconnection {
     }
 
     public void addUser(Patient patient) throws SQLException, ClassNotFoundException {
-        if(connection == null){
+        if (connection == null) {
             connect();
         }
-        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO User(emailAddress, password, firstName, lastName, city, street, houseNumber, postalCode, phoneNumber, title) VALUES (?,?,?,?,?,?,?,?,?,?);");
-        preparedStatement.setString(1, patient.getEmailAddress());
-        preparedStatement.setString(2, patient.getPasswordhash());
-        preparedStatement.setString(3, patient.getFirstName());
-        preparedStatement.setString(4, patient.getLastName());
-        preparedStatement.setString(5, patient.getCity());
-        preparedStatement.setString(6, patient.getStreet());
-        preparedStatement.setString(7, patient.getHouseNumber());
-        preparedStatement.setString(8, patient.getPostalCode());
-        preparedStatement.setString(9, patient.getPhoneNUmber());
-        preparedStatement.setString(10,patient.getTitle());
-        preparedStatement.execute();
-
         Statement statement = connection.createStatement();
-        ResultSet res = statement.executeQuery("SELECT ID FROM User WHERE emailAddress='"+patient.getEmailAddress()+"';");
-        int ID = res.getInt(1);
-        statement.execute("INSERT INTO Patient VALUES ("+ID+")");
+        ResultSet checkIfNew = statement.executeQuery("SELECT * FROM USER WHERE emailAddress='" + patient.getEmailAddress() + "')");
 
+        if (!checkIfNew.next()) {
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO User(emailAddress, password, firstName, lastName, city, street, houseNumber, postalCode, phoneNumber, title) VALUES (?,?,?,?,?,?,?,?,?,?);");
+            preparedStatement.setString(1, patient.getEmailAddress());
+            preparedStatement.setString(2, patient.getPasswordhash());
+            preparedStatement.setString(3, patient.getFirstName());
+            preparedStatement.setString(4, patient.getLastName());
+            preparedStatement.setString(5, patient.getCity());
+            preparedStatement.setString(6, patient.getStreet());
+            preparedStatement.setString(7, patient.getHouseNumber());
+            preparedStatement.setString(8, patient.getPostalCode());
+            preparedStatement.setString(9, patient.getPhoneNUmber());
+            preparedStatement.setString(10, patient.getTitle());
+            preparedStatement.execute();
+
+            ResultSet res = statement.executeQuery("SELECT ID FROM User WHERE emailAddress='" + patient.getEmailAddress() + "';");
+            int ID = res.getInt(1);
+            statement.execute("INSERT INTO Patient VALUES (" + ID + ")");
+        }else{
+            throw new SQLException("User already registered.");
+        }
     }
+
     public void addUser(Physician physician) throws SQLException, ClassNotFoundException
     {
         if(connection == null){
             connect();
         }
-        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO User(emailAddress, password, firstName, lastName, city, street, houseNumber, postalCode, phoneNumber, title) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);");
-        preparedStatement.setString(1, physician.getEmailAddress());
-        preparedStatement.setString(2, physician.getPasswordhash());
-        preparedStatement.setString(3, physician.getFirstName());
-        preparedStatement.setString(4, physician.getLastName());
-        preparedStatement.setString(5, physician.getCity());
-        preparedStatement.setString(6, physician.getStreet());
-        preparedStatement.setString(7, physician.getHouseNumber());
-        preparedStatement.setString(8, physician.getPostalCode());
-        preparedStatement.setString(9, physician.getPhoneNUmber());
-        preparedStatement.setString(10, physician.getTitle());
-        preparedStatement.execute();
+        Statement statement = connection.createStatement();
+        ResultSet checkIfNew = statement.executeQuery("SELECT * FROM USER WHERE emailAddress='"+physician.getEmailAddress()+"')");
+        if(!checkIfNew.next()) {
+            /*Insert into user table*/
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO User(emailAddress, password, firstName, lastName, city, street, houseNumber, postalCode, phoneNumber, title) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);");
+            preparedStatement.setString(1, physician.getEmailAddress());
+            preparedStatement.setString(2, physician.getPasswordhash());
+            preparedStatement.setString(3, physician.getFirstName());
+            preparedStatement.setString(4, physician.getLastName());
+            preparedStatement.setString(5, physician.getCity());
+            preparedStatement.setString(6, physician.getStreet());
+            preparedStatement.setString(7, physician.getHouseNumber());
+            preparedStatement.setString(8, physician.getPostalCode());
+            preparedStatement.setString(9, physician.getPhoneNUmber());
+            preparedStatement.setString(10, physician.getTitle());
+            preparedStatement.execute();
+
+            /* Insert Physician and SpezializationPhysisician  table*/
+
+            ResultSet res = statement.executeQuery("SELECT ID FROM User WHERE emailAddress='" + physician.getEmailAddress() + "';");
+            int ID = res.getInt(1);
+            statement.execute("INSERT INTO Physician VALUES (" + ID + ")");
+            res = statement.executeQuery("SELECT ID FROM Specialization WHERE Specialization='" + physician.getSpecialization() + "';");
+            int specID = res.getInt(1);
+            statement.execute("INSERT INTO SpecializationPhysician(PhysicianID, SpecializationID) VALUES (" + ID + "," + specID + ");");
+        }else{
+            throw new SQLException("User already registered.");
+         }
     }
+
     public void addUser(Admin admin) throws SQLException, ClassNotFoundException {
-        if(connection == null){
+        if (connection == null) {
             connect();
         }
-        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO User(emailAddress, password, firstName, lastName, city, street, houseNumber, postalCode, phoneNumber, title) VALUES (?,?,?,?,?,?,?,?,?,?);");
-        preparedStatement.setString(1, admin.getEmailAddress());
-        preparedStatement.setString(2, admin.getPasswordhash());
-        preparedStatement.setString(3, admin.getFirstName());
-        preparedStatement.setString(4, admin.getLastName());
-        preparedStatement.setString(5, admin.getCity());
-        preparedStatement.setString(6, admin.getStreet());
-        preparedStatement.setString(7, admin.getHouseNumber());
-        preparedStatement.setString(8, admin.getPostalCode());
-        preparedStatement.setString(9, admin.getPhoneNUmber());
-        preparedStatement.setString(10,admin.getTitle());
+        Statement statement = connection.createStatement();
+        ResultSet checkIfNew = statement.executeQuery("SELECT * FROM USER WHERE emailAddress='" + admin.getEmailAddress() + "')");
 
-        preparedStatement.execute();
+        if (!checkIfNew.next()) {
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO User(emailAddress, password, firstName, lastName, city, street, houseNumber, postalCode, phoneNumber, title) VALUES (?,?,?,?,?,?,?,?,?,?);");
+            preparedStatement.setString(1, admin.getEmailAddress());
+            preparedStatement.setString(2, admin.getPasswordhash());
+            preparedStatement.setString(3, admin.getFirstName());
+            preparedStatement.setString(4, admin.getLastName());
+            preparedStatement.setString(5, admin.getCity());
+            preparedStatement.setString(6, admin.getStreet());
+            preparedStatement.setString(7, admin.getHouseNumber());
+            preparedStatement.setString(8, admin.getPostalCode());
+            preparedStatement.setString(9, admin.getPhoneNUmber());
+            preparedStatement.setString(10, admin.getTitle());
+
+            preparedStatement.execute();
+
+
+            ResultSet res = statement.executeQuery("SELECT ID FROM User WHERE emailAddress='" + admin.getEmailAddress() + "';");
+            int ID = res.getInt(1);
+            statement.execute("INSERT INTO Admin VALUES (" + ID + ")");
+        }
     }
-
     public Patient getPatient(String email) throws SQLException, ClassNotFoundException{
         if(connection == null){
             connect();
@@ -129,6 +161,127 @@ public class Databaseconnection {
         Patient result = new Patient(email,firstName,lastName,city,street,houseNumber,postalCode,
                 phoneNumber, title, pwhash);
         System.out.println("Patientobject created... \n returning Object...");
+        return result;
+    }
+    public Physician getPhysician(String email) throws SQLException, ClassNotFoundException{
+        if(connection == null){
+            connect();
+        }
+        Statement statement = connection.createStatement();
+        ResultSet res = statement.executeQuery("SELECT User.* FROM User WHERE emailAddress ='" + email + "';");
+
+        if (res.next()) {
+            // email
+            System.out.println("Printing Result and setting variables.");
+            System.out.println(res.getString(2));
+            //pwhash
+            System.out.println(res.getString(3));
+            String pwhash = res.getString(3);
+            //firstname
+            System.out.println(res.getString(4));
+            String firstName = res.getString(4);
+            //lastname
+            System.out.println(res.getString(5));
+            String lastName = res.getString(5);
+            //city
+            System.out.println(res.getString(6));
+            String city = res.getString(6);
+            //Street
+            System.out.println(res.getString(7));
+            String street = res.getString(7);
+            //houseNumber
+            System.out.println(res.getString(8));
+            String houseNumber = res.getString(8);
+            //postalCode
+            System.out.println(res.getString(9));
+            String postalCode = res.getString(9);
+            //phoneNumber
+            System.out.println(res.getString(10));
+            String phoneNumber = res.getString(10);
+
+            System.out.println(res.getString(11));//title
+            String title = res.getString(11);
+
+
+
+            int countOfSpecializations = 0;
+            int PhysicianID;
+
+            ResultSet res2 = statement.executeQuery("SELECT ID FROM User WHERE emailAddress='" + res.getString(2) + "';");
+            PhysicianID = res2.getInt(1);
+            System.out.println("PhysicianID: "+PhysicianID);
+
+            res2 = statement.executeQuery("SELECT * FROM SpecializationPhysician WHERE PhysicianID='" + PhysicianID + "';");
+            while (res2.next()) {
+                    countOfSpecializations++;
+                }
+                res2.close();
+
+            String[] specialization = new String[countOfSpecializations];
+
+            if (countOfSpecializations > 0) {
+                res2 = statement.executeQuery("SELECT * FROM SpecializationPhysician WHERE PhysicianID='" + PhysicianID + "';");
+
+                int i = 0;
+                while (countOfSpecializations > 0) {
+                    specialization[i] = statement.executeQuery("SELECT Specialization FROM Specialization WHERE ID='" +res2.getInt(3)+ "';").getString(1);
+                    countOfSpecializations--;
+                    i++;
+                }
+            }
+
+            System.out.println("Creating user");
+            Physician result = new Physician(email, firstName, lastName, city, street, houseNumber, postalCode,
+                    phoneNumber, title, pwhash, specialization);
+            System.out.println("Physicianobject created... \n returning Object...");
+            return result;
+
+        }else{
+            throw new SQLException("User not found");
+        }
+    }
+    public Admin getAdmin(String email) throws SQLException, ClassNotFoundException{
+        if(connection == null){
+            connect();
+        }
+        Statement statement = connection.createStatement();
+        ResultSet res = statement.executeQuery("SELECT User.* FROM User WHERE emailAddress ='" + email + "';");
+
+        System.out.println("Printing Result and setting variables.");
+        System.out.println(res.getString(2)); // email
+
+        System.out.println(res.getString(3));//pwhash
+        String pwhash = res.getString(3);
+
+        System.out.println(res.getString(4)); //firstname
+        String firstName = res.getString(4);
+
+        System.out.println(res.getString(5)); //lastname
+        String lastName = res.getString(5);
+
+        System.out.println(res.getString(6)); //city
+        String city = res.getString(6);
+
+        System.out.println(res.getString(7)); //Street
+        String street = res.getString(7);
+
+        System.out.println(res.getString(8)); //houseNumber
+        String houseNumber = res.getString(8);
+
+        System.out.println(res.getString(9)); //postalCode
+        String postalCode = res.getString(9);
+
+        System.out.println(res.getString(10));//phoneNumber
+        String phoneNumber = res.getString(10);
+
+        System.out.println(res.getString(11));//title
+        String title = res.getString(11);
+
+        System.out.println("Done");
+
+        System.out.println("Creating user");
+        Admin result = new Admin();
+        System.out.println("Admintobject created... \n returning Object... \n Still just a teststump");
         return result;
     }
 
@@ -201,10 +354,10 @@ public class Databaseconnection {
                 "title)" +
                 "VALUES (?,?,?,?,?,?,?,?,?,?);");
 
-        preparedStatement.setString(1, "asd");
+        preparedStatement.setString(1, "Patient");
         preparedStatement.setString(2, User.hashPassword("asd"));
-        preparedStatement.setString(3, "Achim");
-        preparedStatement.setString(4, "Glaesmann");
+        preparedStatement.setString(3, "Test");
+        preparedStatement.setString(4, "Patient");
         preparedStatement.setString(5, "Frankfurt");
         preparedStatement.setString(6, "Ben-Gurion-Ring");
         preparedStatement.setString(7, "48C");
@@ -213,16 +366,16 @@ public class Databaseconnection {
         preparedStatement.setString(10,"hobo");
         preparedStatement.execute();
 
-        preparedStatement.setString(1, "asf");
+        preparedStatement.setString(1, "Doctor");
         preparedStatement.setString(2, User.hashPassword("asd"));
-        preparedStatement.setString(3, "Achim");
-        preparedStatement.setString(4, "Glaesmann");
+        preparedStatement.setString(3, "Test");
+        preparedStatement.setString(4, "Doktor");
         preparedStatement.setString(5, "Frankfurt");
         preparedStatement.setString(6, "Ben-Gurion-Ring");
         preparedStatement.setString(7, "48C");
         preparedStatement.setString(8, "60437");
         preparedStatement.setString(9, "015738340183");
-        preparedStatement.setString(10,"hobo");
+        preparedStatement.setString(10,"Dr.");
         preparedStatement.execute();
 
         System.out.println("complete.");
@@ -236,9 +389,10 @@ public class Databaseconnection {
                 "PRIMARY KEY(ID), " +
                 "FOREIGN KEY(ID) REFERENCES User(ID) ON DELETE CASCADE ON UPDATE CASCADE" +
                 ")");
-        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO Patient (" +
+        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO Physician (" +
                 "ID) VALUES (?)");
 
+        /* Insert Test Physician */
         preparedStatement.setString(1, "2");
         preparedStatement.execute();
 
@@ -282,6 +436,135 @@ public class Databaseconnection {
                 "ID INTEGER PRIMARY KEY," +
                 "Specialization VARCHAR(255) NOT NULL UNIQUE"+
                 ")");
+        //Populating Table
+        {/* Insert Specialization */
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO Specialization (" +
+                    "Specialization) VALUES (?)");
+            preparedStatement.setString(1, "Allgemeinmedizin");
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Anästhesiologie");
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Anatomie");
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Arbeitsmedizin");
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Augenheilkunde");
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Biochemie");
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Chirurgie");
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Chirurgie_Allgemeine Chirurgie");
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Forensische Psychiatrie");
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Frauenheilkunde und Geburtshilfe");
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Gefäßchirurgie");
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Gynäkologische Onkologie");
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Hals-Nasen-Ohrenheilkunde");
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Haut- und Geschlechtskrankheiten");
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Herzchirurgie");
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Humangenetik");
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Hygiene und Umweltmedizin");
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Innere Medizin ");
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Innere Medizin und Endokrinologie und Diabetologie");
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Innere Medizin und Gastroenterologie");
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Innere Medizin und Hämatologie und Onkologie");
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Innere Medizin und Kardiologie");
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Innere Medizin und Nephrologie");
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Innere Medizin und Pneumologie");
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Innere Medizin und Rheumatologie");
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Kinder- und Jugendmedizin");
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Kinder- und Jugendpsychiatrie und -psychotherapie");
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Kinderchirurgie");
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Kinderradiologie");
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Klinische Pharmakologie");
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Laboratoriumsmedizin");
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Mikrobiologie, Virologie und Infektionsepidemiologie");
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Mund-Kiefer-Gesichtschirurgie");
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Neurochirurgie");
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Neurologie");
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Neuroradiologie");
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Nuklearmedizin");
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Orthopädie und Unfallchirurgie");
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Pathologie ");
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Pharmakologie und Toxikologie");
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Phoniatrie und Pädaudiologie");
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Physikalische und Rehabilitative Medizin");
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Physiologie");
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Plastische, Rekonstruktive und Ästhetische Chirurgie");
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Psychiatrie und Psychotherapie");
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Psychosomatische Medizin und Psychotherapie");
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Radiologie");
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Rechtsmedizin");
+            preparedStatement.execute();
+            preparedStatement.setString(1, "SP Gynäkologische Endokrinologie und Reproduktionsmedizin");
+            preparedStatement.execute();
+            preparedStatement.setString(1, "SP Kinder-Hämatologie und -Onkologie");
+            preparedStatement.execute();
+            preparedStatement.setString(1, "SP Kinder-Kardiologie");
+            preparedStatement.execute();
+            preparedStatement.setString(1, "SP Neonatologie");
+            preparedStatement.execute();
+            preparedStatement.setString(1, "SP Neuropädiatrie");
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Spezielle Geburtshilfe und Perinatalmedizin");
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Strahlentherapie");
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Thoraxchirurgie");
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Transfusionsmedizin");
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Urologie");
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Viszeralchirurgie");
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Innere Medizin und Angiologie");
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Öffentliches Gesundheitswesen");
+            preparedStatement.execute();
+
+
+        }
 
         System.out.println("complete.");
     }
@@ -291,11 +574,26 @@ public class Databaseconnection {
         Statement state = connection.createStatement();
         state.execute( "CREATE TABLE SpecializationPhysician (" +
                 "ID INTEGER PRIMARY KEY," +
-                "SpecializationID INT," +
                 "PhysicianID INT," +
+                "SpecializationID INT," +
                 "FOREIGN KEY (SpecializationID) REFERENCES Specialization(ID) ON DELETE CASCADE ON UPDATE CASCADE," +
                 "FOREIGN KEY (PhysicianID) REFERENCES Physician(ID) ON DELETE CASCADE ON UPDATE CASCADE" +
                 ")");
+
+        {/* Insert Test SpecializationPhysician */
+        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO SpecializationPhysician(PhysicianID,SpecializationID) VALUES (?,?);");
+        preparedStatement.setInt(1, 2);
+        preparedStatement.setInt(2, 1);
+        preparedStatement.execute();
+        preparedStatement.setInt(1, 2);
+        preparedStatement.setInt(2, 2);
+        preparedStatement.execute();
+        preparedStatement.setInt(1, 2);
+        preparedStatement.setInt(2, 7);
+        preparedStatement.execute();
+        preparedStatement.setInt(1, 2);
+        preparedStatement.setInt(2, 14);
+        preparedStatement.execute();}
 
         System.out.println("complete.");
     }

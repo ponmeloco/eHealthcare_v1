@@ -23,21 +23,33 @@
     <autoscroll-to-editor value="false" />
     <autoscroll-from-editor value="true" />
     <show-object-properties value="true" />
-    <loaded-nodes />
+    <loaded-nodes>
+      <connection connection-id="8972761c-136c-479c-aaf6-a11bbba57ff2">
+        <schema name="main" object-types="table, column, constraint, view, dataset trigger, index" />
+      </connection>
+    </loaded-nodes>
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
-    <connection id="1fd46d26-73a4-412c-93e4-76e942d63993">
-      <console name="Connection" type="STANDARD" schema="" session="Main" />
+    <connection id="8972761c-136c-479c-aaf6-a11bbba57ff2">
+      <console name="Connection" type="STANDARD" schema="main" session="Main" />
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
     <open-files>
-      <object connection-id="f0b7a91d-104c-4220-b588-97ef7a2c95d1" object-ref="schemas/main/tables/Patient" />
-      <object connection-id="f0b7a91d-104c-4220-b588-97ef7a2c95d1" object-ref="schemas/main/tables/User" />
+      <object connection-id="8972761c-136c-479c-aaf6-a11bbba57ff2" object-ref="schemas/main/tables/SpecializationPhysician" />
+      <object connection-id="8972761c-136c-479c-aaf6-a11bbba57ff2" object-ref="schemas/main/tables/Specialization" />
     </open-files>
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
-    <connection id="1fd46d26-73a4-412c-93e4-76e942d63993" />
+    <connection id="8972761c-136c-479c-aaf6-a11bbba57ff2" />
+  </component>
+  <component name="DBNavigator.Project.DatasetFilterManager">
+    <filter-actions connection-id="8972761c-136c-479c-aaf6-a11bbba57ff2" dataset="main.Specialization" active-filter-id="e6f252b0-ea03-4c01-abc9-fd8e38ead476">
+      <filter id="e6f252b0-ea03-4c01-abc9-fd8e38ead476" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND" />
+    </filter-actions>
+    <filter-actions connection-id="8972761c-136c-479c-aaf6-a11bbba57ff2" dataset="main.SpecializationPhysician" active-filter-id="f94c091b-10bb-4a39-ade6-f5b8636efaec">
+      <filter id="f94c091b-10bb-4a39-ade6-f5b8636efaec" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND" />
+    </filter-actions>
   </component>
   <component name="DBNavigator.Project.EditorStateManager">
     <last-used-providers />
@@ -65,7 +77,7 @@
   </component>
   <component name="DBNavigator.Project.Settings">
     <connections>
-      <connection id="1fd46d26-73a4-412c-93e4-76e942d63993" active="true">
+      <connection id="8972761c-136c-479c-aaf6-a11bbba57ff2" active="true">
         <database>
           <name value="Connection" />
           <description value="" />
@@ -80,7 +92,7 @@
           <port value="1234" />
           <database value="database" />
           <files>
-            <file path="C:\Users\Sascha Bichler\IdeaProjects\eHealthcare_v1\eHealthcareUsers.db" schema="main" />
+            <file path="D:\Data\_UNI\_Semester 3\Java\eHealthcare_v1\eHealthcareUsers.db" schema="main" />
           </files>
           <type value="NONE" />
           <user value="" />
