@@ -18,13 +18,13 @@ public class Databaseconnection {
         }
     }
 
-    public ResultSet getUser(String email) throws SQLException, ClassNotFoundException {
+    /*public ResultSet    getUser(String email) throws SQLException, ClassNotFoundException {
         if(connection == null){
             connect();
         }
         Statement statement = connection.createStatement();
         return statement.executeQuery("SELECT * FROM User WHERE emailAddress ='" + email + "';");
-    }
+    }*/
 
     public void addUser(Patient patient) throws SQLException, ClassNotFoundException {
         if (connection == null) {
@@ -54,9 +54,7 @@ public class Databaseconnection {
             throw new SQLException("User already registered.");
         }
     }
-
-    public void addUser(Physician physician) throws SQLException, ClassNotFoundException
-    {
+    public void addUser(Physician physician) throws SQLException, ClassNotFoundException{
         if(connection == null){
             connect();
         }
@@ -82,14 +80,13 @@ public class Databaseconnection {
             ResultSet res = statement.executeQuery("SELECT ID FROM User WHERE emailAddress='" + physician.getEmailAddress() + "';");
             int ID = res.getInt(1);
             statement.execute("INSERT INTO Physician VALUES (" + ID + ")");
-            res = statement.executeQuery("SELECT ID FROM Specialization WHERE Specialization='" + physician.getSpecialization() + "';");
+            res = statement.executeQuery("SELECT ID FROM Specialization WHERE Specialization='" + physician.getSpecialization()[1] + "';");
             int specID = res.getInt(1);
             statement.execute("INSERT INTO SpecializationPhysician(PhysicianID, SpecializationID) VALUES (" + ID + "," + specID + ");");
         }else{
             throw new SQLException("User already registered.");
          }
     }
-
     public void addUser(Admin admin) throws SQLException, ClassNotFoundException {
         if (connection == null) {
             connect();
@@ -118,116 +115,62 @@ public class Databaseconnection {
             statement.execute("INSERT INTO Admin VALUES (" + ID + ")");
         }
     }
-    public Patient getPatient(String email) throws SQLException, ClassNotFoundException{
+
+    public Patient      getPatient(String email) throws SQLException, ClassNotFoundException{
         if(connection == null){
             connect();
         }
         Statement statement = connection.createStatement();
-        ResultSet res = statement.executeQuery("SELECT User.* FROM User WHERE emailAddress ='" + email + "';");
+        ResultSet res = statement.executeQuery("SELECT * FROM User WHERE emailAddress ='" + email + "';");
 
-        System.out.println("Printing Result and setting variables.");
-        System.out.println(res.getString(2)); // email
-
-        System.out.println(res.getString(3));//pwhash
         String pwhash = res.getString(3);
-
-        System.out.println(res.getString(4)); //firstname
         String firstName = res.getString(4);
-
-        System.out.println(res.getString(5)); //lastname
         String lastName = res.getString(5);
-
-        System.out.println(res.getString(6)); //city
         String city = res.getString(6);
-
-        System.out.println(res.getString(7)); //Street
         String street = res.getString(7);
-
-        System.out.println(res.getString(8)); //houseNumber
         String houseNumber = res.getString(8);
-
-        System.out.println(res.getString(9)); //postalCode
         String postalCode = res.getString(9);
-
-        System.out.println(res.getString(10));//phoneNumber
         String phoneNumber = res.getString(10);
-
-        System.out.println(res.getString(11));//title
         String title = res.getString(11);
 
-        System.out.println("Done");
-
-        System.out.println("Creating user");
-        Patient result = new Patient(email,firstName,lastName,city,street,houseNumber,postalCode,
+        return new Patient(email,firstName,lastName,city,street,houseNumber,postalCode,
                 phoneNumber, title, pwhash);
-        System.out.println("Patientobject created... \n returning Object...");
-        return result;
     }
-    public Physician getPhysician(String email) throws SQLException, ClassNotFoundException{
+    public Physician    getPhysician(String email) throws SQLException, ClassNotFoundException{
         if(connection == null){
             connect();
         }
         Statement statement = connection.createStatement();
+        Statement statement2 = connection.createStatement();
         ResultSet res = statement.executeQuery("SELECT User.* FROM User WHERE emailAddress ='" + email + "';");
+        int countOfSpecializations = 0;
+        int PhysicianID;
 
         if (res.next()) {
-            // email
-            System.out.println("Printing Result and setting variables.");
-            System.out.println(res.getString(2));
-            //pwhash
-            System.out.println(res.getString(3));
+            PhysicianID = res.getInt(1);
             String pwhash = res.getString(3);
-            //firstname
-            System.out.println(res.getString(4));
             String firstName = res.getString(4);
-            //lastname
-            System.out.println(res.getString(5));
             String lastName = res.getString(5);
-            //city
-            System.out.println(res.getString(6));
             String city = res.getString(6);
-            //Street
-            System.out.println(res.getString(7));
             String street = res.getString(7);
-            //houseNumber
-            System.out.println(res.getString(8));
             String houseNumber = res.getString(8);
-            //postalCode
-            System.out.println(res.getString(9));
             String postalCode = res.getString(9);
-            //phoneNumber
-            System.out.println(res.getString(10));
             String phoneNumber = res.getString(10);
-
-            System.out.println(res.getString(11));//title
             String title = res.getString(11);
 
-
-
-            int countOfSpecializations = 0;
-            int PhysicianID;
-
-            ResultSet res2 = statement.executeQuery("SELECT ID FROM User WHERE emailAddress='" + res.getString(2) + "';");
-            PhysicianID = res2.getInt(1);
-            System.out.println("PhysicianID: "+PhysicianID);
-
-            res2 = statement.executeQuery("SELECT * FROM SpecializationPhysician WHERE PhysicianID='" + PhysicianID + "';");
-            while (res2.next()) {
+            res = statement.executeQuery("SELECT * FROM SpecializationPhysician WHERE PhysicianID='" + PhysicianID + "';");
+            while (res.next()) {
                     countOfSpecializations++;
                 }
-                res2.close();
 
             String[] specialization = new String[countOfSpecializations];
-
             if (countOfSpecializations > 0) {
-                res2 = statement.executeQuery("SELECT * FROM SpecializationPhysician WHERE PhysicianID='" + PhysicianID + "';");
+                res = statement.executeQuery("SELECT * FROM SpecializationPhysician WHERE PhysicianID='" + PhysicianID + "';");
 
-                int i = 0;
-                while (countOfSpecializations > 0) {
-                    specialization[i] = statement.executeQuery("SELECT Specialization FROM Specialization WHERE ID='" +res2.getInt(3)+ "';").getString(1);
-                    countOfSpecializations--;
-                    i++;
+                for (int i = 0;res.next();i++) {
+                    specialization[i] = statement2.executeQuery("SELECT Specialization FROM Specialization WHERE ID='" +res.getInt(3)+ "';").getString(1);
                 }
+
             }
 
             System.out.println("Creating user");
@@ -240,49 +183,25 @@ public class Databaseconnection {
             throw new SQLException("User not found");
         }
     }
-    public Admin getAdmin(String email) throws SQLException, ClassNotFoundException{
+    public Admin        getAdmin(String email) throws SQLException, ClassNotFoundException{
         if(connection == null){
             connect();
         }
         Statement statement = connection.createStatement();
         ResultSet res = statement.executeQuery("SELECT User.* FROM User WHERE emailAddress ='" + email + "';");
 
-        System.out.println("Printing Result and setting variables.");
-        System.out.println(res.getString(2)); // email
-
-        System.out.println(res.getString(3));//pwhash
         String pwhash = res.getString(3);
-
-        System.out.println(res.getString(4)); //firstname
         String firstName = res.getString(4);
-
-        System.out.println(res.getString(5)); //lastname
         String lastName = res.getString(5);
-
-        System.out.println(res.getString(6)); //city
         String city = res.getString(6);
-
-        System.out.println(res.getString(7)); //Street
         String street = res.getString(7);
-
-        System.out.println(res.getString(8)); //houseNumber
         String houseNumber = res.getString(8);
-
-        System.out.println(res.getString(9)); //postalCode
         String postalCode = res.getString(9);
-
-        System.out.println(res.getString(10));//phoneNumber
         String phoneNumber = res.getString(10);
-
-        System.out.println(res.getString(11));//title
         String title = res.getString(11);
 
-        System.out.println("Done");
-
-        System.out.println("Creating user");
-        Admin result = new Admin();
-        System.out.println("Admintobject created... \n returning Object... \n Still just a teststump");
-        return result;
+        return new Admin(email,firstName,lastName,city,street,houseNumber,postalCode,
+                phoneNumber, title, pwhash);
     }
 
     private void connect() throws SQLException, ClassNotFoundException {

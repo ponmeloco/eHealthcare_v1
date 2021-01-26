@@ -28,6 +28,7 @@ public class testMain {
             System.out.println(test.getFirstName());
             System.out.println(test.getLastName());
             System.out.println(test.getSpecialization()[0]);
+            System.out.println(test.getSpecialization()[3]);
             System.out.println("Done.");
         }
         catch (Exception e){
