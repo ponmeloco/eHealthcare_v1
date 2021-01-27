@@ -68,9 +68,9 @@ public class Login implements ActionListener {
         try {
             if (e.getSource() == Login.loginButton) {
                 Databaseconnection databaseconnection = new Databaseconnection();
-                ResultSet res = databaseconnection.getUser(userText.getText());
-                if(!res.next()) {
-                    JOptionPane.showMessageDialog(loginFrame,"eMail-address not found", "Error", JOptionPane.ERROR_MESSAGE);
+                String DatabasePw = databaseconnection.getUserPw(userText.getText());
+                if(DatabasePw == null) {
+                    JOptionPane.showMessageDialog(loginFrame,"eMail-Address not found", "Error", JOptionPane.ERROR_MESSAGE);
                 }else{
                     String password = String.valueOf(passwordText.getPassword());
                     int check = -1;
@@ -79,7 +79,7 @@ public class Login implements ActionListener {
                             if (userText.getText().equals("") || password.equals("")) {
                                 JOptionPane.showMessageDialog(loginFrame, "Fields cannot be empty! Please enter your data.");
                                 break;
-                            } else if ((org.mindrot.jbcrypt.BCrypt.checkpw(password,res.getString("password")))) {
+                            } else if ((org.mindrot.jbcrypt.BCrypt.checkpw(password,DatabasePw))) {
                                 JOptionPane.showMessageDialog(loginFrame, "Login successful!");
                                 check = 0;
                                 loginFrame.dispose();

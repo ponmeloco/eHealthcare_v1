@@ -18,13 +18,13 @@ public class Databaseconnection {
         }
     }
 
-    /*public ResultSet    getUser(String email) throws SQLException, ClassNotFoundException {
+    public String getUserPw(String email) throws SQLException, ClassNotFoundException {
         if(connection == null){
             connect();
         }
         Statement statement = connection.createStatement();
-        return statement.executeQuery("SELECT * FROM User WHERE emailAddress ='" + email + "';");
-    }*/
+        return statement.executeQuery("SELECT password FROM User WHERE emailAddress ='" + email + "';").getString(1);
+    }
 
     public void addUser(Patient patient) throws SQLException, ClassNotFoundException {
         if (connection == null) {
@@ -58,8 +58,11 @@ public class Databaseconnection {
         if(connection == null){
             connect();
         }
+        int ID;
+        int specID;
         Statement statement = connection.createStatement();
         ResultSet checkIfNew = statement.executeQuery("SELECT * FROM USER WHERE emailAddress='"+physician.getEmailAddress()+"')");
+
         if(!checkIfNew.next()) {
             /*Insert into user table*/
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO User(emailAddress, password, firstName, lastName, city, street, houseNumber, postalCode, phoneNumber, title) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);");
@@ -78,10 +81,10 @@ public class Databaseconnection {
             /* Insert Physician and SpezializationPhysisician  table*/
 
             ResultSet res = statement.executeQuery("SELECT ID FROM User WHERE emailAddress='" + physician.getEmailAddress() + "';");
-            int ID = res.getInt(1);
+            ID = res.getInt(1);
             statement.execute("INSERT INTO Physician VALUES (" + ID + ")");
             res = statement.executeQuery("SELECT ID FROM Specialization WHERE Specialization='" + physician.getSpecialization()[1] + "';");
-            int specID = res.getInt(1);
+            specID = res.getInt(1);
             statement.execute("INSERT INTO SpecializationPhysician(PhysicianID, SpecializationID) VALUES (" + ID + "," + specID + ");");
         }else{
             throw new SQLException("User already registered.");
@@ -176,7 +179,6 @@ public class Databaseconnection {
             System.out.println("Creating user");
             Physician result = new Physician(email, firstName, lastName, city, street, houseNumber, postalCode,
                     phoneNumber, title, pwhash, specialization);
-            System.out.println("Physicianobject created... \n returning Object...");
             return result;
 
         }else{
@@ -323,14 +325,16 @@ public class Databaseconnection {
         Statement state = connection.createStatement();
         state.execute( "CREATE TABLE Patient (" +
                 "ID int NOT NULL," +
+                "dateOfBirth DATE NOT NULL," +
                 "PRIMARY KEY(ID), " +
                 "FOREIGN KEY(ID) REFERENCES User(ID) ON DELETE CASCADE ON UPDATE CASCADE" +
                 ")");
 
         PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO Patient (" +
-               "ID) VALUES (?)");
+               "ID, dateOfBirth) VALUES (?,?)");
 
         preparedStatement.setString(1, "1");
+        preparedStatement.setDate(2, Date.valueOf("2020-01-15"));
         preparedStatement.execute();
 
         System.out.println("complete.");
