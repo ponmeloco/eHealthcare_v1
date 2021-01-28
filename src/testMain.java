@@ -10,7 +10,7 @@ public class testMain {
         Databaseconnection databaseconnection = new Databaseconnection();
        try{
            Patient test = databaseconnection.getPatient("Patient");
-           System.out.println("Testing databaseconnection.getPatient ");
+           System.out.println("\n\n\nTesting databaseconnection.getPatient ");
            System.out.println(test.getCity());
            System.out.println(test.getPhoneNUmber());
            System.out.println(test.getFirstName());
@@ -22,7 +22,7 @@ public class testMain {
        }
         try{
             Physician test = databaseconnection.getPhysician("Doctor");
-            System.out.println("Testing databaseconnection.getPhysician ");
+            System.out.println("\n\n\nTesting databaseconnection.getPhysician ");
             System.out.println(test.getCity());
             System.out.println(test.getPhoneNUmber());
             System.out.println(test.getFirstName());

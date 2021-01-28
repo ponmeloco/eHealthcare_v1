@@ -123,9 +123,11 @@ public class Databaseconnection {
         if(connection == null){
             connect();
         }
+        int countOfSymptoms = 0;
         Statement statement = connection.createStatement();
-        ResultSet res = statement.executeQuery("SELECT * FROM User WHERE emailAddress ='" + email + "';");
+        ResultSet res = statement.executeQuery("SELECT u.*,p.DateOfBirth,p.weight FROM User AS u JOIN Patient AS p ON u.ID = p.ID WHERE emailAddress ='" + email + "';");
 
+        String patientID = res.getString(1);
         String pwhash = res.getString(3);
         String firstName = res.getString(4);
         String lastName = res.getString(5);
@@ -135,7 +137,29 @@ public class Databaseconnection {
         String postalCode = res.getString(9);
         String phoneNumber = res.getString(10);
         String title = res.getString(11);
+        String dateOfBirth = res.getString(12);
 
+        res = statement.executeQuery("SELECT s.name,s.description,sv.severeness FROM (Symptom AS s JOIN SymptomPatient AS sp " +
+                "ON (SELECT sp.SymptomID FROM SymptomPatient WHERE sp.PatientID = 1) = s.ID) " +
+                "JOIN Severeness AS sv " +
+                "ON(SELECT sp.SeverenessID FROM SymptomPatient as sp WHERE sp.PatientID = 1)=sv.ID");
+
+        while(res.next()){
+            System.out.println(res.getString(1));
+            countOfSymptoms++;
+        }
+
+        Symptom symptoms[] = new Symptom[countOfSymptoms];
+        res = statement.executeQuery("SELECT s.name,s.description,sv.severeness FROM (Symptom AS s JOIN SymptomPatient AS sp " +
+                "ON (SELECT sp.SymptomID FROM SymptomPatient WHERE sp.PatientID = 1) = s.ID) " +
+                "JOIN Severeness AS sv " +
+                "ON(SELECT sp.SeverenessID FROM SymptomPatient as sp WHERE sp.PatientID = 1)=sv.ID");
+
+        for (int i = 0; res.next(); i++){
+            symptoms[i] = new Symptom(res.getString(1), res.getString(2), res.getString(3));
+        }
+
+        System.out.println(pwhash+firstName+lastName+city+street+houseNumber+postalCode+phoneNumber+title+dateOfBirth);
         return new Patient(email,firstName,lastName,city,street,houseNumber,postalCode,
                 phoneNumber, title, pwhash);
     }
@@ -176,7 +200,6 @@ public class Databaseconnection {
 
             }
 
-            System.out.println("Creating user");
             Physician result = new Physician(email, firstName, lastName, city, street, houseNumber, postalCode,
                     phoneNumber, title, pwhash, specialization);
             return result;
@@ -238,7 +261,7 @@ public class Databaseconnection {
                 buildTagTable();
                 buildRatingTagTable();
                 buildTransferOrderTable();
-                System.out.println("Database build.");
+                System.out.println("Database build. \n\n\n");
 
             }
 
@@ -326,15 +349,17 @@ public class Databaseconnection {
         state.execute( "CREATE TABLE Patient (" +
                 "ID int NOT NULL," +
                 "dateOfBirth DATE NOT NULL," +
+                "weight INT NOT NULL," +
                 "PRIMARY KEY(ID), " +
                 "FOREIGN KEY(ID) REFERENCES User(ID) ON DELETE CASCADE ON UPDATE CASCADE" +
                 ")");
 
         PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO Patient (" +
-               "ID, dateOfBirth) VALUES (?,?)");
+               "ID, dateOfBirth,weight) VALUES (?,?,?)");
 
         preparedStatement.setString(1, "1");
-        preparedStatement.setDate(2, Date.valueOf("2020-01-15"));
+        preparedStatement.setString(2, "2020-01-15");
+        preparedStatement.setDouble(3, 93);
         preparedStatement.execute();
 
         System.out.println("complete.");
@@ -529,6 +554,61 @@ public class Databaseconnection {
                 "description VARCHAR(255) NOT NULL" +
                 ");");
         System.out.println("complete.");
+
+        {//Add Teststubs
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO Symptom (" +
+                    " name,description) VALUES (?,?)");
+
+            preparedStatement.setString(1, "Cough");
+            preparedStatement.setString(2, "Immune Reaction to foreign particles within the respiratory System.");;
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Rash");
+            preparedStatement.setString(2, "an area of redness and spots on a person's skin, appearing especially as a result of allergy or illness.");;
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Fever");
+            preparedStatement.setString(2, "an abnormally high body temperature, usually accompanied by shivering, headache, and in severe instances, delirium.");;
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Chills");
+            preparedStatement.setString(2, "The feeling of being cold, though not necessarily in a cold environment, often accompanied by shivering or shaking.");;
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Shortness of breath");
+            preparedStatement.setString(2, "a shortness of breath.");;
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Breathing Difficulties");
+            preparedStatement.setString(2, "difficulties breathing.");;
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Fatigue");
+            preparedStatement.setString(2, "Feeling overtired, with low energy and a strong desire to sleep that interferes with normal daily activities.");;
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Muscle aches");
+            preparedStatement.setString(2, "Dumb pain within the muscles.");;
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Headache");
+            preparedStatement.setString(2, "A painful sensation in any part of the head, ranging from sharp to dull, that may occur with other symptoms.");;
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Loss of Taste");
+            preparedStatement.setString(2, "Partial or complete loss of the sense of taste.");;
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Loss of Smell");
+            preparedStatement.setString(2, "Partial or complete loss of the sense of smell.");;
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Sore Throat");
+            preparedStatement.setString(2, "Pain or irritation in the throat that can occur with or without swallowing, often accompanies infections, such as a cold or flu.");;
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Runny Nose");
+            preparedStatement.setString(2, "Excess drainage, ranging from a clear fluid to thick mucus, from the nose and nasal passages.");;
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Nausea");
+            preparedStatement.setString(2, "Immune Reaction to foreign particles within the respiratory System.");;
+            preparedStatement.execute();
+            preparedStatement.setString(1, "Diarrhea");
+            preparedStatement.setString(2, "Immune Reaction to foreign particles within the respiratory System.");;
+            preparedStatement.execute();
+
+
+            System.out.println("complete.");
+
+        }
     }
     private void buildSeverenessTable() throws  SQLException{
         System.out.println("Building Severeness table...");
@@ -564,12 +644,28 @@ public class Databaseconnection {
                 "ID INTEGER PRIMARY KEY," +
                 "PatientID INT," +
                 "SymptomID INT," +
-                "SeverenessID INT," +
+                "SeverenessID INT DEFAULT(3)," +
                 "FOREIGN KEY (PatientID) REFERENCES Patient(ID) ON DELETE CASCADE ON UPDATE CASCADE," +
                 "FOREIGN KEY (SymptomID) REFERENCES Symptom(ID) ON DELETE CASCADE ON UPDATE CASCADE," +
                 "FOREIGN KEY (SeverenessID) REFERENCES Severeness(ID) ON DELETE CASCADE ON UPDATE CASCADE" +
                 ")");
         System.out.println("complete.");
+
+        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO SymptomPatient (" +
+                " PatientID,SymptomID) VALUES (?,?)");
+
+        preparedStatement.setInt(1, 1);
+        preparedStatement.setInt(2, 1);;
+        preparedStatement.execute();
+        preparedStatement.setInt(1, 1);
+        preparedStatement.setInt(2, 2);;
+        preparedStatement.execute();
+        preparedStatement.setInt(1, 1);
+        preparedStatement.setInt(2, 3);;
+        preparedStatement.execute();
+        preparedStatement.setInt(1, 1);
+        preparedStatement.setInt(2, 17);;
+        preparedStatement.execute();
     }
     private void buildDrugTable() throws SQLException{
         System.out.println("Building Drug table...");

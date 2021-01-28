@@ -24,31 +24,31 @@
     <autoscroll-from-editor value="true" />
     <show-object-properties value="true" />
     <loaded-nodes>
-      <connection connection-id="8972761c-136c-479c-aaf6-a11bbba57ff2">
+      <connection connection-id="70f5d0de-ed28-4d9e-ae9c-08044e5bcbec">
         <schema name="main" object-types="constraint, table, view, index, dataset trigger, column" />
       </connection>
     </loaded-nodes>
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
-    <connection id="8972761c-136c-479c-aaf6-a11bbba57ff2">
-      <console name="Connection" type="STANDARD" schema="main" session="Main" />
+    <connection id="70f5d0de-ed28-4d9e-ae9c-08044e5bcbec">
+      <console name="Connection" type="STANDARD" schema="main" session="Main"><![CDATA[SELECT s.name,s.description,sv.severeness FROM (Symptom AS s JOIN SymptomPatient AS sp ON (SELECT sp.SymptomID FROM SymptomPatient WHERE sp.PatientID = 1) = s.ID) JOIN Severeness AS sv ON(SELECT sp.SeverenessID FROM SymptomPatient WHERE sp.PatientID = 1)=sv.ID)
+SELECT s.name,s.description,sv.severeness FROM (Symptom AS s JOIN SymptomPatient AS sp ON (SELECT sp.SymptomID FROM SymptomPatient WHERE sp.PatientID = 1) = s.ID) JOIN Severeness AS sv ON(SELECT sp.SeverenessID FROM SymptomPatient as sp WHERE sp.PatientID = 1)=sv.ID)
+SELECT s.name,s.description,sv.severeness FROM (Symptom AS s JOIN SymptomPatient AS sp ON (SELECT sp.SymptomID FROM SymptomPatient WHERE sp.PatientID = 1) = s.ID) JOIN Severeness AS sv ON(SELECT sp.SeverenessID FROM SymptomPatient as sp WHERE sp.PatientID = 1)=sv.ID)
+SELECT "SymptomID" FROM "SymptomPatient" WHERE SymptomPatient.PatientID = 1
+
+SELECT * FROM Symptom as s join SymptomPatient AS sp ON sp.SymptomID = s.ID
+SELECT SymptomPatient.SymptomID FROM SymptomPatient]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
-    <open-files>
-      <object connection-id="8972761c-136c-479c-aaf6-a11bbba57ff2" object-ref="schemas/main/tables/Specialization" />
-      <object connection-id="8972761c-136c-479c-aaf6-a11bbba57ff2" object-ref="schemas/main/tables/SpecializationPhysician" />
-    </open-files>
+    <open-files />
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
-    <connection id="8972761c-136c-479c-aaf6-a11bbba57ff2" />
+    <connection id="70f5d0de-ed28-4d9e-ae9c-08044e5bcbec" />
   </component>
   <component name="DBNavigator.Project.DatasetFilterManager">
-    <filter-actions connection-id="8972761c-136c-479c-aaf6-a11bbba57ff2" dataset="main.Specialization" active-filter-id="e6f252b0-ea03-4c01-abc9-fd8e38ead476">
-      <filter id="e6f252b0-ea03-4c01-abc9-fd8e38ead476" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND" />
-    </filter-actions>
-    <filter-actions connection-id="8972761c-136c-479c-aaf6-a11bbba57ff2" dataset="main.SpecializationPhysician" active-filter-id="f94c091b-10bb-4a39-ade6-f5b8636efaec">
-      <filter id="f94c091b-10bb-4a39-ade6-f5b8636efaec" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND" />
+    <filter-actions connection-id="70f5d0de-ed28-4d9e-ae9c-08044e5bcbec" dataset="main.Patient" active-filter-id="be5512c7-bab1-47c6-a244-d3cd9b14065c">
+      <filter id="be5512c7-bab1-47c6-a244-d3cd9b14065c" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND" />
     </filter-actions>
   </component>
   <component name="DBNavigator.Project.EditorStateManager">
@@ -77,7 +77,7 @@
   </component>
   <component name="DBNavigator.Project.Settings">
     <connections>
-      <connection id="8972761c-136c-479c-aaf6-a11bbba57ff2" active="true">
+      <connection id="70f5d0de-ed28-4d9e-ae9c-08044e5bcbec" active="true">
         <database>
           <name value="Connection" />
           <description value="" />

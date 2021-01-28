@@ -25,7 +25,7 @@ public class Patient extends User {
     }
     Patient(String _emailAddress, String _firstName, String _lastName, String _city,
             String _street, String _houseNumber, String _postalCode, String _phoneNumber, String _title, String _password,
-            Date _birthday, String _insuranceType, String insuranceName, Symptom[] healthinformation, Medication[] medications) {
+            Date _birthday, String _insuranceType, String _insuranceName, Symptom[] _healthinformation, Medication[] _medications, float _weight) {
         setEmailAddress(_emailAddress);
         setFirstName(_firstName);
         setLastName(_lastName);
@@ -36,8 +36,60 @@ public class Patient extends User {
         setPhoneNUmber(_phoneNumber);
         setTitle(_title);
         setPasswordhash(_password);
+        setBirthday(_birthday);
+        setInsuranceType(_insuranceType);
+        setInsuranceName(_insuranceName);
+        setHealthinformation(_healthinformation);
+        setMedications(_medications);
+        setWeight(_weight);
     }
 
 
+    public Date getBirthday() {
+        return birthday;
+    }
 
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
+
+    public String getInsuranceType() {
+        return insuranceType;
+    }
+
+    public void setInsuranceType(String insuranceType) {
+        this.insuranceType = insuranceType;
+    }
+
+    public String getInsuranceName() {
+        return insuranceName;
+    }
+
+    public void setInsuranceName(String insuranceName) {
+        this.insuranceName = insuranceName;
+    }
+
+    public Symptom[] getHealthinformation() {
+        return healthinformation;
+    }
+
+    public void setHealthinformation(Symptom[] healthinformation) {
+        this.healthinformation = healthinformation;
+    }
+
+    public Medication[] getMedications() {
+        return medications;
+    }
+
+    public void setMedications(Medication[] medications) {
+        this.medications = medications;
+    }
+
+    public float getWeight() {
+        return weight;
+    }
+
+    public void setWeight(float weight) {
+        this.weight = weight;
+    }
 }

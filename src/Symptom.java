@@ -1,13 +1,23 @@
 public class Symptom {
 
-    private enumSevereness severeness;
+    private String severeness;
+    private String name;
+
+
+
     private String description;
 
-    public enumSevereness getSevereness() {
+    Symptom(String _name, String _description, String _severeness){
+        setName(_name);
+        setDescription(_description);
+        setSevereness(_severeness);
+    }
+
+    public String getSevereness() {
         return severeness;
     }
 
-    public void setSevereness(enumSevereness severeness) {
+    public void setSevereness(String severeness) {
         this.severeness = severeness;
     }
 
@@ -19,5 +29,12 @@ public class Symptom {
         this.description = description;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
 }
