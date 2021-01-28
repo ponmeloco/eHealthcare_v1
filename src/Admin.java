@@ -53,7 +53,7 @@ public class Admin extends User {
 
     public void getPatientEmailAddress(){}
 
-    "Test"
+    "Wow endlich"
 
 
 }
