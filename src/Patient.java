@@ -2,12 +2,12 @@ import java.util.Date;
 
 public class Patient extends User {
 
-    private Date birthday;
+    private String birthday;
     private String insuranceType;
     private String insuranceName;
     private Symptom[] healthinformation;
     private Medication[] medications;
-    private float weight;
+    private int weight;
 
     Patient() {}
     Patient(String _emailAddress, String _firstName, String _lastName, String _city,
@@ -25,7 +25,7 @@ public class Patient extends User {
     }
     Patient(String _emailAddress, String _firstName, String _lastName, String _city,
             String _street, String _houseNumber, String _postalCode, String _phoneNumber, String _title, String _password,
-            Date _birthday, String _insuranceType, String _insuranceName, Symptom[] _healthinformation, Medication[] _medications, float _weight) {
+            String _birthday, String _insuranceName, Symptom[] _healthinformation, Medication[] _medications, int _weight) {
         setEmailAddress(_emailAddress);
         setFirstName(_firstName);
         setLastName(_lastName);
@@ -37,7 +37,6 @@ public class Patient extends User {
         setTitle(_title);
         setPasswordhash(_password);
         setBirthday(_birthday);
-        setInsuranceType(_insuranceType);
         setInsuranceName(_insuranceName);
         setHealthinformation(_healthinformation);
         setMedications(_medications);
@@ -45,11 +44,11 @@ public class Patient extends User {
     }
 
 
-    public Date getBirthday() {
+    public String getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(String birthday) {
         this.birthday = birthday;
     }
 
@@ -89,7 +88,7 @@ public class Patient extends User {
         return weight;
     }
 
-    public void setWeight(float weight) {
+    public void setWeight(int weight) {
         this.weight = weight;
     }
 }

@@ -4,38 +4,14 @@ import java.sql.SQLException;
 public class testMain {
 
     public static void main(String[] args) {
-
-        Login.loginFrame();
-
         Databaseconnection databaseconnection = new Databaseconnection();
-       try{
-           Patient test = databaseconnection.getPatient("Patient");
-           System.out.println("\n\n\nTesting databaseconnection.getPatient ");
-           System.out.println(test.getCity());
-           System.out.println(test.getPhoneNUmber());
-           System.out.println(test.getFirstName());
-           System.out.println(test.getLastName());
-           System.out.println("Done.");
-       }
-       catch (Exception e){
-           System.out.println(e.getMessage());
-       }
-        try{
+        try {
             Physician test = databaseconnection.getPhysician("Doctor");
-            System.out.println("\n\n\nTesting databaseconnection.getPhysician ");
-            System.out.println(test.getCity());
-            System.out.println(test.getPhoneNUmber());
-            System.out.println(test.getFirstName());
-            System.out.println(test.getLastName());
-            System.out.println(test.getSpecialization()[0]);
-            System.out.println(test.getSpecialization()[3]);
-            System.out.println("Done.");
-        }
-        catch (Exception e){
+            System.out.println(test.getEmailAddress());
+            Patient test2 = databaseconnection.getPatient("Patient");
+            System.out.println(test2.getEmailAddress());
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-
-
-
     }
 }

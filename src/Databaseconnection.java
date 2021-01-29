@@ -123,45 +123,29 @@ public class Databaseconnection {
         if(connection == null){
             connect();
         }
-        int countOfSymptoms = 0;
+
         Statement statement = connection.createStatement();
-        ResultSet res = statement.executeQuery("SELECT u.*,p.DateOfBirth,p.weight FROM User AS u JOIN Patient AS p ON u.ID = p.ID WHERE emailAddress ='" + email + "';");
+        ResultSet res = statement.executeQuery("SELECT u.*,p.DateOfBirth,p.weight,i.name FROM User AS u JOIN (Patient AS p JOIN Insurance as i ON p.InsuranceID = i.ID) ON u.ID = p.ID WHERE emailAddress ='" + email + "';");
 
-        String patientID = res.getString(1);
-        String pwhash = res.getString(3);
-        String firstName = res.getString(4);
-        String lastName = res.getString(5);
-        String city = res.getString(6);
-        String street = res.getString(7);
-        String houseNumber = res.getString(8);
-        String postalCode = res.getString(9);
-        String phoneNumber = res.getString(10);
-        String title = res.getString(11);
-        String dateOfBirth = res.getString(12);
+        String patientID =          res.getString(1);
+        String pwhash =             res.getString(3);
+        String firstName =          res.getString(4);
+        String lastName =           res.getString(5);
+        String city =               res.getString(6);
+        String street =             res.getString(7);
+        String houseNumber =        res.getString(8);
+        String postalCode =         res.getString(9);
+        String phoneNumber =        res.getString(10);
+        String title =              res.getString(11);
+        String dateOfBirth =        res.getString(12);
+        int weight =                res.getInt(13);
+        String insurancename =      res.getString(14);
+        Medication[] medications =  getMedication(email);
+        Symptom[] symptoms =        getSymptoms(email);
 
-        res = statement.executeQuery("SELECT s.name,s.description,sv.severeness FROM (Symptom AS s JOIN SymptomPatient AS sp " +
-                "ON (SELECT sp.SymptomID FROM SymptomPatient WHERE sp.PatientID = 1) = s.ID) " +
-                "JOIN Severeness AS sv " +
-                "ON(SELECT sp.SeverenessID FROM SymptomPatient as sp WHERE sp.PatientID = 1)=sv.ID");
 
-        while(res.next()){
-            System.out.println(res.getString(1));
-            countOfSymptoms++;
-        }
-
-        Symptom symptoms[] = new Symptom[countOfSymptoms];
-        res = statement.executeQuery("SELECT s.name,s.description,sv.severeness FROM (Symptom AS s JOIN SymptomPatient AS sp " +
-                "ON (SELECT sp.SymptomID FROM SymptomPatient WHERE sp.PatientID = 1) = s.ID) " +
-                "JOIN Severeness AS sv " +
-                "ON(SELECT sp.SeverenessID FROM SymptomPatient as sp WHERE sp.PatientID = 1)=sv.ID");
-
-        for (int i = 0; res.next(); i++){
-            symptoms[i] = new Symptom(res.getString(1), res.getString(2), res.getString(3));
-        }
-
-        System.out.println(pwhash+firstName+lastName+city+street+houseNumber+postalCode+phoneNumber+title+dateOfBirth);
         return new Patient(email,firstName,lastName,city,street,houseNumber,postalCode,
-                phoneNumber, title, pwhash);
+                phoneNumber, title, pwhash, dateOfBirth, insurancename, symptoms, medications, weight);
     }
     public Physician    getPhysician(String email) throws SQLException, ClassNotFoundException{
         if(connection == null){
@@ -169,8 +153,7 @@ public class Databaseconnection {
         }
         Statement statement = connection.createStatement();
         Statement statement2 = connection.createStatement();
-        ResultSet res = statement.executeQuery("SELECT User.* FROM User WHERE emailAddress ='" + email + "';");
-        int countOfSpecializations = 0;
+        ResultSet res = statement.executeQuery("SELECT User.*, Physician.ID FROM (User JOIN Physician ON User.ID = Physician.ID) WHERE emailAddress ='" + email + "';");
         int PhysicianID;
 
         if (res.next()) {
@@ -184,25 +167,11 @@ public class Databaseconnection {
             String postalCode = res.getString(9);
             String phoneNumber = res.getString(10);
             String title = res.getString(11);
+            String[] specialization = getSpecialization(PhysicianID);
 
-            res = statement.executeQuery("SELECT * FROM SpecializationPhysician WHERE PhysicianID='" + PhysicianID + "';");
-            while (res.next()) {
-                    countOfSpecializations++;
-                }
 
-            String[] specialization = new String[countOfSpecializations];
-            if (countOfSpecializations > 0) {
-                res = statement.executeQuery("SELECT * FROM SpecializationPhysician WHERE PhysicianID='" + PhysicianID + "';");
-
-                for (int i = 0;res.next();i++) {
-                    specialization[i] = statement2.executeQuery("SELECT Specialization FROM Specialization WHERE ID='" +res.getInt(3)+ "';").getString(1);
-                }
-
-            }
-
-            Physician result = new Physician(email, firstName, lastName, city, street, houseNumber, postalCode,
+            return new Physician(email, firstName, lastName, city, street, houseNumber, postalCode,
                     phoneNumber, title, pwhash, specialization);
-            return result;
 
         }else{
             throw new SQLException("User not found");
@@ -229,6 +198,99 @@ public class Databaseconnection {
                 phoneNumber, title, pwhash);
     }
 
+     private Symptom[]       getSymptoms(String email) throws SQLException,ClassNotFoundException{
+         if(connection == null){
+             connect();
+         }
+        int countOfSymptoms = 0;
+         Statement statement = connection.createStatement();
+         ResultSet res = statement.executeQuery("SELECT s.name,s.description,sv.severeness FROM (Symptom AS s JOIN SymptomPatient AS sp " +
+                 "ON (SELECT sp.SymptomID FROM SymptomPatient WHERE sp.PatientID = 1) = s.ID) " +
+                 "JOIN Severeness AS sv " +
+                 "ON(SELECT sp.SeverenessID FROM SymptomPatient as sp WHERE sp.PatientID = 1)=sv.ID");
+
+         while(res.next()){
+             countOfSymptoms++;
+         }
+
+         Symptom[] symptoms = new Symptom[countOfSymptoms];
+         res = statement.executeQuery("SELECT s.name,s.description,sv.severeness FROM (Symptom AS s JOIN SymptomPatient AS sp " +
+                 "ON (SELECT sp.SymptomID FROM SymptomPatient WHERE sp.PatientID = 1) = s.ID) " +
+                 "JOIN Severeness AS sv " +
+                 "ON(SELECT sp.SeverenessID FROM SymptomPatient as sp WHERE sp.PatientID = 1)=sv.ID");
+
+         for (int i = 0; res.next(); i++){
+             symptoms[i] = new Symptom(res.getString(1), res.getString(2), res.getString(3));
+         }
+         return symptoms;
+     }
+     private Medication[]    getMedication(String email) throws SQLException,ClassNotFoundException{
+         if(connection == null){
+             connect();
+         }
+         int countOfMedication = 0;
+         int patientID;
+         Statement statement = connection.createStatement();
+         patientID = statement.executeQuery("SELECT ID FROM User Where emailAddress='"+email+"';" ).getInt(1);
+         ResultSet res = statement.executeQuery("SELECT Dosis, TimesPerDay, DrugID FROM Medication Where PatientID="+patientID+";");
+
+
+         while(res.next()){
+             countOfMedication++;
+         }
+
+         Medication[] medication = new Medication[countOfMedication];
+         res = statement.executeQuery("SELECT DrugID, Dosis, TimesPerDay FROM Medication Where PatientID="+patientID+";");
+
+         for (int i = 0; res.next(); i++){
+             medication[i] = new Medication(getDrug(res.getInt(1)), res.getDouble(2), res.getInt(3));
+         }
+         return medication;
+     }
+     private String[]        getSpecialization(int PhysicianID) throws SQLException,ClassNotFoundException{
+         if(connection == null){
+             connect();
+         }
+         int countOfSpecializations = 0;
+         Statement statement = connection.createStatement();
+         Statement statement2 = connection.createStatement();
+         ResultSet res = statement.executeQuery("SELECT * FROM SpecializationPhysician WHERE PhysicianID='" + PhysicianID + "';");
+         while (res.next()) {
+             countOfSpecializations++;
+         }
+
+         String[] specialization = new String[countOfSpecializations];
+         if (countOfSpecializations > 0) {
+             res = statement.executeQuery("SELECT * FROM SpecializationPhysician WHERE PhysicianID='" + PhysicianID + "';");
+
+             for (int i = 0;res.next();i++) {
+                 specialization[i] = statement2.executeQuery("SELECT Specialization FROM Specialization WHERE ID='" +res.getInt(3)+ "';").getString(1);
+             }
+
+         }
+
+         return specialization;
+     }
+     public Drug            getDrug(String drugName)throws SQLException,ClassNotFoundException{
+         if(connection == null){
+             connect();
+         }
+
+         Statement statement = connection.createStatement();
+         ResultSet res = statement.executeQuery("SELECT Drug.name, Drug.description FROM Drug Where name ='"+ drugName +"';");
+         return new Drug(res.getString(1),res.getString(2));
+     }
+     public Drug            getDrug(int drugID) throws SQLException,ClassNotFoundException{
+         if(connection == null){
+             connect();
+         }
+
+         Statement statement = connection.createStatement();
+         ResultSet res = statement.executeQuery("SELECT Drug.name, Drug.description FROM Drug Where ID ="+ drugID +";");
+         return new Drug(res.getString(1),res.getString(2));
+
+     }
+
     private void connect() throws SQLException, ClassNotFoundException {
             Class.forName("org.sqlite.JDBC");
             connection = DriverManager.getConnection("jdbc:sqlite:eHealthcareUsers.db");
@@ -245,6 +307,8 @@ public class Databaseconnection {
                 System.out.println("Building database...");
 
                 buildUserTable();
+                buildInsuranceTypeTable();
+                buildInsuranceTable();
                 buildPhysicianTable();
                 buildPatientTable();
                 buildAdminTable();
@@ -261,6 +325,7 @@ public class Databaseconnection {
                 buildTagTable();
                 buildRatingTagTable();
                 buildTransferOrderTable();
+
                 System.out.println("Database build. \n\n\n");
 
             }
@@ -324,6 +389,54 @@ public class Databaseconnection {
 
         System.out.println("complete.");
     }
+    private void buildInsuranceTypeTable() throws SQLException{
+        System.out.println("Building InsuranceType table...");
+        Statement state = connection.createStatement();
+        state.execute( "CREATE TABLE InsuranceType (" +
+                "ID INTEGER PRIMARY KEY," +
+                "Type VARCHAR(255) NOT NULL UNIQUE" +
+                ")");
+
+        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO InsuranceType (" +
+                "Type) " +
+                "VALUES (?);");
+
+        preparedStatement.setString(1, "public");
+        preparedStatement.execute();
+        preparedStatement.setString(1, "private");
+        preparedStatement.execute();
+
+
+        System.out.println("complete.");
+    }
+    private void buildInsuranceTable() throws SQLException{
+        System.out.println("Building Insurance table...");
+        Statement state = connection.createStatement();
+        state.execute( "CREATE TABLE Insurance (" +
+                "ID INTEGER PRIMARY KEY," +
+                "name VARCHAR(255) NOT NULL UNIQUE," +
+                "insuranceTypeID INT NOT NULL," +
+                "FOREIGN KEY(insuranceTypeID) REFERENCES InsuranceType(ID) ON DELETE RESTRICT ON UPDATE CASCADE" +
+                ")");
+
+        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO Insurance (" +
+                "name," +
+                "insuranceTypeID)" +
+                "VALUES (?,?);");
+
+        preparedStatement.setString(1, "AOK");
+        preparedStatement.setInt(2, 1);
+        preparedStatement.execute();
+        preparedStatement.setString(1, "Techniker Krankenkasse");
+        preparedStatement.setInt(2, 1);
+        preparedStatement.execute();
+        preparedStatement.setString(1, "Allianz");
+        preparedStatement.setInt(2, 2);
+        preparedStatement.execute();
+
+
+        System.out.println("complete.");
+    }
     private void buildPhysicianTable() throws SQLException {
         System.out.println("Building Physician table...");
 
@@ -348,18 +461,21 @@ public class Databaseconnection {
         Statement state = connection.createStatement();
         state.execute( "CREATE TABLE Patient (" +
                 "ID int NOT NULL," +
+                "insuranceID int NOT NULL," +
                 "dateOfBirth DATE NOT NULL," +
                 "weight INT NOT NULL," +
                 "PRIMARY KEY(ID), " +
-                "FOREIGN KEY(ID) REFERENCES User(ID) ON DELETE CASCADE ON UPDATE CASCADE" +
+                "FOREIGN KEY(ID) REFERENCES User(ID) ON DELETE RESTRICT ON UPDATE CASCADE," +
+                "FOREIGN KEY(insuranceID) REFERENCES Insurance(ID) ON DELETE RESTRICT ON UPDATE CASCADE" +
                 ")");
 
         PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO Patient (" +
-               "ID, dateOfBirth,weight) VALUES (?,?,?)");
+               "ID, dateOfBirth,weight, insuranceID) VALUES (?,?,?,?)");
 
-        preparedStatement.setString(1, "1");
+        preparedStatement.setInt(1, 1);
         preparedStatement.setString(2, "2020-01-15");
-        preparedStatement.setDouble(3, 93);
+        preparedStatement.setInt(3, 93);
+        preparedStatement.setInt(4, 1);
         preparedStatement.execute();
 
         System.out.println("complete.");
@@ -553,56 +669,56 @@ public class Databaseconnection {
                 "name VARCHAR(255) NOT NULL," +
                 "description VARCHAR(255) NOT NULL" +
                 ");");
-        System.out.println("complete.");
+
 
         {//Add Teststubs
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO Symptom (" +
                     " name,description) VALUES (?,?)");
 
             preparedStatement.setString(1, "Cough");
-            preparedStatement.setString(2, "Immune Reaction to foreign particles within the respiratory System.");;
+            preparedStatement.setString(2, "Immune Reaction to foreign particles within the respiratory System.");
             preparedStatement.execute();
             preparedStatement.setString(1, "Rash");
-            preparedStatement.setString(2, "an area of redness and spots on a person's skin, appearing especially as a result of allergy or illness.");;
+            preparedStatement.setString(2, "an area of redness and spots on a person's skin, appearing especially as a result of allergy or illness.");
             preparedStatement.execute();
             preparedStatement.setString(1, "Fever");
-            preparedStatement.setString(2, "an abnormally high body temperature, usually accompanied by shivering, headache, and in severe instances, delirium.");;
+            preparedStatement.setString(2, "an abnormally high body temperature, usually accompanied by shivering, headache, and in severe instances, delirium.");
             preparedStatement.execute();
             preparedStatement.setString(1, "Chills");
-            preparedStatement.setString(2, "The feeling of being cold, though not necessarily in a cold environment, often accompanied by shivering or shaking.");;
+            preparedStatement.setString(2, "The feeling of being cold, though not necessarily in a cold environment, often accompanied by shivering or shaking.");
             preparedStatement.execute();
             preparedStatement.setString(1, "Shortness of breath");
-            preparedStatement.setString(2, "a shortness of breath.");;
+            preparedStatement.setString(2, "a shortness of breath.");
             preparedStatement.execute();
             preparedStatement.setString(1, "Breathing Difficulties");
-            preparedStatement.setString(2, "difficulties breathing.");;
+            preparedStatement.setString(2, "difficulties breathing.");
             preparedStatement.execute();
             preparedStatement.setString(1, "Fatigue");
-            preparedStatement.setString(2, "Feeling overtired, with low energy and a strong desire to sleep that interferes with normal daily activities.");;
+            preparedStatement.setString(2, "Feeling overtired, with low energy and a strong desire to sleep that interferes with normal daily activities.");
             preparedStatement.execute();
             preparedStatement.setString(1, "Muscle aches");
-            preparedStatement.setString(2, "Dumb pain within the muscles.");;
+            preparedStatement.setString(2, "Dumb pain within the muscles.");
             preparedStatement.execute();
             preparedStatement.setString(1, "Headache");
-            preparedStatement.setString(2, "A painful sensation in any part of the head, ranging from sharp to dull, that may occur with other symptoms.");;
+            preparedStatement.setString(2, "A painful sensation in any part of the head, ranging from sharp to dull, that may occur with other symptoms.");
             preparedStatement.execute();
             preparedStatement.setString(1, "Loss of Taste");
-            preparedStatement.setString(2, "Partial or complete loss of the sense of taste.");;
+            preparedStatement.setString(2, "Partial or complete loss of the sense of taste.");
             preparedStatement.execute();
             preparedStatement.setString(1, "Loss of Smell");
-            preparedStatement.setString(2, "Partial or complete loss of the sense of smell.");;
+            preparedStatement.setString(2, "Partial or complete loss of the sense of smell.");
             preparedStatement.execute();
             preparedStatement.setString(1, "Sore Throat");
-            preparedStatement.setString(2, "Pain or irritation in the throat that can occur with or without swallowing, often accompanies infections, such as a cold or flu.");;
+            preparedStatement.setString(2, "Pain or irritation in the throat that can occur with or without swallowing, often accompanies infections, such as a cold or flu.");
             preparedStatement.execute();
             preparedStatement.setString(1, "Runny Nose");
-            preparedStatement.setString(2, "Excess drainage, ranging from a clear fluid to thick mucus, from the nose and nasal passages.");;
+            preparedStatement.setString(2, "Excess drainage, ranging from a clear fluid to thick mucus, from the nose and nasal passages.");
             preparedStatement.execute();
             preparedStatement.setString(1, "Nausea");
-            preparedStatement.setString(2, "Immune Reaction to foreign particles within the respiratory System.");;
+            preparedStatement.setString(2, "Immune Reaction to foreign particles within the respiratory System.");
             preparedStatement.execute();
             preparedStatement.setString(1, "Diarrhea");
-            preparedStatement.setString(2, "Immune Reaction to foreign particles within the respiratory System.");;
+            preparedStatement.setString(2, "Immune Reaction to foreign particles within the respiratory System.");
             preparedStatement.execute();
 
 
@@ -655,16 +771,16 @@ public class Databaseconnection {
                 " PatientID,SymptomID) VALUES (?,?)");
 
         preparedStatement.setInt(1, 1);
-        preparedStatement.setInt(2, 1);;
+        preparedStatement.setInt(2, 1);
         preparedStatement.execute();
         preparedStatement.setInt(1, 1);
-        preparedStatement.setInt(2, 2);;
+        preparedStatement.setInt(2, 2);
         preparedStatement.execute();
         preparedStatement.setInt(1, 1);
-        preparedStatement.setInt(2, 3);;
+        preparedStatement.setInt(2, 3);
         preparedStatement.execute();
         preparedStatement.setInt(1, 1);
-        preparedStatement.setInt(2, 17);;
+        preparedStatement.setInt(2, 17);
         preparedStatement.execute();
     }
     private void buildDrugTable() throws SQLException{
@@ -674,9 +790,46 @@ public class Databaseconnection {
         state.execute( "CREATE TABLE Drug (" +
                 "ID INTEGER PRIMARY KEY," +
                 "name VARCHAR(255) NOT NULL," +
-                "activeSubstance VARCHAR(255) NOT NULL" +
+                "description VARCHAR(255) NOT NULL" +
                 ")");
         System.out.println("complete.");
+
+
+        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO Drug (" +
+                " name,description) VALUES (?,?)");
+
+        preparedStatement.setString(1, "Ibuprofen");
+        preparedStatement.setString(2, "nonsteroidal anti-inflammatory drug (NSAID) class that is used for treating pain, fever, and inflammation.");
+        preparedStatement.execute();
+        preparedStatement.setString(1, "Levothyroxin-Natrium");
+        preparedStatement.setString(2, "Thyroid hormone thyroxine used to treat thyroid hormone deficiency, including the severe form known as myxedema coma.");
+        preparedStatement.execute();
+        preparedStatement.setString(1, "Metoprolol");
+        preparedStatement.setString(2, "Selective β1 receptor blocker medication. Used to treat high blood pressure, chest pain due to poor blood flow to the heart, and a number of conditions involving an abnormally fast heart rate.");
+        preparedStatement.execute();
+        preparedStatement.setString(1, "Diclofenac");
+        preparedStatement.setString(2, " Nonsteroidal anti-inflammatory drug (NSAID) used to treat pain and inflammatory diseases such as gout.");
+        preparedStatement.execute();
+        preparedStatement.setString(1, "Ramipril");
+        preparedStatement.setString(2, "ACE inhibitor used to treat high blood pressure, heart failure, diabetic kidney disease and to prevent cardiovascular disease in those at high risk.");
+        preparedStatement.execute();
+        preparedStatement.setString(1, "Simvastatin");
+        preparedStatement.setString(2, "lipid-lowering medication used along with exercise, diet, and weight loss to decrease elevated lipid levels also used to to prevent cardiovascular disease in those at high risk.");
+        preparedStatement.execute();
+        preparedStatement.setString(1, "Metamizol-Natrium");
+        preparedStatement.setString(2, "Painkiller, spasm reliever, and fever reliever that also has anti-inflammatory effects.");
+        preparedStatement.execute();
+        preparedStatement.setString(1, "Omeprazol");
+        preparedStatement.setString(2, "Proton-pump inhibitor used in the treatment of gastroesophageal reflux disease (GERD), peptic ulcer disease, Zollinger–Ellison syndrome and to prevent upper gastrointestinal bleeding in people who are at high risk.");
+        preparedStatement.execute();
+        preparedStatement.setString(1, "Bisoprolol");
+        preparedStatement.setString(2, "Beta blocker most commonly used for heart diseases especially high blood pressure, chest pain from not enough blood flow to the heart, and heart failure.");
+        preparedStatement.execute();
+        preparedStatement.setString(1, "Pantoprazol");
+        preparedStatement.setString(2, "ATP pump inhibitor used for the treatment of stomach ulcers, short-term treatment of erosive esophagitis due to gastroesophageal reflux disease (GERD), maintenance of healing of erosive esophagitis, and pathological hypersecretory conditions.");
+        preparedStatement.execute();
+
+
     }
     private void buildMedicationtable() throws SQLException{
         System.out.println("Building Medication table...");
@@ -691,6 +844,25 @@ public class Databaseconnection {
                 "FOREIGN KEY (DrugID) REFERENCES Drug(ID) ON DELETE CASCADE ON UPDATE CASCADE" +
                 ")");
         System.out.println("complete.");
+
+        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO Medication (" +
+                " PatientID,DrugID, Dosis, TimesPerDay) VALUES (?,?,?,?)");
+
+        preparedStatement.setInt(1, 1);
+        preparedStatement.setInt(2, 1);
+        preparedStatement.setDouble(3, 50.3);
+        preparedStatement.setInt(4, 3);
+        preparedStatement.execute();
+        preparedStatement.setInt(1, 1);
+        preparedStatement.setInt(2, 2);
+        preparedStatement.setDouble(3, 100.75);
+        preparedStatement.setInt(4, 1);
+        preparedStatement.execute();
+        preparedStatement.setInt(1, 1);
+        preparedStatement.setInt(2, 9);
+        preparedStatement.setDouble(3, 20);
+        preparedStatement.setInt(4, 15);
+        preparedStatement.execute();
     }
     private void buildAppointmentTable() throws SQLException{
         System.out.println("Building Appointment table...");
