@@ -1,7 +1,7 @@
 import java.util.Date;
 
 public class Physician extends User {
-    private String specialization[];
+    private String [] specialization;
     private Rating rating;
 
     Physician(String _emailAddress, String _firstName, String _lastName, String _city,
@@ -17,6 +17,7 @@ public class Physician extends User {
         setTitle(_title);
         setPasswordhash(_password);
         setSpecialization(_specialization);
+        setUserType("Physician");
     }
 
     public String[] getSpecialization() {

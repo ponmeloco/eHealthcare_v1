@@ -13,5 +13,8 @@ public class testMain {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+
+        MainInterface main = new MainInterface(new Admin("test@mail.de", "Sascha", "Bichler"));
+        main.setVisible(true);
     }
 }

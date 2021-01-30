@@ -22,6 +22,7 @@ public class Patient extends User {
         setPhoneNUmber(_phoneNumber);
         setTitle(_title);
         setPasswordhash(_password);
+        setUserType("Patient");
     }
     Patient(String _emailAddress, String _firstName, String _lastName, String _city,
             String _street, String _houseNumber, String _postalCode, String _phoneNumber, String _title, String _password,
@@ -41,6 +42,7 @@ public class Patient extends User {
         setHealthinformation(_healthinformation);
         setMedications(_medications);
         setWeight(_weight);
+        setUserType("Admin");
     }
 
 
