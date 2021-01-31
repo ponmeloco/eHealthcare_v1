@@ -1,24 +1,30 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.*;
 
-public class Login implements ActionListener {
+public class Login {
 
     private static JTextField userText;
     private static JPasswordField passwordText;
 
     private static JButton loginButton;
-    private static JButton registerButton;
+    private static JLabel registerButton;
+    private static JLabel registerPhysicianButton;
     protected static JFrame loginFrame = new JFrame();
     protected static Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
     protected static ImageIcon titleIcon;
 
 
 
-    public static void loginFrame() {
+    public static void loginFrame()  {
 
-        loginFrame.setSize(375, 230);
+
+        loginFrame.setSize(450, 220);
         loginFrame.setTitle("eHealthcare Login");
         titleIcon = new ImageIcon("eHealthcareFrameIcon1.png");
         loginFrame.setIconImage(titleIcon.getImage());
@@ -26,6 +32,7 @@ public class Login implements ActionListener {
         loginFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         loginFrame.setLocation(dim.width / 2 - loginFrame.getSize().width / 2, dim.height / 2 - loginFrame.getSize().height / 2);
         JPanel panel = new JPanel();
+        panel.setBackground(Color.LIGHT_GRAY);
         panel.setLayout(null);
 
         JLabel userLabel = new JLabel("Username :");
@@ -45,30 +52,19 @@ public class Login implements ActionListener {
         passwordText.setBounds(120, 50, 210, 25);
         panel.add(passwordText);
 
-
         loginButton = new JButton("Login");
-        loginButton.setBounds(20, 100, 80, 25);
-        loginButton.setLocation(loginFrame.getWidth() / 2 - loginButton.getWidth() / 2 - 5, passwordText.getY() + 50);
-        loginButton.addActionListener(new Login());
-        panel.add(loginButton);
-
-
-        registerButton = new JButton("Register");
-        registerButton.setBounds(20, 135, 100, 25);
-        registerButton.setLocation(loginFrame.getWidth() / 2 - registerButton.getWidth() / 2 - 5, loginButton.getY() + 40);
-        registerButton.addActionListener(new Login());
-        panel.add(registerButton);
-
-        loginFrame.add(panel);
-        loginFrame.setVisible(true);
-    }
-
-    @Override
-    public void actionPerformed (ActionEvent e) {
-        try {
-            if (e.getSource() == Login.loginButton) {
+        loginButton.setIcon(new ImageIcon(""));
+        loginButton.setBounds(340,20 , 70, 54);
+        loginButton.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
                 Databaseconnection databaseconnection = new Databaseconnection();
-                String DatabasePw = databaseconnection.getUserPw(userText.getText());
+                String DatabasePw = null;
+                try {
+                    DatabasePw = databaseconnection.getUserPw(userText.getText());
+                } catch (SQLException | ClassNotFoundException sqlException) {
+                    sqlException.printStackTrace();
+                }
                 if(DatabasePw == null) {
                     JOptionPane.showMessageDialog(loginFrame,"eMail-Address not found", "Error", JOptionPane.ERROR_MESSAGE);
                 }else{
@@ -92,11 +88,104 @@ public class Login implements ActionListener {
                     }
 
                 }
-            } else if (e.getSource() == Login.registerButton) {
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
+        panel.add(loginButton);
+
+
+        registerButton = new JLabel("Register");
+        registerButton.setBounds(20, 135, 157, 25);
+        registerButton.setForeground(Color.blue);
+        registerButton.setLocation(loginFrame.getWidth() / 2 - (registerButton.getWidth() / 2)+ 50, passwordText.getY() + 50);
+        registerButton.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                PatientRegistration.userRegistration();
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                registerButton.setForeground(Color.GRAY);
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                registerButton.setForeground(Color.BLUE);
+
+            }
+        });
+        panel.add(registerButton);
+
+        registerPhysicianButton = new JLabel("Register as Physician");
+        registerPhysicianButton.setBounds(20, 135, 157, 25);
+        registerPhysicianButton.setForeground(Color.blue);
+        registerPhysicianButton.setLocation(loginFrame.getWidth() / 2 - (registerPhysicianButton.getWidth() / 2)+10, registerButton.getY() + 25);
+        registerPhysicianButton.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
                 PhysicianRegistration.userRegistration();
             }
-        } catch(Exception penis){
-            System.out.println(penis.getMessage());
-        }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                registerPhysicianButton.setForeground(Color.GRAY);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                registerPhysicianButton.setForeground(Color.BLUE);
+            }
+        });
+        panel.add(registerPhysicianButton);
+
+
+        loginFrame.add(panel);
+        loginFrame.setVisible(true);
     }
+
+
+
 }

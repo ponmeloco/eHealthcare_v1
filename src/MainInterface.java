@@ -12,20 +12,11 @@ public class MainInterface extends JFrame {
     public JTabbedPane tabbedPane1;
     public JTable medicationTable;
     private JScrollPane scPane;
-    private JCheckBox specialization8;
-    private JCheckBox specialization2;
-    private JCheckBox specialization3;
-    private JCheckBox specialization4;
-    private JCheckBox specialization1;
-    private JCheckBox specialization6;
-    private JCheckBox specialization7;
-    private JCheckBox specialization5;
-    private JLabel freeSpaceForSpecialization;
     private JPanel tab_specialization;
     private JPanel tab_appointment;
     private JPanel tab_search;
     private JPanel tab_rate;
-    private JPanel tab_mediaction;
+    private JPanel tab_medication;
     private JPanel tab_settings;
     private JPanel tab_manage;
 
@@ -53,6 +44,7 @@ public class MainInterface extends JFrame {
         tabbedPane1.remove(3);
         tabbedPane1.remove(2);
         tabbedPane1.remove(1);
+
     }
 
     public MainInterface(Admin _admin){
