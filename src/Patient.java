@@ -9,7 +9,13 @@ public class Patient extends User {
     private Medication[] medications;
     private int weight;
 
-    Patient() {}
+    Patient(){}
+    Patient(String _email, String _first, String _last){
+        setFirstName(_first);
+        setEmailAddress(_email);
+        setLastName(_last);
+        setUserType("Patient");
+    }
     Patient(String _emailAddress, String _firstName, String _lastName, String _city,
             String _street, String _houseNumber, String _postalCode, String _phoneNumber, String _title, String _password) {
         setEmailAddress(_emailAddress);

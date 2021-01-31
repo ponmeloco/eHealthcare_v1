@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.Arrays;
 
 
-public class Registration implements ActionListener {
+public class PatientRegistration implements ActionListener {
 
 
     private static JFrame registerFrame;
@@ -129,7 +129,7 @@ public class Registration implements ActionListener {
         acceptRegisterButton.setBounds(20, 500, 100, 25);
         acceptRegisterButton.setLocation(registerFrame.getWidth() / 2 - acceptRegisterButton.getWidth() / 2 - 5,
                 registerFrame.getHeight()-100);
-        acceptRegisterButton.addActionListener(new Registration());
+        acceptRegisterButton.addActionListener(new PhysicianRegistration());
 
 
         registerFrame.add(acceptRegisterButton);
@@ -153,9 +153,9 @@ public class Registration implements ActionListener {
                 userRegistrationCity.getText().equals("") ||
                 userRegistrationPassword1.getPassword().length == 0 ||
                 userRegistrationPassword2.getPassword().length == 0) {
-            JOptionPane.showMessageDialog(Registration.registerFrame, "Every field has to be filled out!");
+            JOptionPane.showMessageDialog(PatientRegistration.registerFrame, "Every field has to be filled out!");
         } else if(!Arrays.equals(userRegistrationPassword1.getPassword(),userRegistrationPassword2.getPassword())) {
-            JOptionPane.showMessageDialog(Registration.registerFrame, "Passwords do not match!");
+            JOptionPane.showMessageDialog(PatientRegistration.registerFrame, "Passwords do not match!");
         } else {
             Patient patientRegister = new Patient(
                     userRegistrationEmailAddress.getText(),

@@ -318,7 +318,7 @@ public class Databaseconnection {
                 buildSeverenessTable();
                 buildSymptomPatientTable();
                 buildDrugTable();
-                buildMedicationtable();
+                buildMedicationTable();
                 buildAppointmentTable();
                 buildRatingTable();
                 buildThumbTable();
@@ -831,7 +831,7 @@ public class Databaseconnection {
 
 
     }
-    private void buildMedicationtable() throws SQLException{
+    private void buildMedicationTable() throws SQLException{
         System.out.println("Building Medication table...");
         Statement state = connection.createStatement();
         state.execute( "CREATE TABLE Medication (" +

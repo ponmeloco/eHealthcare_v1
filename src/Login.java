@@ -1,7 +1,6 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.ResultSet;
 import javax.swing.*;
 
 public class Login implements ActionListener {
@@ -14,6 +13,7 @@ public class Login implements ActionListener {
     protected static JFrame loginFrame = new JFrame();
     protected static Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
     protected static ImageIcon titleIcon;
+
 
 
     public static void loginFrame() {
@@ -93,7 +93,7 @@ public class Login implements ActionListener {
 
                 }
             } else if (e.getSource() == Login.registerButton) {
-                Registration.userRegistration();
+                PhysicianRegistration.userRegistration();
             }
         } catch(Exception penis){
             System.out.println(penis.getMessage());

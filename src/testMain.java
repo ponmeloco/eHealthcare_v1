@@ -14,7 +14,9 @@ public class testMain {
             System.out.println(e.getMessage());
         }
 
-        MainInterface main = new MainInterface(new Admin("test@mail.de", "Sascha", "Bichler"));
+        MainInterface main = new MainInterface(new Physician("test@mail.de", "Sascha", "Bichler"));
         main.setVisible(true);
+        Patient Achim = new Patient();
+
     }
 }

@@ -1,11 +1,11 @@
 public class Admin extends User {
 
-    private String AdminName;
+
     Admin(String _email, String _first, String _last){
-        setUserType("Admin");
         setFirstName(_first);
         setEmailAddress(_email);
         setLastName(_last);
+        setUserType("Admin");
     }
     Admin(String _emailAddress, String _firstName, String _lastName, String _city,
           String _street, String _houseNumber, String _postalCode, String _phoneNumber, String _title, String _password){
@@ -24,45 +24,20 @@ public class Admin extends User {
 
     }
 
-    public void createPatientAccount(){}
+    public void createPatientAccount(String _emailAddress, String _firstName, String _lastName, String _city,
+                                     String _street, String _houseNumber, String _postalCode, String _phoneNumber,
+                                     String _title, String _password){}
 
-    public void createPhysicianAccount(){}
+    public void createPhysicianAccount(String _emailAddress, String _firstName, String _lastName, String _city,
+                                       String _street, String _houseNumber, String _postalCode, String _phoneNumber,
+                                       String _title, String _password, String[] _specialization){}
 
-    public void createAdminAccount(){}
+    public void createAdminAccount(String _emailAddress, String _firstName, String _lastName, String _city,
+                                   String _street, String _houseNumber, String _postalCode, String _phoneNumber,
+                                   String _title, String _password){}
 
-    public void deletePhysicianAccount(){}
+    public void deletePhysicianAccount(Physician _physician){}
 
-    public void deletePatientAccount(){}
-
-    public void setPatientFirstName(){}
-
-    public void setPatientLastName(){}
-
-    public void setPatientAddressInformation(){}
-
-    public void setPatientDateOfBirth(){}
-
-    public void setPatientInsuranceType(){}
-
-    public void setPatientInsuranceName(){}
-
-    public void setPatientEmailAddress(){}
-
-    public void getPatientFirstName(){}
-
-    public void getPatientLastName(){}
-
-    public void getPatientAddressInformation(){}
-
-    public void getPatientDateOfBirth(){}
-
-    public void getPatientInsuranceType(){}
-
-    public void getPatientInsuranceName(){}
-
-    public void getPatientEmailAddress(){}
-
-
-
+    public void deletePatientAccount(Patient _patient){}
 
 }
