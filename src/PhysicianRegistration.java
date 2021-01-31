@@ -54,8 +54,6 @@ public class PhysicianRegistration implements ActionListener {
         userRegistrationEmailAddress.setBounds(250, 50, 165, 25);
         registerPanel.add(userRegistrationEmailAddress);
 
-
-
         JLabel userTitle = new JLabel("Title:");
         userTitle.setBounds(40, 110, 120, 25);
         registerPanel.add(userTitle);
@@ -112,9 +110,9 @@ public class PhysicianRegistration implements ActionListener {
         userRegistrationCity.setBounds(250, 320, 165, 25);
         registerPanel.add(userRegistrationCity);
 
-        JLabel physicianSpecialization = new JLabel("City:");
+        JLabel physicianSpecialization = new JLabel("Specialization:");
         physicianSpecialization.setBounds(40, 350, 120, 25);
-        registerPanel.add(userCity);
+        registerPanel.add(physicianSpecialization);
         userRegistrationSpecialization = new JTextField();
         userRegistrationSpecialization.setBounds(250, 350, 165, 25);
         registerPanel.add(userRegistrationSpecialization);
@@ -165,7 +163,9 @@ public class PhysicianRegistration implements ActionListener {
         } else if(!Arrays.equals(userRegistrationPassword1.getPassword(),userRegistrationPassword2.getPassword())) {
             JOptionPane.showMessageDialog(PhysicianRegistration.registerFrame, "Passwords do not match!");
         } else {
-            Physician patientRegister = new Physician(
+
+            String[] specialization = userRegistrationSpecialization.getText().split(",");
+            Physician physicianRegister = new Physician(
                     userRegistrationEmailAddress.getText(),
                     userRegistrationSurname.getText(),
                     userRegistrationLastName.getText(),
@@ -175,12 +175,12 @@ public class PhysicianRegistration implements ActionListener {
                     userRegistrationPLZ.getText(),
                     userRegistrationPhoneNumber.getText(),
                     userRegistrationTitle.getText(),
-                    //userRegistrationSpecialization.getText(),
-                    String.valueOf(userRegistrationPassword1.getPassword()));
+                    String.valueOf(userRegistrationPassword1.getPassword()),
+                    specialization);
 
             try {
                 Databaseconnection databaseconnection = new Databaseconnection();
-                databaseconnection.addUser(patientRegister);
+                databaseconnection.addUser(physicianRegister);
                 databaseconnection.displayUsers();
             } catch(SQLException | ClassNotFoundException penis){
                 System.out.println(penis.getMessage());
