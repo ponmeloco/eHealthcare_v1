@@ -28,7 +28,7 @@
           <grid id="a2b" binding="tab_appointment" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
-              <tabbedpane title="Appointment"/>
+              <tabbedpane title="Appointment" noi18n="true"/>
             </constraints>
             <properties>
               <enabled value="true"/>
@@ -39,7 +39,7 @@
           <grid id="1ad6a" binding="tab_search" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
-              <tabbedpane title="Search Doctor"/>
+              <tabbedpane title="Search Doctor" noi18n="true"/>
             </constraints>
             <properties/>
             <border type="none"/>
@@ -48,7 +48,7 @@
           <grid id="85cb3" binding="tab_rate" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
-              <tabbedpane title="Rate Doctor"/>
+              <tabbedpane title="Rate Doctor" noi18n="true"/>
             </constraints>
             <properties/>
             <border type="none"/>
@@ -57,7 +57,7 @@
           <grid id="17286" binding="tab_mediaction" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
-              <tabbedpane title="Medication"/>
+              <tabbedpane title="Medication" noi18n="true"/>
             </constraints>
             <properties>
               <autoscrolls value="true"/>
@@ -92,7 +92,7 @@
           <grid id="89b85" binding="tab_specialization" layout-manager="GridLayoutManager" row-count="4" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
-              <tabbedpane title="Specialization"/>
+              <tabbedpane title="Specialization" noi18n="true"/>
             </constraints>
             <properties/>
             <border type="none"/>
@@ -107,7 +107,7 @@
               </component>
               <vspacer id="5b859">
                 <constraints>
-                  <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                  <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="8" fill="2" indent="0" use-parent-layout="false"/>
                 </constraints>
               </vspacer>
               <component id="655a1" class="javax.swing.JCheckBox" binding="specialization2">
@@ -174,7 +174,7 @@
                 </constraints>
                 <properties>
                   <name value="Other:"/>
-                  <text value="Other:"/>
+                  <text value="Other:" noi18n="true"/>
                 </properties>
               </component>
             </children>
@@ -182,7 +182,7 @@
           <grid id="97e0b" binding="tab_manage" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
-              <tabbedpane title="Manage User"/>
+              <tabbedpane title="Manage User" noi18n="true"/>
             </constraints>
             <properties/>
             <border type="none"/>
@@ -191,7 +191,7 @@
           <grid id="143f5" binding="tab_settings" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
-              <tabbedpane title="Settings"/>
+              <tabbedpane title="Settings" noi18n="true"/>
             </constraints>
             <properties/>
             <border type="none"/>
@@ -207,7 +207,7 @@
         </constraints>
         <properties>
           <horizontalTextPosition value="11"/>
-          <text value="Name"/>
+          <text value="Name" noi18n="true"/>
           <toolTipText value=""/>
         </properties>
       </component>
@@ -218,7 +218,7 @@
           </grid>
         </constraints>
         <properties>
-          <text value="LastName"/>
+          <text value="LastName" noi18n="true"/>
         </properties>
       </component>
       <component id="aac82" class="javax.swing.JLabel" binding="_email">
@@ -228,7 +228,7 @@
           </grid>
         </constraints>
         <properties>
-          <text value="Email"/>
+          <text value="Email" noi18n="true"/>
         </properties>
       </component>
       <component id="c6cd8" class="javax.swing.JLabel" binding="_user">
@@ -238,7 +238,7 @@
           </grid>
         </constraints>
         <properties>
-          <text value="User"/>
+          <text value="User" noi18n="true"/>
         </properties>
       </component>
     </children>
