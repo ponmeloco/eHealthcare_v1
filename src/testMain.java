@@ -21,5 +21,11 @@ public class testMain {
         }catch (Exception e){
             System.out.println(e.getMessage());
         }
+
+        //Login.loginFrame();
+        MainInterface main = new MainInterface(new Physician("test@mail.de", "Sascha", "Bichler"));
+        //main.setVisible(true);
+        Patient Achim = new Patient();
+
     }
 }

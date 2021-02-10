@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.Arrays;
 
 
-public class Registration implements ActionListener {
+public class PhysicianRegistration implements ActionListener {
 
 
     private static JFrame registerFrame;
@@ -23,6 +23,7 @@ public class Registration implements ActionListener {
     private static JTextField userRegistrationCity;
     private static JPasswordField userRegistrationPassword1;
     private static JPasswordField userRegistrationPassword2;
+    private static JTextField userRegistrationSpecialization;
 
     public static void userRegistration() {
 
@@ -52,8 +53,6 @@ public class Registration implements ActionListener {
         userRegistrationEmailAddress = new JTextField();
         userRegistrationEmailAddress.setBounds(250, 50, 165, 25);
         registerPanel.add(userRegistrationEmailAddress);
-
-
 
         JLabel userTitle = new JLabel("Title:");
         userTitle.setBounds(40, 110, 120, 25);
@@ -111,25 +110,32 @@ public class Registration implements ActionListener {
         userRegistrationCity.setBounds(250, 320, 165, 25);
         registerPanel.add(userRegistrationCity);
 
+        JLabel physicianSpecialization = new JLabel("Specialization:");
+        physicianSpecialization.setBounds(40, 350, 120, 25);
+        registerPanel.add(physicianSpecialization);
+        userRegistrationSpecialization = new JTextField();
+        userRegistrationSpecialization.setBounds(250, 350, 165, 25);
+        registerPanel.add(userRegistrationSpecialization);
+
         JLabel userPassword = new JLabel("Password");
-        userPassword.setBounds(40, 350, 120, 25);
+        userPassword.setBounds(40, 380, 120, 25);
         registerPanel.add(userPassword);
         userRegistrationPassword1 = new JPasswordField();
-        userRegistrationPassword1.setBounds(250, 350, 165, 25);
+        userRegistrationPassword1.setBounds(250, 380, 165, 25);
         registerPanel.add(userRegistrationPassword1);
 
         JLabel userPasswordValidation = new JLabel("Password again:");
-        userPasswordValidation.setBounds(40, 380, 120, 25);
+        userPasswordValidation.setBounds(40, 410, 120, 25);
         registerPanel.add(userPasswordValidation);
         userRegistrationPassword2 = new JPasswordField();
-        userRegistrationPassword2.setBounds(250, 380, 165, 25);
+        userRegistrationPassword2.setBounds(250, 410, 165, 25);
         registerPanel.add(userRegistrationPassword2);
 
         JButton acceptRegisterButton = new JButton("Register");
-        acceptRegisterButton.setBounds(20, 500, 100, 25);
+        acceptRegisterButton.setBounds(20, 520, 100, 25);
         acceptRegisterButton.setLocation(registerFrame.getWidth() / 2 - acceptRegisterButton.getWidth() / 2 - 5,
                 registerFrame.getHeight()-100);
-        acceptRegisterButton.addActionListener(new Registration());
+        acceptRegisterButton.addActionListener(new PhysicianRegistration());
 
 
         registerFrame.add(acceptRegisterButton);
@@ -153,11 +159,13 @@ public class Registration implements ActionListener {
                 userRegistrationCity.getText().equals("") ||
                 userRegistrationPassword1.getPassword().length == 0 ||
                 userRegistrationPassword2.getPassword().length == 0) {
-            JOptionPane.showMessageDialog(Registration.registerFrame, "Every field has to be filled out!");
+            JOptionPane.showMessageDialog(PhysicianRegistration.registerFrame, "Every field has to be filled out!");
         } else if(!Arrays.equals(userRegistrationPassword1.getPassword(),userRegistrationPassword2.getPassword())) {
-            JOptionPane.showMessageDialog(Registration.registerFrame, "Passwords do not match!");
+            JOptionPane.showMessageDialog(PhysicianRegistration.registerFrame, "Passwords do not match!");
         } else {
-            Patient patientRegister = new Patient(
+
+            String[] specialization = userRegistrationSpecialization.getText().split(",");
+            Physician physicianRegister = new Physician(
                     userRegistrationEmailAddress.getText(),
                     userRegistrationSurname.getText(),
                     userRegistrationLastName.getText(),
@@ -167,10 +175,12 @@ public class Registration implements ActionListener {
                     userRegistrationPLZ.getText(),
                     userRegistrationPhoneNumber.getText(),
                     userRegistrationTitle.getText(),
-                    String.valueOf(userRegistrationPassword1.getPassword()));
+                    String.valueOf(userRegistrationPassword1.getPassword()),
+                    specialization);
+
             try {
                 Databaseconnection databaseconnection = new Databaseconnection();
-                databaseconnection.addUser(patientRegister);
+                databaseconnection.addUser(physicianRegister);
                 databaseconnection.displayUsers();
             } catch(SQLException | ClassNotFoundException penis){
                 System.out.println(penis.getMessage());

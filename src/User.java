@@ -11,6 +11,16 @@ public abstract class User {
     private String phoneNUmber;
     private String title;// = {"Prof.","Dr.","Dipl-Ing","B.Sc.","B.A.","B.Eng.","B.F.A.","B.Mus.","M.Sc.","M.A.","M.Eng.","Magister"};
 
+    public String getUserType() {
+        return UserType;
+    }
+
+    public void setUserType(String userType) {
+        UserType = userType;
+    }
+
+    private String UserType;
+
     public String getEmailAddress() {
         return emailAddress;
     }
