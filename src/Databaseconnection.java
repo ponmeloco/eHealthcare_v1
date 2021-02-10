@@ -31,9 +31,11 @@ public class Databaseconnection {
             connect();
         }
         Statement statement = connection.createStatement();
-        ResultSet checkIfNew = statement.executeQuery("SELECT * FROM USER WHERE emailAddress='" + patient.getEmailAddress() + "')");
+        ResultSet checkIfNew = statement.executeQuery("SELECT * FROM User WHERE emailAddress='" + patient.getEmailAddress() + "'");
 
         if (!checkIfNew.next()) {
+
+            //Insert Data into Usertable
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO User(emailAddress, password, firstName, lastName, city, street, houseNumber, postalCode, phoneNumber, title) VALUES (?,?,?,?,?,?,?,?,?,?);");
             preparedStatement.setString(1, patient.getEmailAddress());
             preparedStatement.setString(2, patient.getPasswordhash());
@@ -47,9 +49,25 @@ public class Databaseconnection {
             preparedStatement.setString(10, patient.getTitle());
             preparedStatement.execute();
 
+
+            //Insert Data into Patienttable
             ResultSet res = statement.executeQuery("SELECT ID FROM User WHERE emailAddress='" + patient.getEmailAddress() + "';");
-            int ID = res.getInt(1);
-            statement.execute("INSERT INTO Patient VALUES (" + ID + ")");
+            int patientID = res.getInt(1);
+            res = statement.executeQuery("SELECT ID FROM Insurance WHERE name='"+ patient.getInsuranceName() +"';");
+            int insuranceID = res.getInt(1);
+            statement.execute("INSERT INTO Patient (ID,InsuranceID, dateOfBirth, weight) VALUES (" + patientID + "," +  insuranceID + "," + patient.getBirthday() + "," + patient.getWeight() +");");
+
+            //Insert Data into SymptomPatient
+            int symptomID;
+            int severenessID;
+
+            for(int i = 0; i < patient.getSymptoms().length; i++){
+                res = statement.executeQuery("SELECT ID FROM Symptom WHERE name='" + patient.getSymptoms()[i].getName() + "';");
+                symptomID = res.getInt(1);
+                res = statement.executeQuery("SELECT ID FROM Severeness WHERE severeness='" + patient.getSymptoms()[i].getSevereness() + "';");
+                severenessID = res.getInt(1);
+                statement.execute("INSERT INTO SymptomPatient (PatientID, SymptomID, SeverenessID) VALUES (" + patientID + "," +  symptomID + "," + severenessID + ");");
+            }
         }else{
             throw new SQLException("User already registered.");
         }
@@ -117,6 +135,93 @@ public class Databaseconnection {
             int ID = res.getInt(1);
             statement.execute("INSERT INTO Admin VALUES (" + ID + ")");
         }
+    }
+
+    public void updateUser(Patient patient) throws SQLException, ClassNotFoundException{
+        if (connection == null) {
+            connect();
+        }
+        Statement statement = connection.createStatement();
+        ResultSet checkIfNew = statement.executeQuery("SELECT * FROM User WHERE emailAddress='" + patient.getEmailAddress() + "'");
+
+        if(checkIfNew.next()){
+            try {
+                statement.execute("UPDATE User SET lastName = '"+patient.getLastName()+"' WHERE emailAddress='" + patient.getEmailAddress() + "'");
+            }catch(Exception e) {
+                System.out.println(e.getMessage());
+            }
+            try {
+               statement.execute("UPDATE User SET firstName = '"+patient.getFirstName()+"' WHERE emailAddress='" + patient.getEmailAddress() + "'");
+            }catch(Exception e) {
+                System.out.println(e.getMessage());
+            }
+            try {
+                statement.execute("UPDATE User SET lastName = '"+patient.getLastName()+"' WHERE emailAddress='" + patient.getEmailAddress() + "'");
+            }catch(Exception e) {
+                System.out.println(e.getMessage());
+            }
+            try {
+                statement.execute("UPDATE User SET city = '"+patient.getCity()+"' WHERE emailAddress='" + patient.getEmailAddress() + "'");
+            }catch(Exception e) {
+                System.out.println(e.getMessage());
+            }
+            try {
+                statement.execute("UPDATE User SET houseNumber = '"+patient.getHouseNumber()+"' WHERE emailAddress='" + patient.getEmailAddress() + "'");
+            }catch(Exception e) {
+                System.out.println(e.getMessage());
+            }
+            try {
+                statement.execute("UPDATE User SET street = '"+patient.getStreet()+"' WHERE emailAddress='" + patient.getEmailAddress() + "'");
+            }catch(Exception e) {
+                System.out.println(e.getMessage());
+            }
+            try {
+                statement.execute("UPDATE User SET postalCode = '"+patient.getPostalCode()+"' WHERE emailAddress='" + patient.getEmailAddress() + "'");
+            }catch(Exception e) {
+                System.out.println(e.getMessage());
+            }
+            try {
+                statement.execute("UPDATE User SET phoneNumber = '"+patient.getPhoneNUmber()+"' WHERE emailAddress='" + patient.getEmailAddress() + "'");
+            }catch(Exception e) {
+                System.out.println(e.getMessage());
+            }
+            try {
+                statement.execute("UPDATE User SET title = '"+patient.getTitle()+"' WHERE emailAddress='" + patient.getEmailAddress() + "'");
+            }catch(Exception e) {
+                System.out.println(e.getMessage());
+            }
+
+            //Update patient table
+            try {
+                statement.execute("UPDATE Patient SET dateOfBirth = '"+patient.getBirthday()+"' WHERE ID = (SELECT ID FROM User WHERE emailAddress='"+patient.getEmailAddress()+"');");
+            }catch(Exception e) {
+                System.out.println(e.getMessage());
+            }
+            try {
+                statement.execute("UPDATE Patient SET weight = '"+patient.getWeight()+"' WHERE ID = (SELECT ID FROM User WHERE emailAddress='"+patient.getEmailAddress()+"');");
+            }catch(Exception e) {
+                System.out.println(e.getMessage());
+            }
+            try {
+                statement.execute("UPDATE Patient SET insuranceID = (SELECT ID FROM Insurance WHERE name ='"+patient.getInsuranceName()+"')  WHERE ID = (SELECT ID FROM User WHERE emailAddress='"+patient.getEmailAddress()+"');");
+            }catch(Exception e) {
+                System.out.println(e.getMessage());
+            }
+
+            setSymptoms(patient.getEmailAddress(), patient.getSymptoms());
+            setMedications(patient.getEmailAddress(), patient.getMedications());
+            System.out.println("test");
+
+
+        }else{
+            throw new SQLException("User not registered yet. If you tried to change the Emailadress please note, \n  this address is used to uniquely identify each user.\n Please use the method changeEmail not updateuser.");
+        }
+    }
+    public void updateUser(Physician physician) throws SQLException, ClassNotFoundException{
+
+    }
+    public void updateUser(Admin admin) throws SQLException, ClassNotFoundException{
+
     }
 
     public Patient      getPatient(String email) throws SQLException, ClassNotFoundException{
@@ -198,7 +303,7 @@ public class Databaseconnection {
                 phoneNumber, title, pwhash);
     }
 
-     private Symptom[]       getSymptoms(String email) throws SQLException,ClassNotFoundException{
+     public Symptom[]       getSymptoms(String email) throws SQLException,ClassNotFoundException{
          if(connection == null){
              connect();
          }
@@ -207,7 +312,7 @@ public class Databaseconnection {
          ResultSet res = statement.executeQuery("SELECT s.name,s.description,sv.severeness FROM (Symptom AS s JOIN SymptomPatient AS sp " +
                  "ON (SELECT sp.SymptomID FROM SymptomPatient WHERE sp.PatientID = 1) = s.ID) " +
                  "JOIN Severeness AS sv " +
-                 "ON(SELECT sp.SeverenessID FROM SymptomPatient as sp WHERE sp.PatientID = 1)=sv.ID");
+                 "ON(SELECT sp.SeverenessID FROM SymptomPatient as sp WHERE sp.PatientID = 1)=sv.ID"); //patientID ALWAYS ONE Update!
 
          while(res.next()){
              countOfSymptoms++;
@@ -221,10 +326,11 @@ public class Databaseconnection {
 
          for (int i = 0; res.next(); i++){
              symptoms[i] = new Symptom(res.getString(1), res.getString(2), res.getString(3));
+
          }
          return symptoms;
      }
-     private Medication[]    getMedication(String email) throws SQLException,ClassNotFoundException{
+     public Medication[]    getMedication(String email) throws SQLException,ClassNotFoundException{
          if(connection == null){
              connect();
          }
@@ -247,7 +353,7 @@ public class Databaseconnection {
          }
          return medication;
      }
-     private String[]        getSpecialization(int PhysicianID) throws SQLException,ClassNotFoundException{
+     public String[]        getSpecialization(int PhysicianID) throws SQLException,ClassNotFoundException{
          if(connection == null){
              connect();
          }
@@ -290,6 +396,79 @@ public class Databaseconnection {
          return new Drug(res.getString(1),res.getString(2));
 
      }
+
+     private void setSymptoms(String email,Symptom[] symptoms)throws SQLException,ClassNotFoundException{
+         if (connection == null) {
+             connect();
+         }
+         Symptom[] oldsymptoms = getSymptoms(email);
+         Statement statement = connection.createStatement();
+         int patientID = statement.executeQuery("SELECT ID FROM User WHERE emailAddress='"+email+"';").getInt(1);
+
+             try {
+                 /* delete oldsymptoms */
+                 for (int i = 0; i < oldsymptoms.length; i++) {
+                     statement.execute("DELETE FROM SymptomPatient WHERE" +
+                             " PatientID = " + patientID + " AND" +
+                             " SymptomID = (SELECT ID FROM Symptom WHERE name = '" + oldsymptoms[i].getName() + "') AND" +
+                             " SeverenessID = (SELECT ID FROM Severeness WHERE severeness ='" + oldsymptoms[i].getSevereness() + "');");
+                 }
+
+                 /* insert new symptoms into database */
+
+                 PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO SymptomPatient (PatientID, SymptomID,SeverenessID) VALUES (?,?,?)");
+                 for (int i = 0; i < symptoms.length; i++) {
+
+                     preparedStatement.setInt(1, patientID);
+                     preparedStatement.setInt(2, statement.executeQuery("SELECT ID FROM Symptom where name = '" + symptoms[i].getName() + "'").getInt(1));
+                     preparedStatement.setInt(3, statement.executeQuery("SELECT ID FROM Severeness WHERE severeness ='" + symptoms[i].getSevereness() + "';").getInt(1));
+                     preparedStatement.execute();
+
+                 }
+             } catch (SQLException e) {
+                 System.out.println(e.getMessage());
+                 System.out.println("Error while updating Symptoms.");
+             }
+     }
+    private void setMedications(String email,Medication[] medications)throws SQLException,ClassNotFoundException{
+        if (connection == null) {
+            connect();
+        }
+        Medication[] oldmedication = getMedication(email);
+        Statement statement = connection.createStatement();
+        PreparedStatement preparedStatement;
+        int patientID = statement.executeQuery("SELECT ID FROM User WHERE emailAddress='"+email+"';").getInt(1);
+
+        try{
+        /* delete oldmedications */
+        for(int i = 0; i < oldmedication.length; i++) { //could just delete everything with the patientID since its unique. Update later?
+            preparedStatement = connection.prepareStatement("DELETE FROM Medication WHERE" +
+                    " PatientID = " + patientID + "," +
+                    " DrugID = (SELECT ID FROM Drug WHERE name = '"+ oldmedication[i].getDrug().getName()+"');");
+            preparedStatement.execute();
+        }
+
+        /* insert new medications into database */
+
+        preparedStatement = connection.prepareStatement("INSERT INTO Medication (PatientID, DrugID, Dosis, TimesPerDay) VALUES (?,?,?,?)");
+        for(int i = 0; i < medications.length; i++) {
+
+            preparedStatement.setInt(1, patientID);
+            preparedStatement.setInt(2, statement.executeQuery("SELECT ID FROM Drug where name = '" + medications[i].getDrug().getName() + "')").getInt(1));
+            preparedStatement.setDouble(3, medications[i].getDosis());
+            preparedStatement.setInt(3, medications[i].getTimesperDay());
+
+            preparedStatement.execute();
+
+        }
+        }
+        catch (SQLException e){
+            System.out.println(e.getMessage());
+            System.out.println("Error while updating medications");
+            setMedications(email, oldmedication); //rollback
+        }
+
+    }
 
     private void connect() throws SQLException, ClassNotFoundException {
             Class.forName("org.sqlite.JDBC");
@@ -780,7 +959,7 @@ public class Databaseconnection {
         preparedStatement.setInt(2, 3);
         preparedStatement.execute();
         preparedStatement.setInt(1, 1);
-        preparedStatement.setInt(2, 17);
+        preparedStatement.setInt(2, 15);
         preparedStatement.execute();
     }
     private void buildDrugTable() throws SQLException{

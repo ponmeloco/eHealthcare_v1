@@ -5,12 +5,20 @@ public class testMain {
 
     public static void main(String[] args) {
         Databaseconnection databaseconnection = new Databaseconnection();
-        try {
-            Physician test = databaseconnection.getPhysician("Doctor");
-            System.out.println(test.getEmailAddress());
-            Patient test2 = databaseconnection.getPatient("Patient");
-            System.out.println(test2.getEmailAddress());
-        } catch (Exception e) {
+        try{
+            Patient patient = databaseconnection.getPatient("Patient");
+            Patient test = new Patient("testmail", "Tessy",  "Test", "Berlin","Hauptstraße",  "1",  "60001",  "112",  "Dr.", "_password",
+                    "2020-01-01",  "AOK", databaseconnection.getSymptoms("Patient"), databaseconnection.getMedication("Patient"), 12);
+
+
+                databaseconnection.addUser(test);
+                Patient test2 = databaseconnection.getPatient("testmail");
+                test2.setLastName("Penis");
+                databaseconnection.updateUser(test2); //this still needs work
+                test2 = databaseconnection.getPatient("testmail");
+                System.out.println(test2.getLastName());
+
+        }catch (Exception e){
             System.out.println(e.getMessage());
         }
     }

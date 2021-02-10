@@ -5,7 +5,7 @@ public class Patient extends User {
     private String birthday;
     private String insuranceType;
     private String insuranceName;
-    private Symptom[] healthinformation;
+    private Symptom[] symptoms;
     private Medication[] medications;
     private int weight;
 
@@ -25,7 +25,7 @@ public class Patient extends User {
     }
     Patient(String _emailAddress, String _firstName, String _lastName, String _city,
             String _street, String _houseNumber, String _postalCode, String _phoneNumber, String _title, String _password,
-            String _birthday, String _insuranceName, Symptom[] _healthinformation, Medication[] _medications, int _weight) {
+            String _birthday, String _insuranceName, Symptom[] _symptoms, Medication[] _medications, int _weight) {
         setEmailAddress(_emailAddress);
         setFirstName(_firstName);
         setLastName(_lastName);
@@ -38,9 +38,10 @@ public class Patient extends User {
         setPasswordhash(_password);
         setBirthday(_birthday);
         setInsuranceName(_insuranceName);
-        setHealthinformation(_healthinformation);
+        setSymptoms(_symptoms);
         setMedications(_medications);
         setWeight(_weight);
+        setInsuranceType("public");
     }
 
 
@@ -68,12 +69,12 @@ public class Patient extends User {
         this.insuranceName = insuranceName;
     }
 
-    public Symptom[] getHealthinformation() {
-        return healthinformation;
+    public Symptom[] getSymptoms() {
+        return symptoms;
     }
 
-    public void setHealthinformation(Symptom[] healthinformation) {
-        this.healthinformation = healthinformation;
+    public void setSymptoms(Symptom[] _symptoms) {
+        this.symptoms = _symptoms;
     }
 
     public Medication[] getMedications() {
@@ -84,7 +85,7 @@ public class Patient extends User {
         this.medications = medications;
     }
 
-    public float getWeight() {
+    public int getWeight() {
         return weight;
     }
 

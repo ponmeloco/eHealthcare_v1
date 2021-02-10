@@ -2,9 +2,6 @@ public class Symptom {
 
     private String severeness;
     private String name;
-
-
-
     private String description;
 
     Symptom(String _name, String _description, String _severeness){

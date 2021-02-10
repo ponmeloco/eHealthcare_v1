@@ -11,4 +11,28 @@ public class Medication {
         Dosis = _dosis;
         TimesperDay = _timesperDay;
     }
+
+    public Drug getDrug() {
+        return drug;
+    }
+
+    public void setDrug(Drug drug) {
+        this.drug = drug;
+    }
+
+    public double getDosis() {
+        return Dosis;
+    }
+
+    public void setDosis(double dosis) {
+        Dosis = dosis;
+    }
+
+    public int getTimesperDay() {
+        return TimesperDay;
+    }
+
+    public void setTimesperDay(int timesperDay) {
+        TimesperDay = timesperDay;
+    }
 }
