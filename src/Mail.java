@@ -15,10 +15,10 @@ import javax.mail.internet.MimeMessage;
 public class Mail {
 
 protected Session mailSession;
-                private String username = "amaramkooooo@gmail.com";
-	        private   String password = "Mnb12345!";
-                private String smtpHost="smtp.gmail.com";
-                private String smtPort="587";
+                private final String username = "amaramkooooo@gmail.com";
+	        private final String password = "Mnb12345!";
+                private final String smtpHost="smtp.gmail.com";
+                private final String smtPort="587";
                 DateFormat dateFormatter = new SimpleDateFormat("E yyyy/MM/dd/  HH:mm:ss");
 		
                 

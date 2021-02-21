@@ -1,6 +1,6 @@
 public class Rating {
     private enumRate treatment;
-    private boolean severeMisstreatment = false;
+    private final boolean severeMisstreatment = false;
     private String severeMisstreatmentexplain;
     private enumRate equipment;
     private enumRate explanationQuality;

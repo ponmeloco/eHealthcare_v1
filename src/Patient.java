@@ -5,7 +5,7 @@ public class Patient extends User {
     private String birthday;
     private String insuranceType;
     private String insuranceName;
-    private Symptom[] healthinformation;
+    private Symptom[] symptoms;
     private Medication[] medications;
     private int weight;
 
@@ -38,7 +38,7 @@ public class Patient extends User {
         setPasswordhash(_password);
         setBirthday(_birthday);
         setInsuranceName(_insuranceName);
-        setHealthinformation(_healthinformation);
+        setSymptoms(_healthinformation);
         setMedications(_medications);
         setWeight(_weight);
     }
@@ -68,12 +68,12 @@ public class Patient extends User {
         this.insuranceName = insuranceName;
     }
 
-    public Symptom[] getHealthinformation() {
-        return healthinformation;
+    public Symptom[] getSymptoms() {
+        return symptoms;
     }
 
-    public void setHealthinformation(Symptom[] healthinformation) {
-        this.healthinformation = healthinformation;
+    public void setSymptoms(Symptom[] symptoms) {
+        this.symptoms = symptoms;
     }
 
     public Medication[] getMedications() {

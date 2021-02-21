@@ -4,6 +4,9 @@ import java.sql.SQLException;
 public class testMain {
 
     public static void main(String[] args) {
+
+        //test database!
+            //test patientfunctions
         Databaseconnection databaseconnection = new Databaseconnection();
         try{
             Patient patient = databaseconnection.getPatient("Patient");
@@ -21,8 +24,24 @@ public class testMain {
         }catch (Exception e){
             System.out.println(e.getMessage());
         }
+        try{
+            Physician physician = databaseconnection.getPhysician("Doctor");
+            Physician test = new Physician("dtestmail", "Bruce", "Banner", "Berlin", "Hauptstraße", "2", "60001", "110", "Dr.", "abcd", physician.getSpecialization());
+            databaseconnection.addUser(test);
+            Physician test2 = databaseconnection.getPhysician(test.getEmailAddress());
+            test2.setLastName("Penis");
+            databaseconnection.updateUser(test2); //SQLERROR
+            test2 = databaseconnection.getPhysician(test2.getEmailAddress());
+            System.out.println(test2.getLastName());
 
-        //Login.loginFrame();
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+
+        //END test database
+
+
+        Login.loginFrame();
         MainInterface main = new MainInterface(new Physician("test@mail.de", "Sascha", "Bichler"));
         //main.setVisible(true);
         Patient Achim = new Patient();
