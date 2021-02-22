@@ -30,7 +30,6 @@ public abstract class WindowsNotification implements ActionListener{
         trayIcon.setToolTip("eHealthcare");
         tray.add(trayIcon);
 
-
     }
 
 }

@@ -11,6 +11,16 @@ public abstract class User {
     private String phoneNUmber;
     private String title;// = {"Prof.","Dr.","Dipl-Ing","B.Sc.","B.A.","B.Eng.","B.F.A.","B.Mus.","M.Sc.","M.A.","M.Eng.","Magister"};
 
+    public LatLong getGeolocation() {
+        return geolocation;
+    }
+
+    public void setGeolocation(LatLong geolocation) {
+        this.geolocation = geolocation;
+    }
+
+    private LatLong geolocation;
+
     public String getUserType() {
         return UserType;
     }

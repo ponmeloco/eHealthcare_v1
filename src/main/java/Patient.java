@@ -1,4 +1,4 @@
-import java.util.Date;
+import java.io.IOException;
 
 public class Patient extends User {
 
@@ -10,6 +10,11 @@ public class Patient extends User {
     private int weight;
 
     Patient() {}
+    Patient(String _street, String _housenumber, String _city){
+        setStreet(_street);
+        setHouseNumber(_housenumber);
+        setCity(_city);
+    }
     Patient(String _emailAddress, String _firstName, String _lastName, String _city,
             String _street, String _houseNumber, String _postalCode, String _phoneNumber, String _title, String _password) {
         setEmailAddress(_emailAddress);

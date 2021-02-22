@@ -23,13 +23,14 @@ public class LatLong {
         double a = Math.sin(lat / 2) * Math.sin(lat / 2) + Math.cos(Math.toRadians(patient.latitude)) * Math.cos(Math.toRadians(physician.latitude)) * Math.sin(lon / 2) * Math.sin(lon / 2);
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         double d = radius * c;
-
-        return Math.abs(d);
+        return Math.floor(Math.abs(d) *100)/100;
     }
 
-    public static double finalDistance(String location1, String location2) throws IOException, InterruptedException {
+    // Does always look up the internet for the latitude and longitude
+    /* public static double finalDistance(String location1, String location2) throws IOException, InterruptedException {
         return LatLong.distanceInKm(new LatLong(Geocoder.decode(location1)),new LatLong(Geocoder.decode(location2)));
     }
+     */
 
     public double getLongitude() {
         return longitude;

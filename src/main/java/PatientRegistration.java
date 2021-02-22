@@ -3,6 +3,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Arrays;
 
@@ -168,6 +169,12 @@ public class PatientRegistration implements ActionListener {
                     patientRegistrationPhoneNumber.getText(),
                     patientRegistrationTitle.getText(),
                     String.valueOf(patientRegistrationPassword1.getPassword()));
+            try {
+                patientRegister.setGeolocation(Geocoder.decode(patientRegister.getStreet()+","+patientRegister.getHouseNumber()+","+patientRegister.getCity()+","+patientRegister.getPostalCode()));
+            } catch (IOException | InterruptedException ioException) {
+                ioException.printStackTrace();
+            }
+            System.out.println(patientRegister.getGeolocation().getLatitude()+","+patientRegister.getGeolocation().getLongitude());
             try {
                 Databaseconnection databaseconnection = new Databaseconnection();
                 databaseconnection.addUser(patientRegister);

@@ -2,7 +2,7 @@ import java.util.Date;
 
 public class Physician extends User {
     private String [] specialization;
-    private Rating rating;
+
 
     Physician(String _email, String _first, String _last){
         setFirstName(_first);
