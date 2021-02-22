@@ -1,5 +1,9 @@
 import javax.xml.crypto.Data;
 import java.sql.SQLException;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public class testMain {
 
@@ -34,6 +38,23 @@ public class testMain {
             test2 = databaseconnection.getPhysician(test2.getEmailAddress());
             System.out.println(test2.getLastName());
 
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+
+        try{
+            Appointment[] test = databaseconnection.getAppointment("Doctor");
+            System.out.println(test[0].getPatient().getLastName());
+            System.out.println(test[0].getPhysician().getSpecialization()[0]);
+            System.out.println(test[1].getDate());
+
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+
+        try{
+           Appointment appointment = new Appointment(databaseconnection.getPatient(1), databaseconnection.getPhysician(2), LocalDateTime.of(2021,02,01,18,30));
+           databaseconnection.addAppointment(appointment);
         }catch(Exception e){
             System.out.println(e.getMessage());
         }

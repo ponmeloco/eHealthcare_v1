@@ -1,4 +1,6 @@
 import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.Year;
 
 //source https://dev.mysql.com/doc/connector-j/5.1/en/connector-j-usagenotes-connect-drivermanager.html
 //source https://www.youtube.com/watch?v=JPsWaI5Z3gs
@@ -418,6 +420,66 @@ public class Databaseconnection {
         return new Admin(email,firstName,lastName,city,street,houseNumber,postalCode,
                 phoneNumber, title, pwhash);
     }
+    public Patient      getPatient(int patientID) throws SQLException, ClassNotFoundException{
+        if(connection == null){
+            connect();
+        }
+
+        Statement statement = connection.createStatement();
+        ResultSet res = statement.executeQuery("SELECT u.*,p.DateOfBirth,p.weight,i.name FROM User AS u JOIN (Patient AS p JOIN Insurance as i ON p.InsuranceID = i.ID) ON u.ID = p.ID WHERE u.ID ='" + patientID + "';");
+
+        //String patientID =          res.getString(1);
+        String email =              res.getString(2);
+        String pwhash =             res.getString(3);
+        String firstName =          res.getString(4);
+        String lastName =           res.getString(5);
+        String city =               res.getString(6);
+        String street =             res.getString(7);
+        String houseNumber =        res.getString(8);
+        String postalCode =         res.getString(9);
+        String phoneNumber =        res.getString(10);
+        String title =              res.getString(11);
+        String dateOfBirth =        res.getString(12);
+        int weight =                res.getInt(13);
+        String insurancename =      res.getString(14);
+        Medication[] medications =  getMedication(email);
+        Symptom[] symptoms =        getSymptoms(email);
+
+
+        return new Patient(email,firstName,lastName,city,street,houseNumber,postalCode,
+                phoneNumber, title, pwhash, dateOfBirth, insurancename, symptoms, medications, weight);
+    }
+    public Physician    getPhysician(int physicianID) throws SQLException, ClassNotFoundException{
+        if(connection == null){
+            connect();
+        }
+        Statement statement = connection.createStatement();
+        Statement statement2 = connection.createStatement();
+        ResultSet res = statement.executeQuery("SELECT User.*, Physician.ID FROM (User JOIN Physician ON User.ID = Physician.ID) WHERE User.ID ='" + physicianID + "';");
+
+
+        if (res.next()) {
+            //PhysicianID =               res.getInt(1);
+            String email =              res.getString(2);
+            String pwhash =             res.getString(3);
+            String firstName =          res.getString(4);
+            String lastName =           res.getString(5);
+            String city =               res.getString(6);
+            String street =             res.getString(7);
+            String houseNumber =        res.getString(8);
+            String postalCode =         res.getString(9);
+            String phoneNumber =        res.getString(10);
+            String title =              res.getString(11);
+            String[] specialization =   getSpecialization(email);
+
+
+            return new Physician(email, firstName, lastName, city, street, houseNumber, postalCode,
+                    phoneNumber, title, pwhash, specialization);
+
+        }else{
+            throw new SQLException("User not found");
+        }
+    }
 
     public Symptom[]       getSymptoms(String email) throws SQLException,ClassNotFoundException{
          if(connection == null){
@@ -515,6 +577,38 @@ public class Databaseconnection {
          return new Drug(res.getString(1),res.getString(2));
 
      }
+    public Appointment[]   getAppointment(String email) throws SQLException,ClassNotFoundException{
+        if(connection == null){
+            connect();
+        }
+        Statement statement = connection.createStatement();
+        int userID = statement.executeQuery("SELECT ID FROM User WHERE emailaddress='"+email+"';").getInt(1);
+
+        ResultSet res = statement.executeQuery("SELECT * FROM Appointment WHERE PatientID = "+userID+" OR PhysicianID ="+userID+";");
+        if(!res.next()){
+            throw new SQLException("No Appointments found.");
+        }
+        else{
+            int countAppointments = 0;
+            while(res.next()){
+                countAppointments++;
+            }
+            Appointment[] appointments = new Appointment[countAppointments];
+            res = statement.executeQuery("SELECT * FROM Appointment WHERE PatientID = "+userID+" OR PhysicianID ="+userID+";");
+
+            for (int i = 0; i<countAppointments; i++){
+                int patientID =     res.getInt(2);
+                int physicianID =   res.getInt(3);
+                appointments[i] =   new Appointment(getPatient(patientID), getPhysician(physicianID), LocalDateTime.of(res.getInt(4), res.getInt(5), res.getInt(6), res.getInt(7), res.getInt(8)));
+                res.next();
+            }
+
+            return appointments;
+        }
+     }
+
+
+
 
     private void setSymptoms(String email,Symptom[] symptoms)throws SQLException,ClassNotFoundException{
          if (connection == null) {
@@ -612,6 +706,22 @@ public class Databaseconnection {
         }
 
     }
+    public void addAppointment(Appointment appointment) throws SQLException, ClassNotFoundException{
+        if(connection == null){
+            connect();
+        }
+        Statement statement = connection.createStatement();
+        int PatientID = statement.executeQuery("SELECT ID FROM User WHERE emailAddress= '" + appointment.getPatient().getEmailAddress() + "'").getInt(1);
+        int PhysicianID = statement.executeQuery("SELECT ID FROM User WHERE emailAddress = '" + appointment.getPhysician().getEmailAddress() + "'").getInt(1);
+        LocalDateTime dateTime = appointment.getDate();
+        int year = dateTime.getYear();
+        int month = dateTime.getMonth().getValue();
+        int day = dateTime.getDayOfMonth();
+        int hour = dateTime.getHour();
+        int min = dateTime.getMinute();
+        statement.execute("INSERT INTO Appointment (PhysicianID, PatientID, Year, Month, Day, Hour, Minute) VALUES (" + PhysicianID + "," + PatientID + "," + year + "," + month + "," + day + "," + hour + "," + min + ");");
+    }
+
 
     private void connect() throws SQLException, ClassNotFoundException {
             Class.forName("org.sqlite.JDBC");
@@ -1193,10 +1303,34 @@ public class Databaseconnection {
                     "ID INTEGER PRIMARY KEY," +
                     "PatientID int," +
                     "PhysicianID int," +
-                    "TimeAndDate text," +
+                    "Year INTEGER," +
+                    "Month INTEGER," +
+                    "Day INTEGER," +
+                    "Hour INTEGER," +
+                    "Minute INTEGER,"+
                     "FOREIGN KEY (PatientID) REFERENCES User (UserID) ON DELETE CASCADE ON UPDATE CASCADE," +
                     "FOREIGN KEY (PhysicianID) REFERENCES User (UserID) ON DELETE CASCADE ON UPDATE CASCADE" +
                     " )");
+            state.execute("INSERT INTO Appointment(" +
+                    "PatientID,PhysicianID,Year, Month, Day, Hour, Minute) VALUES (1,2, 2020,02,22,18,35);");
+            state.execute("INSERT INTO Appointment(" +
+                    "PatientID,PhysicianID,Year, Month, Day, Hour, Minute) VALUES (1,2, 2020,02,22,09,35);");
+            state.execute("INSERT INTO Appointment(" +
+                    "PatientID,PhysicianID,Year, Month, Day, Hour, Minute) VALUES (1,2, 2020,02,25,09,35);");
+            state.execute("INSERT INTO Appointment(" +
+                    "PatientID,PhysicianID,Year, Month, Day, Hour, Minute) VALUES (1,2, 2020,03,25,09,35);");
+            state.execute("INSERT INTO Appointment(" +
+                    "PatientID,PhysicianID,Year, Month, Day, Hour, Minute) VALUES (1,4, 2020,03,25,15,35);");
+            state.execute("INSERT INTO Appointment(" +
+                    "PatientID,PhysicianID,Year, Month, Day, Hour, Minute) VALUES (3,2, 2020,03,21,22,35);");
+            state.execute("INSERT INTO Appointment(" +
+                    "PatientID,PhysicianID,Year, Month, Day, Hour, Minute) VALUES (3,4, 2020,03,29,06,35);");
+            state.execute("INSERT INTO Appointment(" +
+                    "PatientID,PhysicianID,Year, Month, Day, Hour, Minute) VALUES (3,2, 2020,05,29,09,35);");
+            state.execute("INSERT INTO Appointment(" +
+                    "PatientID,PhysicianID,Year, Month, Day, Hour, Minute) VALUES (3,4, 2020,06,29,11,35);");
+
+
 
             System.out.println("complete.");
         }

@@ -1,10 +1,25 @@
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
 
 public class Appointment {
     private Patient patient;
-    private Date timeAndDate;
     private Physician physician;
-    private Transferorder transferorder;
+    private LocalDateTime date;
+
+
+    Appointment(Patient _patient, Physician _physician, LocalDateTime _date){
+        this.patient = _patient;
+        this.physician = _physician;
+        this.date = _date;
+    }
+
+    Appointment(Patient _patient, Physician _physician, int year, int month, int day, int hour, int minute){
+        this.patient = _patient;
+        this.physician = _physician;
+        this.date = LocalDateTime.of(year,month,day,hour,minute);
+    }
 
     public Patient getPatient() {
         return patient;
@@ -14,12 +29,15 @@ public class Appointment {
         this.patient = patient;
     }
 
-    public Date getTimeAndDate() {
-        return timeAndDate;
+
+    public LocalDateTime getDate() {
+        return date;
     }
 
-    public void setTimeAndDate(Date timeAndDate) {
-        this.timeAndDate = timeAndDate;
+
+    public void setTimeAndDate(LocalDateTime _date) {
+        this.date = _date;
+
     }
 
     public Physician getPhysician() {
@@ -29,17 +47,5 @@ public class Appointment {
     public void setPhysician(Physician physician) {
         this.physician = physician;
     }
-
-    public Transferorder getTransferorder() {
-        return transferorder;
-    }
-
-    public void setTransferorder(Transferorder transferorder) {
-        this.transferorder = transferorder;
-    }
-
-
-
-
 
 }

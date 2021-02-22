@@ -84,7 +84,8 @@ protected Session mailSession;
                     String senderName=appointment.getPatient().getFirstName()+appointment.getPatient().getLastName();
                     String receiverMail=appointment.getPhysician().getEmailAddress();
                     String subject="Appointment request";
-                    String message="You have a new appointment request on : "+dateFormatter.format(appointment.getTimeAndDate());
+                   String message="You have a new appointment request on : "+dateFormatter.format(appointment.getDate());
+
                     Mail newMsg = new Mail();
                     newMsg.login();
                     try {
@@ -104,8 +105,8 @@ protected Session mailSession;
                     String senderName=appointment.getPhysician().getFirstName()+appointment.getPhysician().getLastName();
                     String receiverMail=appointment.getPatient().getEmailAddress();
                     String subject="Appointment reschedule request";
-                    String message="Due to some unforeseen circumstances , we are afraid that we will not be able to keep the appointment we made for the"+dateFormatter.format(appointment.getTimeAndDate())+" . Kindly reschedule the appointment to (Insert date from Texfield phyisician GUI here). I am really sorry for the inconvenience it may cause you. Let me know if the new date and time are suitable for your schedule.";
-                    
+                    String message="Due to some unforeseen circumstances , we are afraid that we will not be able to keep the appointment we made for the"+dateFormatter.format(appointment.getDate())+" . Kindly reschedule the appointment to (Insert date from Texfield phyisician GUI here). I am really sorry for the inconvenience it may cause you. Let me know if the new date and time are suitable for your schedule.";
+
                     Mail newMsg = new Mail();
                     newMsg.login();
                 
@@ -128,7 +129,7 @@ protected Session mailSession;
                	    String senderName=appointment.getPhysician().getFirstName()+appointment.getPhysician().getLastName();
                     String receiverMail=appointment.getPatient().getEmailAddress();
                     String subject="Appointment confirmation";
-                    String message="Your appointment has been successfully confirmed ! We are looking forward to meeting you on : "+dateFormatter.format(appointment.getTimeAndDate());
+                    String message="Your appointment has been successfully confirmed ! We are looking forward to meeting you on : "+dateFormatter.format(appointment.getDate());
                     Mail newMsg = new Mail();
                     newMsg.login();
                 
