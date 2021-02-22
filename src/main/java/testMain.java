@@ -1,4 +1,9 @@
+import com.fasterxml.jackson.databind.JsonNode;
+
+
+
 import javax.xml.crypto.Data;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Date;
 import java.time.LocalDate;
@@ -7,7 +12,7 @@ import java.time.LocalTime;
 
 public class testMain {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, InterruptedException {
 
         //test database!
             //test patientfunctions
@@ -62,10 +67,16 @@ public class testMain {
         //END test database
 
 
-        Login.loginFrame();
-        MainInterface main = new MainInterface(new Physician("test@mail.de", "Sascha", "Bichler"));
-        //main.setVisible(true);
-        Patient Achim = new Patient();
+
+
+        //Test for distance --> returns km from two addresses
+
+        System.out.println(LatLong.finalDistance("Ben-Gurion-Ring 48c", "Wetterauweg 30"));
+
+
+
+
+
 
     }
 }
